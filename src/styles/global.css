@@ -1082,7 +1082,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   justify-content: space-between;
   align-items: center;
   width: calc(100% - 12rem);
-  max-width: 1100px;
+  max-width: 95vw; /* increased from 1100px to match the text width */
   position: absolute;
   bottom: 1.5rem;
   z-index: 2;
