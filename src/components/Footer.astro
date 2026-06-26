@@ -1,0 +1,149 @@
+---
+---
+<footer class="main-footer">
+  <div class="footer-top">
+    <!-- Coloana stânga: Navigație -->
+    <div class="footer-col">
+      <h4 class="footer-col-title">Navigație</h4>
+      <a href="#about" data-i18n="nav.about">Despre</a>
+      <a href="#rooms" data-i18n="nav.rooms">Camere</a>
+      <a href="#exp" data-i18n="nav.exp">Experiențe</a>
+      <a href="#gallery" data-i18n="nav.gallery">Galerie</a>
+      <a href="#rezerva" data-i18n="nav.rezerva">Rezervări</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </div>
+
+    <!-- Coloana mijloc: Informații -->
+    <div class="footer-col">
+      <h4 class="footer-col-title">Informații</h4>
+      <a href="tel:+40769555558">+40 769 555 558</a>
+      <a href="mailto:contact@chaletchiba.ro">contact@chaletchiba.ro</a>
+      <span>Strada Canionului, Timișu de Jos</span>
+    </div>
+
+    <!-- Coloana dreapta: Copyright + Credit -->
+    <div class="footer-col footer-col-right">
+      <p class="footer-copy">&copy; 2026 Chalet Chiba</p>
+      <p class="footer-credit">Designed and made by <a href="https://achieve.ro" target="_blank" rel="noopener noreferrer">achieve.ro</a></p>
+    </div>
+  </div>
+
+  <div class="footer-giant-text">Chalet Chiba</div>
+</footer>
+
+<style>
+  .main-footer {
+    background: #1a1a1a;
+    padding: 5rem 6rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 2;
+    position: relative;
+    gap: 3rem;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-col-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-style: italic;
+    color: #ffffff;
+    margin: 0 0 0.8rem 0;
+  }
+
+  .footer-col a,
+  .footer-col span {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    color: #999999;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 400;
+  }
+
+  .footer-col a:hover {
+    color: var(--gold);
+  }
+
+  .footer-col-right {
+    text-align: right;
+    justify-content: flex-start;
+    gap: 1.2rem;
+  }
+
+  .footer-copy {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .footer-credit {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    color: #999999;
+    margin: 0;
+  }
+
+  .footer-credit a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-credit a:hover {
+    color: var(--gold);
+  }
+
+  .footer-giant-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16vw;
+    line-height: 0.75;
+    color: rgba(255, 255, 255, 0.06);
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    margin-top: 5rem;
+    z-index: 1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .main-footer {
+      padding: 4rem 2rem 0;
+    }
+    .footer-top {
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .footer-col-right {
+      text-align: left;
+    }
+    .footer-giant-text {
+      font-size: 22vw;
+      margin-top: 3rem;
+    }
+  }
+</style>
+

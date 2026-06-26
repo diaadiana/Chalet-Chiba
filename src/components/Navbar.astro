@@ -1,0 +1,36 @@
+---
+---
+<nav id="mainNav">
+  <div class="logo">
+    <div class="logo-n">Chalet <em>Chiba</em></div>
+  </div>
+  <div class="nav-links">
+    <a href="#about" data-i18n="nav.about">Despre</a>
+    <a href="#rooms" data-i18n="nav.rooms">Camere</a>
+    <a href="#exp" data-i18n="nav.exp">Experiențe</a>
+    <a href="#gallery" data-i18n="nav.gallery">Galerie</a>
+    <a href="#rezerva" data-i18n="nav.rezerva">Rezervări</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </div>
+  <div class="nav-r">
+    <a href="https://maps.google.com/?q=Chalet+Chiba" target="_blank" rel="noopener noreferrer" class="nav-map-btn" title="Locație Google Maps">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="map-icon">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+      </svg>
+    </a>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="ro">RO</button>
+      <span class="lang-separator">|</span>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('mainNav');
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('sc', window.scrollY > 70);
+    }, { passive: true });
+  }
+</script>

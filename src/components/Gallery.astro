@@ -1,0 +1,91 @@
+---
+---
+<section id="gallery" class="gallery-section">
+  <!-- Full-page Fan Carousel for Gallery -->
+
+  <div class="gallery-carousel-fan">
+    <div class="carousel-track">
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0021.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0024.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0026.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0036.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0052.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0059.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0061.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="carousel-item">
+        <img src="/images/about/IMG-20240725-WA0066.jpg" alt="Chalet Chiba" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initGalleryAnimation() {
+    const section = document.querySelector('.gallery-section');
+    const items = section?.querySelectorAll('.carousel-item');
+
+    if (items && items.length > 0) {
+      let currentIndex = Math.floor(items.length / 2);
+
+      function updateCarousel() {
+        items.forEach((item, index) => {
+          const el = item as HTMLElement;
+          let offset = index - currentIndex;
+          const total = items.length;
+          let pos = (offset + total) % total;
+          if (pos > Math.floor(total / 2)) {
+            pos = pos - total;
+          }
+
+          const isCenter = pos === 0;
+          const isAdjacent = Math.abs(pos) === 1;
+          const isFar = Math.abs(pos) > 1;
+
+          // Straight Horizontal Carousel Logic
+          el.style.transform = `
+            translateX(${pos * 100}%) 
+            translateY(0%)
+            rotate(0deg)
+            scale(${isCenter ? 1 : isAdjacent ? 0.85 : 0.7})
+          `;
+          
+          el.style.zIndex = isCenter ? '10' : isAdjacent ? '5' : '1';
+          el.style.opacity = isCenter ? '1' : isAdjacent ? '0.7' : '0.4';
+          el.style.filter = isCenter ? 'blur(0px)' : isAdjacent ? 'blur(3px)' : 'blur(6px)';
+          el.style.visibility = Math.abs(pos) > 2 ? 'hidden' : 'visible';
+        });
+      }
+
+      function handleNext() {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateCarousel();
+      }
+
+      // Initial layout
+      updateCarousel();
+
+      // Auto loop (4 seconds per slide)
+      setInterval(handleNext, 4000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGalleryAnimation);
+  } else {
+    initGalleryAnimation();
+  }
+</script>

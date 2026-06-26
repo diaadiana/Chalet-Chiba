@@ -1,0 +1,118 @@
+---
+---
+<section class="rooms" id="rooms">
+  <div class="rooms-header-wrap" style="max-width: 1300px; margin: 0 auto; padding: 0 24px; width: 100%;">
+    <div class="rooms-header">
+      <p class="rooms-subtitle" data-i18n="rooms.desc">Cabana dispune de 7 dormitoare duble confortabile, fiecare cu un design montan cald,<br>concepute pentru a-ți oferi odihnă și liniște absolută.</p>
+    </div>
+  </div>
+  <div class="section-wrap rooms-wrap">
+    <div class="rooms-photo-grid">
+      <div class="room-photo">
+        <img src="/images/rooms/557739044.jpg" alt="Dormitor Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="room-photo">
+        <img src="/images/rooms/736420508.jpg" alt="Dormitor Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="room-photo">
+        <img src="/images/rooms/736422131.jpg" alt="Dormitor Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="room-photo">
+        <img src="/images/rooms/Chiba-36.jpg" alt="Dormitor Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="room-photo">
+        <img src="/images/rooms/Chiba-44.jpg" alt="Dormitor Chalet Chiba" loading="lazy" />
+      </div>
+      <div class="room-photo">
+        <img src="/images/rooms/Chiba-47.jpg" alt="Dormitor Chalet Chiba" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rooms {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+    background: var(--cream);
+  }
+  .section-wrap { 
+    max-width: 1280px; 
+    margin: 0 auto; 
+    padding: 0 48px; 
+    width: 100%;
+  }
+  .rooms-wrap {
+    max-width: 950px;
+    padding: 0 24px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--forest);
+  }
+  .rooms-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem; /* Increased size by roughly 2 points */
+    font-weight: 700;
+    color: var(--forest);
+    text-align: center;
+    max-width: 1200px; /* Increased to prevent unwanted wrapping of the longer first line */
+    margin: 0 auto;
+    line-height: 1.3;
+  }
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    margin: 16px auto;
+  }
+  .rooms-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .rooms-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .room-photo {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  .room-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .room-photo:hover img {
+    transform: scale(1.05);
+  }
+  @media (max-width: 900px) {
+    .rooms-photo-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .rooms-photo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

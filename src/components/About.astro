@@ -1,0 +1,189 @@
+---
+---
+<section id="about" class="about-section">
+
+  <div class="layout-container">
+    <div class="large-rect" id="about-large-rect">
+
+
+
+      <div class="about-inner">
+        <p class="about-text" id="about-text">
+          Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă. Un adăpost liniștit lângă Brașov.
+        </p>
+      </div>
+    </div>
+
+    <div class="small-rect">
+      <!-- User requested to put the attached water image here -->
+      <img src="/images/Chiba-23.jpg" alt="Pârâul din curte" class="attached-image" id="water-image" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    background: var(--off, #F9F6F0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .layout-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    width: 100%;
+    max-width: 1100px; /* Am micșorat lățimea maximă pentru a face ambele dreptunghiuri mai mici */
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .large-rect {
+    grid-column: 2 / 10; /* Centrat în grid (lasă o coloană liberă în stânga) */
+    grid-row: 1;
+    background-color: var(--forest, #1A3A1A);
+    position: relative;
+    padding: 3rem 6rem 3rem 3rem; /* Padding dreapta mai mare pentru a proteja textul de suprapunere */
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .small-rect {
+    grid-column: 9 / 12; /* Suprapune coloana 9, lasă coloana 12 liberă în dreapta pentru centrare */
+    grid-row: 1;
+    z-index: 5;
+    aspect-ratio: 4 / 3;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  }
+
+  .attached-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+
+  .about-inner {
+    position: relative;
+    z-index: 2; /* textul deasupra ramurilor */
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+    line-height: 1.65;
+    font-weight: 500;
+    font-style: italic; /* Text cursiv */
+    margin: 0;
+    max-width: 60ch;
+    text-wrap: balance;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--off, #F9F6F0); /* Text is now cream to contrast with green background */
+  }
+
+  :global(.about-text .word) {
+    opacity: 0.25;
+    display: inline-block;
+    will-change: opacity;
+  }
+
+  @media (max-width: 992px) {
+    .layout-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .large-rect {
+      width: 100%;
+      padding: 4rem 2rem;
+    }
+    .small-rect {
+      width: 90%;
+      margin-top: -4rem; /* create overlap vertically */
+      align-self: flex-end;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import SplitType from "split-type";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAbout() {
+    const section  = document.getElementById("about");
+    const largeRect = document.getElementById("about-large-rect");
+    const textEl   = document.getElementById("about-text") as HTMLElement | null;
+
+    if (!section || !largeRect || !textEl) return;
+
+    let split: InstanceType<typeof SplitType> | null = null;
+    let st: ScrollTrigger | null = null;
+    let lastWidth = window.innerWidth;
+
+    function build() {
+      if (st)    { st.kill();      st    = null; }
+      if (split) { split.revert(); split = null; }
+
+
+      // ── Split text into words ───────────────────────────────────────
+      split = new SplitType(textEl, { types: "words", tagName: "span" });
+      const words = split.words as HTMLElement[];
+      gsap.set(words, { opacity: 0.25 });
+
+      // ── Master timeline — pinned + scrubbed cu gap mai mic ────────────────
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "center center",
+          end: () => `+=${window.innerHeight * 0.5}`, /* Gap redus semnificativ */
+          pin: true,
+          scrub: 1.2,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Cuvintele apar treptat
+      tl.to(words, {
+        opacity: 1,
+        ease: "power2.out",
+        duration: 0.8,
+        stagger: { each: 0.35 },
+      }, 0);
+
+      st = tl.scrollTrigger as ScrollTrigger;
+    }
+
+    document.fonts.ready.then(build);
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      build();
+    }, { passive: true });
+
+    window.addEventListener("langChanged", () => setTimeout(build, 50));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAbout);
+  } else {
+    initAbout();
+  }
+</script>

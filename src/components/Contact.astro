@@ -1,0 +1,34 @@
+---
+---
+<section id="contact" class="contact-section">
+  
+  <div class="contact-container">
+    <div class="contact-grid">
+      <!-- Info Column -->
+      <div class="contact-info">
+        <p class="contact-address" data-i18n="contact.address">Strada Canionului, Timișu de Jos, Brașov</p>
+        <p class="contact-phone" data-i18n="contact.phone">Telefon: +40 769 555 558</p>
+        <p class="contact-email" data-i18n="contact.email">Email: contact@chaletchiba.ro</p>
+        <div class="contact-maps-links">
+          <a href="https://www.google.com/maps/search/?api=1&query=Chalet+Chiba+Timisu+de+Jos" target="_blank" rel="noopener noreferrer" class="contact-map-btn">Google Maps</a>
+          <a href="https://waze.com/ul?q=Chalet%20Chiba" target="_blank" rel="noopener noreferrer" class="contact-map-btn">Waze</a>
+        </div>
+      </div>
+      
+      <!-- Form Column -->
+      <form class="contact-form" onsubmit="event.preventDefault(); const msg = this.querySelector('textarea').value; window.open('https://wa.me/40769555558?text=' + encodeURIComponent(msg), '_blank');">
+        <h3 class="contact-form-title" data-i18n="contact.feedback_title">Trimite-ne un gând</h3>
+        <textarea class="contact-textarea" placeholder="Mesajul tău..." data-i18n-placeholder="contact.feedback_placeholder" required></textarea>
+        <button type="submit" class="contact-form-btn" data-i18n="contact.feedback_btn">Trimite pe WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer integrat -->
+  <div class="contact-footer">
+    <p class="contact-copy">&copy; 2026 Chalet Chiba</p>
+    <p class="contact-credit">Designed and made by <a href="https://achieve.ro" target="_blank" rel="noopener noreferrer">achieve.ro</a></p>
+  </div>
+
+  <div class="contact-giant-text">Chalet <em>Chiba</em></div>
+</section>
