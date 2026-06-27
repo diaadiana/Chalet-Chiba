@@ -101,6 +101,40 @@
     will-change: opacity;
   }
 
+  .about-facilities-tags {
+    margin-top: 0.5rem;
+  }
+
+  .facility-tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.7);
+    font-weight: 400;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: default;
+  }
+
+  .facility-tag:hover {
+    color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  .tag-bullet {
+    color: var(--gold);
+    font-size: 0.9rem;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
   @media (max-width: 992px) {
     .layout-container {
       display: flex;
@@ -115,6 +149,9 @@
       width: 90%;
       margin-top: -4rem; /* create overlap vertically */
       align-self: flex-end;
+    }
+    .about-facilities-tags {
+      gap: 0.8rem 1.2rem !important;
     }
   }
 </style>

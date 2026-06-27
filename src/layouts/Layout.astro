@@ -89,7 +89,27 @@ const { title } = Astro.props;
 					"contact.email": "Email: contact@chaletchiba.ro",
 					"contact.feedback_title": "Trimite-ne un gând",
 					"contact.feedback_placeholder": "Mesajul tău...",
-					"contact.feedback_btn": "Trimite pe WhatsApp"
+					"contact.feedback_btn": "Trimite pe WhatsApp",
+					"facilities.label": "Dotări & Detalii",
+					"facilities.title": "Conceput pentru confort absolut",
+					"facilities.intro": "O experiență premium în mijlocul naturii. Îți punem la dispoziție dotări moderne și spații generoase, gândite până la cel mai mic detaliu pentru a asigura o vacanță lipsită de griji.",
+					"facilities.spaces_title": "Capacitate & Băi",
+					"facilities.spaces_desc": "3 dormitoare matrimoniale elegante cu băi proprii și 2 apartamente spațioase (cu câte 2 camere și baie modernă). Cabana dispune în total de 5 băi cu duș complet utilate.",
+					"facilities.wellness_title": "Relaxare & Natură",
+					"facilities.wellness_desc": "Ciubăr transilvănean cu apă caldă sub cerul liber, șemineu tradițional pe lemne în living și o curte mare privată străbătută de un pârâu montan cu foișor și grătar.",
+					"facilities.tech_title": "Bucătărie & Tehnologie",
+					"facilities.tech_desc": "Bucătărie complet utilată (frigider, mașină de spălat vase, espressor de cafea), conexiune internet Wi-Fi de mare viteză gratuit, Smart TV cu ecran plat și parcare privată gratuită în incintă.",
+					"rooms.label": "DORMITOARE & APARTAMENTE",
+					"rooms.title": "Configurația camerelor la Chalet Chiba",
+					"rooms.desc": "Cabana oferă un refugiu elegant, combinând decorul rustic cu facilități moderne, fiind structurată în dormitoare individuale și apartamente spațioase.",
+					"rooms.matrimonial_title": "Camere matrimoniale cu baie",
+					"rooms.matrimonial_desc": "Un refugiu elegant cu decor rustic, pat king-size confortabil și baie privată complet utilată, ideală pentru relaxare.",
+					"rooms.apartment_title": "Apartamente (două camere cu baie)",
+					"rooms.apartment_desc": "Îmbină decorul rustic cu spațiul generos. Dispun de un dormitor principal, un living confortabil și baie modernă, fiind ideale pentru familii sau grupuri.",
+					"rezerva.check_in_title": "Check-in & Check-out",
+					"rezerva.check_in_desc": "Check-in: după ora 14:00 • Check-out: înainte de ora 11:00.",
+					"rezerva.reception_title": "Rezervări Individuale",
+					"rezerva.reception_desc": "Contactează recepția cabanei pentru prețuri și disponibilitate pe camere individuale."
 				},
 				en: {
 					"nav.about": "About",
@@ -145,7 +165,27 @@ const { title } = Astro.props;
 					"contact.email": "Email: contact@chaletchiba.ro",
 					"contact.feedback_title": "Send us a thought",
 					"contact.feedback_placeholder": "Your message...",
-					"contact.feedback_btn": "Send via WhatsApp"
+					"contact.feedback_btn": "Send via WhatsApp",
+					"facilities.label": "Amenities & Details",
+					"facilities.title": "Designed for absolute comfort",
+					"facilities.intro": "A premium experience in the heart of nature. We offer modern amenities and generous spaces, thought out down to the smallest detail to ensure a worry-free vacation.",
+					"facilities.spaces_title": "Capacity & Bathrooms",
+					"facilities.spaces_desc": "3 elegant matrimonial bedrooms with private bathrooms and 2 spacious suites (each with 2 rooms and a modern bathroom). The chalet has a total of 5 fully equipped bathrooms with shower.",
+					"facilities.wellness_title": "Relaxation & Nature",
+					"facilities.wellness_desc": "Transylvanian hot tub with warm water under the open sky, traditional wood fireplace in the living room, and a large private backyard crossed by a mountain stream with gazebo and grill.",
+					"facilities.tech_title": "Kitchen & Technology",
+					"facilities.tech_desc": "Fully equipped kitchen (fridge, dishwasher, coffee maker), free high-speed Wi-Fi internet connection, flat-screen Smart TV, and free private parking inside.",
+					"rooms.label": "BEDROOMS & APARTMENTS",
+					"rooms.title": "Room Configuration at Chalet Chiba",
+					"rooms.desc": "The chalet offers an elegant retreat, combining rustic decor with modern amenities, structured into individual bedrooms and spacious suites.",
+					"rooms.matrimonial_title": "Matrimonial Rooms with Bath",
+					"rooms.matrimonial_desc": "An elegant retreat with rustic decor, comfortable king-size bed, and fully equipped private bathroom, ideal for relaxation.",
+					"rooms.apartment_title": "Suites (Two rooms with Bath)",
+					"rooms.apartment_desc": "Combines rustic decor with generous space. Equipped with a master bedroom, a cozy living room, and a modern bathroom, perfect for families or groups.",
+					"rezerva.check_in_title": "Check-in & Check-out",
+					"rezerva.check_in_desc": "Check-in: after 2:00 PM • Check-out: before 11:00 AM.",
+					"rezerva.reception_title": "Individual Bookings",
+					"rezerva.reception_desc": "Contact the chalet reception for rates and availability of individual rooms."
 				}
 			};
 
@@ -156,7 +196,12 @@ const { title } = Astro.props;
 				document.querySelectorAll('[data-i18n]').forEach(el => {
 					const key = el.getAttribute('data-i18n');
 					if (translations[lang] && translations[lang][key]) {
-						el.innerHTML = translations[lang][key];
+						const link = el.querySelector('a');
+						if (link) {
+							link.innerHTML = translations[lang][key];
+						} else {
+							el.innerHTML = translations[lang][key];
+						}
 					}
 				});
 

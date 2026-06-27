@@ -3,35 +3,103 @@
 <section id="gallery" class="gallery-section">
   <!-- Full-page Fan Carousel for Gallery -->
 
-  <div class="gallery-carousel-fan">
-    <div class="carousel-track">
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0021.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0024.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0026.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0036.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0052.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0059.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0061.jpg" alt="Chalet Chiba" loading="lazy" />
-      </div>
-      <div class="carousel-item">
-        <img src="/images/about/IMG-20240725-WA0066.jpg" alt="Chalet Chiba" loading="lazy" />
+  <div class="gallery-carousel-fan-container">
+    <div class="gallery-carousel-fan">
+      <div class="carousel-track">
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0021.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0024.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0026.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0036.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0052.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0059.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0061.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
+        <div class="carousel-item">
+          <img src="/images/about/IMG-20240725-WA0066.jpg" alt="Chalet Chiba" loading="lazy" />
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Mini secțiune cu facilități stil listă orizontală sub carusel în fluxul normal al paginii -->
+  <div class="gallery-facilities-wrap">
+    <div class="gallery-facilities-list">
+      <span class="g-facility-item">ciubăr</span>
+      <span class="g-facility-item">șemineu pe lemne</span>
+      <span class="g-facility-item">foișor & grătar</span>
+      <span class="g-facility-item">bucătărie utilată</span>
+      <span class="g-facility-item">parcare</span>
+    </div>
+  </div>
 </section>
+
+<style>
+  .gallery-carousel-fan-container {
+    position: relative;
+    width: 100%;
+    height: 480px; /* adjusted to fit viewport nicely without clipping */
+    overflow: visible; /* ensures 3D transforms aren't clipped */
+  }
+  .gallery-facilities-wrap {
+    max-width: 1000px;
+    margin: 7.5rem auto 0 auto; /* push it down just enough to clear the cards */
+    padding: 0 24px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 20;
+  }
+  .gallery-facilities-list {
+    display: flex;
+    gap: 1.2rem 1.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-top: 1px solid rgba(26, 58, 26, 0.15);
+    padding-top: 1.5rem;
+    width: 100%;
+  }
+  .g-facility-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--forest);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s ease;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .g-facility-item:hover {
+    color: var(--gold);
+  }
+  .g-bullet {
+    color: var(--gold);
+    font-size: 0.75rem;
+    vertical-align: middle;
+  }
+  @media (max-width: 768px) {
+    .gallery-facilities-list {
+      gap: 1rem 1.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+</style>
 
 <script>
   function initGalleryAnimation() {
