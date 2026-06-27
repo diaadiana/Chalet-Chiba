@@ -1118,9 +1118,9 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .contact-giant-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 15.5vw;
-  line-height: 0.8;
-  color: rgba(255, 255, 255, 0.08);
+  font-size: 16vw;
+  line-height: 0.72;
+  color: rgba(245, 240, 232, 0.035);
   width: 100%;
   text-align: center;
   white-space: nowrap;
@@ -1129,8 +1129,8 @@ nav.sc .lang-btn.active{color:var(--forest)}
   margin-top: auto;
   margin-bottom: 2rem;
   z-index: 1;
-  letter-spacing: -0.01em;
-  font-weight: 300;
+  letter-spacing: -0.045em;
+  font-weight: 500;
 }
 
 .contact-header {
