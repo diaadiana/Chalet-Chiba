@@ -1130,7 +1130,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   left: 48.5%;
   transform: translateX(-50%);
   bottom: 4rem;
-  z-index: 1;
+  z-index: -1;
   letter-spacing: -0.06em;
   font-weight: 500;
 }
