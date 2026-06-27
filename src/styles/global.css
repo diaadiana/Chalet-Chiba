@@ -1126,9 +1126,11 @@ nav.sc .lang-btn.active{color:var(--forest)}
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
-  margin-top: 4rem;
-  margin-bottom: 2rem;
-  z-index: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 4rem;
+  z-index: 0;
   letter-spacing: -0.01em;
   font-weight: 300;
 }
@@ -1326,7 +1328,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
 @media(min-width: 901px) {
   /* scroll-snap removed — GSAP ScrollTrigger manages pinning for .about-section */
   
-  .hero, .about-section, .exp-section, .gallery-section, .rezerva-section {
+  .hero, .about-section, .exp-section, .gallery-section, .rezerva-section, .contact-section {
     height: 100vh;
     box-sizing: border-box;
   }
@@ -1337,24 +1339,17 @@ nav.sc .lang-btn.active{color:var(--forest)}
     max-height: none !important;
   }
 
-  .exp-section, .gallery-section, .rezerva-section {
+  .exp-section, .gallery-section, .rezerva-section, .contact-section {
     overflow: hidden;
     max-height: 100vh;
   }
   
-  .about-section, .exp-section, .gallery-section, .rezerva-section {
+  .about-section, .exp-section, .gallery-section, .rezerva-section, .contact-section {
     padding-top: 6.5rem !important;
     padding-bottom: 3rem !important;
   }
 
-  .contact-section {
-    min-height: 100vh;
-    height: auto;
-    padding-top: 6.5rem !important;
-    padding-bottom: 8rem !important;
-  }
-
-  .exp-section, .gallery-section, .rezerva-section {
+  .exp-section, .gallery-section, .rezerva-section, .contact-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
