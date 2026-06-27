@@ -1177,8 +1177,8 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 0.8fr;
-  gap: 6rem;
+  grid-template-columns: 1fr 0.65fr;
+  gap: 5rem;
   width: 100%;
   align-items: flex-start;
   padding-top: 2rem;
