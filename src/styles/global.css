@@ -1118,17 +1118,20 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .contact-giant-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 16vw;
+  font-size: 19.8vw;
   line-height: 0.8;
   color: rgba(245, 240, 232, 0.04);
-  width: 100%;
+  width: 100vw;
   text-align: center;
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
-  margin-top: 1rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 4.5rem;
   z-index: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   font-weight: 300;
 }
 
