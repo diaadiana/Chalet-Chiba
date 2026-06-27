@@ -1183,7 +1183,8 @@ nav.sc .lang-btn.active{color:var(--forest)}
   gap: 5rem;
   width: 100%;
   align-items: flex-start;
-  padding-top: 2rem;
+  padding-top: 0;
+  margin-top: -2.5rem;
   position: relative;
   z-index: 2;
 }
