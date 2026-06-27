@@ -1265,21 +1265,28 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .contact-form-btn {
   font-family: 'Jost', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--forest);
-  background: var(--gold);
-  border: none;
-  padding: 0.9rem 2.2rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2.2rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.4s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form-btn:hover {
-  background: #c8a86c;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.2);
 }
 
 /* RESPONSIVENESS */
