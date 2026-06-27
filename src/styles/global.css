@@ -1181,6 +1181,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   gap: 6rem;
   width: 100%;
   align-items: flex-start;
+  padding-top: 4rem;
 }
 
 .contact-info {
@@ -1225,12 +1226,10 @@ nav.sc .lang-btn.active{color:var(--forest)}
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 3rem;
-  border-radius: 6px;
-  backdrop-filter: blur(8px);
+  gap: 1.2rem;
+  background: transparent;
+  border: none;
+  padding: 1rem 0;
 }
 
 .contact-form-title {
