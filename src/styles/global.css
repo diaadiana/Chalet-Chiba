@@ -998,7 +998,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 /* Single Card Pill Toggle Layout */
 .rezerva-single-card {
-  max-width: 750px;
+  max-width: 950px;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(24px);
