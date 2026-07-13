@@ -1,13 +1,14 @@
 ---
+import rawSvg from '../../public/preloadercabana.svg?raw';
 ---
 
 <div id="preloader">
   <div class="preloader-content">
-    <div id="preloader-title">
-      <!-- Letters will be injected here via JS -->
+    <div id="preloader-icon">
+      <Fragment set:html={rawSvg} />
     </div>
-    <div id="preloader-sub" data-i18n="preloader.sub">
-      O escapadă montană
+    <div id="preloader-text">
+      Chalet <em>Chiba</em>
     </div>
   </div>
 </div>
@@ -20,117 +21,101 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, #2D4A3E 0%, #1A2E26 100%);
-    transition: opacity 1.2s cubic-bezier(0.7, 0, 0.3, 1), 
-                filter 1.2s cubic-bezier(0.7, 0, 0.3, 1),
-                visibility 1.2s;
+    /* Glassmorphism Implementation */
+    background: rgba(10, 14, 10, 0.35); /* Dark subtle tint */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    transition: opacity 1.4s cubic-bezier(0.7, 0, 0.3, 1),
+                visibility 1.4s;
   }
-  
+
   #preloader.loaded {
     opacity: 0;
-    filter: blur(40px);
     visibility: hidden;
     pointer-events: none;
   }
 
   .preloader-content {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-  }
-
-  #preloader-title {
     display: flex;
-    gap: 0.1em;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 2rem;
   }
 
-  /* Keyframe for blur reveal */
-  @keyframes blurIn {
-    0% {
-      filter: blur(20px);
-      opacity: 0;
-      transform: scale(1.4);
-    }
-    100% {
-      filter: blur(0px);
-      opacity: 1;
-      transform: scale(1);
-    }
+  #preloader-icon {
+    width: 180px;
+    max-width: 50vw;
+    color: #fff; /* Crisp white for max contrast */
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4)); /* Elegant glow/shadow */
+    clip-path: inset(100% 0% 0% 0%); /* Initially hidden from top */
   }
 
-  :global(.letter) {
-    display: inline-block;
+  #preloader-icon :global(svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  #preloader-text {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 3.5rem;
-    font-weight: 300;
-    color: #F5F0E8;
-    opacity: 0;
-    filter: blur(20px);
+    font-size: 1.8rem;
+    color: #fff;
+    letter-spacing: 0.03em;
+    font-weight: 400;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); /* Matching shadow */
+    opacity: 0; /* Hidden initially for fade-in */
   }
 
-  @media (min-width: 768px) {
-    :global(.letter) { font-size: 5.5rem; }
-  }
-
-  :global(.letter.animate) {
-    animation: blurIn 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-  }
-
-  #preloader-sub {
-    margin-top: 24px;
-    color: #B8955A; /* Using the gold color variable */
-    font-size: 0.7rem;
-    letter-spacing: 0.6em;
-    text-transform: uppercase;
-    opacity: 0;
-    transition: opacity 1s 1.5s;
-  }
-
-  #preloader-sub.animate {
-    opacity: 0.5;
+  #preloader-text em {
+    font-style: italic;
+    letter-spacing: -0.01em;
   }
 </style>
 
 <script>
+  import gsap from 'gsap';
+
   function initPreloader() {
     const preloader = document.getElementById('preloader');
-    const titleContainer = document.getElementById('preloader-title');
-    const subText = document.getElementById('preloader-sub');
-    const text = "CHALET CHIBA";
+    const icon = document.getElementById('preloader-icon');
+    const text = document.getElementById('preloader-text');
     
-    if (!titleContainer) return;
+    if (!icon || !text) {
+      setTimeout(() => preloader?.classList.add('loaded'), 1000);
+      return;
+    }
 
-    // Create spans for each letter
-    text.split('').forEach((char, i) => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      span.className = 'letter';
-      span.style.animationDelay = `${i * 0.08}s`;
-      titleContainer.appendChild(span);
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // Dispare după animație
+        setTimeout(() => preloader?.classList.add('loaded'), 600);
+      }
     });
 
-    // Animate in
-    setTimeout(() => {
-      const letters = document.querySelectorAll('.letter');
-      letters.forEach(l => l.classList.add('animate'));
-      subText?.classList.add('animate');
-    }, 200);
+    // Animația cabanei ("se construiește" de jos în sus în 2 secunde)
+    tl.to(icon, {
+      clipPath: 'inset(0% 0% 0% 0%)',
+      duration: 2,
+      ease: 'power2.inOut'
+    }, 0);
 
-    // Transition out
-    setTimeout(() => {
-      preloader?.classList.add('loaded');
-      // Eliminăm complet logica de overflow: hidden care interacționa negativ cu GSAP
-    }, 4000);
+    // Textul apare treptat
+    tl.to(text, {
+      opacity: 1,
+      duration: 1.5,
+      ease: 'power2.out'
+    }, 0.5); // Începe cu o mică întârziere (după jumătate de secundă)
+    
+    // Fallback de siguranță
+    setTimeout(() => preloader?.classList.add('loaded'), 5000);
   }
 
-  if (document.readyState === 'complete') {
-    initPreloader();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPreloader);
   } else {
-    window.addEventListener('load', initPreloader);
+    initPreloader();
   }
-  // Am scos document.body.style.overflow = 'hidden'; 
-  // Preloaderul acoperă ecranul, deci background scroll-ul nu va deranja vizual, 
-  // dar permite GSAP-ului să calculeze corect înălțimile încă de la început.
 </script>

@@ -22,6 +22,8 @@
       <button class="lang-btn" data-lang="ro">RO</button>
       <span class="lang-separator">|</span>
       <button class="lang-btn" data-lang="en">EN</button>
+      <span class="lang-separator">|</span>
+      <button class="lang-btn" data-lang="de">DE</button>
     </div>
   </div>
 </nav>
@@ -30,7 +32,18 @@
   const nav = document.getElementById('mainNav');
   if (nav) {
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('sc', window.scrollY > 70);
+      const currentScroll = window.scrollY;
+      
+      // Toggle 'sc' class for the background (only really visible near the top before hiding)
+      nav.classList.toggle('sc', currentScroll > 70);
+      
+      // Permanently hide navbar when scrolling past the landing page
+      if (currentScroll > window.innerHeight * 0.8) {
+         nav.classList.add('nav-hidden');
+      } else {
+         nav.classList.remove('nav-hidden'); // Show again only when returning to the very top
+      }
+      
     }, { passive: true });
   }
 </script>

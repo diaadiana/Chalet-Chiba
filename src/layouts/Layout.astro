@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Preloader from '../components/Preloader.astro';
 
 interface Props {
 	title: string;
@@ -18,19 +19,60 @@ const { title } = Astro.props;
 		
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
-		<meta name="description" content="Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și experiențe montane autentice în Carpații României. Rezervă acum o escapadă de neuitat!" />
-		<meta name="keywords" content="Chalet Chiba, Cabana Chiba, cazare Bucegi, chalet munte Romania, cabana de inchiriat, munti, relaxare, cazare premium" />
+		<meta name="description" id="meta-description" content="Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și experiențe montane autentice în Carpații României. Rezervă acum o escapadă de neuitat!" />
+		<meta name="keywords" content="Chalet Chiba, Cabana Chiba, cazare Bucegi, chalet munte Romania, cabana de inchiriat, munti, relaxare, cazare premium, Brasov, Timisu de Jos" />
 		
-		<!-- Open Graph / Facebook -->
+		<!-- Open Graph / Facebook / WhatsApp Share Preview -->
 		<meta property="og:type" content="website" />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content="Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și cazare autentică în Carpații României." />
-		<meta property="og:image" content="/hero-cabana.jpg" />
+		<meta property="og:title" id="og-title" content={title} />
+		<meta property="og:description" id="og-description" content="Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și cazare autentică în Carpații României." />
+		<meta property="og:image" content="/hero-cabana-cropped.webp" />
+		
+		<!-- Twitter Cards -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Chalet Chiba" />
+		<meta name="twitter:description" content="O escapadă montană autentică lângă Brașov. Confort modern combinat cu peisaje pitorești." />
+		<meta name="twitter:image" content="/hero-cabana-cropped.webp" />
 
-		<!-- Fonts -->
-		<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<!-- SEO Multi-language alternates (hreflang) -->
+		<link rel="alternate" hreflang="ro" href="https://chaletchiba.ro/" />
+		<link rel="alternate" hreflang="en" href="https://chaletchiba.ro/?lang=en" />
+		<link rel="alternate" hreflang="de" href="https://chaletchiba.ro/?lang=de" />
+		<link rel="alternate" hreflang="x-default" href="https://chaletchiba.ro/" />
+
+		<!-- Fonts with font-display swap for faster rendering -->
+		<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+		<!-- JSON-LD Local Business Structured Data for Google search index -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Hotel",
+				"name": "Chalet Chiba",
+				"description": "Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și cazare autentică în Carpații României.",
+				"image": "https://chaletchiba.ro/hero-cabana-cropped.webp",
+				"telephone": "+40769555558",
+				"email": "contact@chaletchiba.ro",
+				"address": {
+					"@type": "PostalAddress",
+					"streetAddress": "Strada Canionului",
+					"addressLocality": "Timișu de Jos",
+					"addressRegion": "Brașov",
+					"postalCode": "505600",
+					"addressCountry": "RO"
+				},
+				"geo": {
+					"@type": "GeoCoordinates",
+					"latitude": 45.577390,
+					"longitude": 25.622936
+				},
+				"url": "https://chaletchiba.ro",
+				"priceRange": "$$$"
+			}
+		</script>
 	</head>
 	<body>
+		<Preloader />
 		<slot />
 
 		<script>
@@ -47,12 +89,19 @@ const { title } = Astro.props;
 					"hero.desc": "Combinând confortul modern cu peisajele pitorești,<br> Cabana Chiba este ideală pentru relaxare și drumeții.",
 					"hero.btn": "Descoperă cabana",
 					"document.title": "Chalet Chiba · Cabană de Munte",
+					"document.description": "Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și experiențe montane autentice în Carpații României. Rezervă acum o escapadă de neuitat!",
 					"about.label": "POVESTEA NOASTRĂ",
 					"about.title": "Bine ați venit la Chiba Chalet!",
 					"about.text1": "Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă. Un adăpost liniștit lângă Brașov.",
 					"about.cta": "Descoperă Experiențele",
 					"exp.label": "EXPERIENȚE",
 					"exp.title": "Descoperă Experiențele Locale",
+					"exp.card1_title": "Trasee montane în apropiere",
+					"exp.card1_desc": "Suntem punctul ideal de plecare spre faimosul <a href=\"https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari\" target=\"_blank\" rel=\"noopener noreferrer\">Canionul Șapte Scări</a> și <a href=\"https://www.google.com/maps/search/?api=1&query=Masivul+Piatra+Mare\" target=\"_blank\" rel=\"noopener noreferrer\">Masivul Piatra Mare</a>. Tot în apropiere te poți bucura de spectaculoasa <a href=\"https://www.google.com/maps/search/?api=1&query=Cascada+Tamina\" target=\"_blank\" rel=\"noopener noreferrer\">Cascadă Tamina</a>.",
+					"exp.card2_title": "Activități pentru copii",
+					"exp.card2_desc": "La scurtă distanță de noi se află tirolienele de la <a href=\"https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari\" target=\"_blank\" rel=\"noopener noreferrer\">Șapte Scări</a> și faimosul <a href=\"https://www.google.com/maps/search/?api=1&query=Parc+Aventura+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Parc Aventura</a>. Natura din jur oferă poteci ușoare, perfecte pentru micii exploratori.",
+					"exp.card3_title": "Centrul Brașovului",
+					"exp.card3_desc": "La doar 10-15 minute (aprox. 10 km) cu mașina, te așteaptă <a href=\"https://www.google.com/maps/search/?api=1&query=Piata+Sfatului+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Piața Sfatului</a>, <a href=\"https://www.google.com/maps/search/?api=1&query=Biserica+Neagra+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Biserica Neagră</a> și farmecul inegalabil al cafenelelor din inima orașului.",
 					"exp.card1.title": "Trasee Montane",
 					"exp.card1.subtitle": "Aventură pe creste",
 					"exp.card1.desc": "Explorează traseele pitorești ale Munților Bucegi chiar de la pragul cabanei. Peisaje spectaculoase te așteaptă la fiecare pas.",
@@ -76,10 +125,10 @@ const { title } = Astro.props;
 					"rezerva.label": "REZERVĂRI",
 					"rezerva.title": "Alege pachetul potrivit pentru escapada ta",
 					"rezerva.midweek_title": "Pachet Midweek",
-					"rezerva.midweek_desc": "Luni — Joi • Închiriere integrală",
+					"rezerva.midweek_desc": "Luni — Joi",
 					"rezerva.midweek_price": "2.500 RON / Noapte",
 					"rezerva.weekend_title": "Pachet Weekend",
-					"rezerva.weekend_desc": "Vineri — Duminică • Închiriere integrală",
+					"rezerva.weekend_desc": "Vineri — Duminică",
 					"rezerva.weekend_price": "3.500 RON / Noapte",
 					"rezerva.btn": "Sună pentru Rezervare",
 					"contact.label": "CONTACT",
@@ -90,8 +139,17 @@ const { title } = Astro.props;
 					"contact.feedback_title": "Trimite-ne un gând",
 					"contact.feedback_placeholder": "Mesajul tău...",
 					"contact.feedback_btn": "Trimite pe WhatsApp",
+					"reviews.title": "Ce spun oaspeții noștri",
+					"reviews.t1": "„Am petrecut un sejur minunat la această cabană! Personalul este foarte amabil, iar locația îți oferă tot confortul necesar pentru a te bucura pe deplin de natură și liniște. O alegere excelentă!”",
+					"reviews.t2": "„Am avut ocazia să petrecem câteva zile la Chalet Chiba, situat în Timișu de Jos, la doar 6 km de centrul orașului Brașov, și experiența a fost absolut memorabilă.”",
+					"reviews.t3": "„Am avut o ședere minunată în această cabană frumoasă, ascunsă chiar între munți. Spațiul a fost curat, bine întreținut. Recomand cu căldură acest loc atât pentru muncă, cât și pentru odihnă.”",
 					"facilities.label": "Dotări & Detalii",
 					"facilities.title": "Conceput pentru confort absolut",
+					"facilities.tag_ciubar": "ciubăr",
+					"facilities.tag_semineu": "șemineu pe lemne",
+					"facilities.tag_foisor": "foișor & grătar",
+					"facilities.tag_bucatarie": "bucătărie utilată",
+					"facilities.tag_parcare": "parcare",
 					"facilities.intro": "O experiență premium în mijlocul naturii. Îți punem la dispoziție dotări moderne și spații generoase, gândite până la cel mai mic detaliu pentru a asigura o vacanță lipsită de griji.",
 					"facilities.spaces_title": "Capacitate & Băi",
 					"facilities.spaces_desc": "3 dormitoare matrimoniale elegante cu băi proprii și 2 apartamente spațioase (cu câte 2 camere și baie modernă). Cabana dispune în total de 5 băi cu duș complet utilate.",
@@ -103,7 +161,7 @@ const { title } = Astro.props;
 					"rooms.title": "Configurația camerelor la Chalet Chiba",
 					"rooms.desc": "Cabana oferă un refugiu elegant, combinând decorul rustic cu facilități moderne, fiind structurată în dormitoare individuale și apartamente spațioase.",
 					"rooms.matrimonial_title": "Camere matrimoniale cu baie",
-					"rooms.matrimonial_desc": "Un refugiu elegant cu decor rustic, pat king-size confortabil și baie privată complet utilată, ideală pentru relaxare.",
+					"rooms.matrimonial_desc": "Un refugiu elegant cu decor rustic, spațiu generos pentru odihnă și baie privată complet utilată, ideală pentru relaxare.",
 					"rooms.apartment_title": "Apartamente (două camere cu baie)",
 					"rooms.apartment_desc": "Îmbină decorul rustic cu spațiul generos. Dispun de un dormitor principal, un living confortabil și baie modernă, fiind ideale pentru familii sau grupuri.",
 					"rezerva.check_in_title": "Check-in & Check-out",
@@ -123,12 +181,19 @@ const { title } = Astro.props;
 					"hero.desc": "Combining modern comfort with picturesque landscapes,<br> Chalet Chiba is ideal for relaxation and hiking.",
 					"hero.btn": "Discover the chalet",
 					"document.title": "Chalet Chiba · Mountain Chalet",
+					"document.description": "Retreat to the heart of the Bucegi Mountains at Chalet Chiba. Premium comfort, spectacular landscapes, and authentic mountain experiences in the Romanian Carpathians. Book your unforgettable getaway now!",
 					"about.label": "OUR STORY",
 					"about.title": "Welcome to Chiba Chalet!",
-					"about.text1": "Modern comfort and picturesque landscapes, ideal for relaxation, hiking, and a peaceful mountain oasis.",
+					"about.text1": "Slow down. Choose the quiet of the forest, listen to the backyard stream and rediscover a morning without an agenda. A peaceful shelter near Brașov.",
 					"about.cta": "Discover the Experiences",
 					"exp.label": "EXPERIENCES",
 					"exp.title": "Discover Local Experiences",
+					"exp.card1_title": "Nearby mountain trails",
+					"exp.card1_desc": "We are the ideal starting point to the famous <a href=\"https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari\" target=\"_blank\" rel=\"noopener noreferrer\">Seven Ladders Canyon</a> and <a href=\"https://www.google.com/maps/search/?api=1&query=Masivul+Piatra+Mare\" target=\"_blank\" rel=\"noopener noreferrer\">Piatra Mare Massif</a>. Also nearby you can enjoy the spectacular <a href=\"https://www.google.com/maps/search/?api=1&query=Cascada+Tamina\" target=\"_blank\" rel=\"noopener noreferrer\">Tamina Waterfall</a>.",
+					"exp.card2_title": "Activities for children",
+					"exp.card2_desc": "A short distance from us are the zip lines at <a href=\"https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari\" target=\"_blank\" rel=\"noopener noreferrer\">Seven Ladders</a> and the famous <a href=\"https://www.google.com/maps/search/?api=1&query=Parc+Aventura+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Aventura Park</a>. The surrounding nature offers easy trails, perfect for little explorers.",
+					"exp.card3_title": "Brasov City Center",
+					"exp.card3_desc": "Just 10-15 minutes (approx. 10 km) away by car, <a href=\"https://www.google.com/maps/search/?api=1&query=Piata+Sfatului+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Council Square</a>, <a href=\"https://www.google.com/maps/search/?api=1&query=Biserica+Neagra+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">The Black Church</a> and the unique charm of the cafes in the heart of the city await you.",
 					"exp.card1.title": "Mountain Trails",
 					"exp.card1.subtitle": "Ridge Adventure",
 					"exp.card1.desc": "Explore scenic paths of the Bucegi Mountains right from the chalet doorstep. Spectacular views await you at every step.",
@@ -152,10 +217,10 @@ const { title } = Astro.props;
 					"rezerva.label": "RESERVATIONS",
 					"rezerva.title": "Choose the perfect package for your getaway",
 					"rezerva.midweek_title": "Midweek Package",
-					"rezerva.midweek_desc": "Monday — Thursday • Entire chalet rental",
+					"rezerva.midweek_desc": "Monday — Thursday",
 					"rezerva.midweek_price": "2,500 RON / Night",
 					"rezerva.weekend_title": "Weekend Package",
-					"rezerva.weekend_desc": "Friday — Sunday • Entire chalet rental",
+					"rezerva.weekend_desc": "Friday — Sunday",
 					"rezerva.weekend_price": "3,500 RON / Night",
 					"rezerva.btn": "Call for Reservation",
 					"contact.label": "CONTACT",
@@ -166,8 +231,17 @@ const { title } = Astro.props;
 					"contact.feedback_title": "Send us a thought",
 					"contact.feedback_placeholder": "Your message...",
 					"contact.feedback_btn": "Send via WhatsApp",
+					"reviews.title": "What our guests say",
+					"reviews.t1": "“We spent a wonderful stay at this cabin! The staff is very kind, and the location offers all the necessary comfort to fully enjoy nature and quietness. An excellent choice!”",
+					"reviews.t2": "“We had the opportunity to spend a few days at Chalet Chiba, located in Timișu de Jos, just 6 km from Brașov city center, and the experience was absolutely memorable.”",
+					"reviews.t3": "“We had a wonderful stay in this beautiful cabin tucked right between the mountains. The space was clean, well-maintained. Highly recommend this place for both work and rest.”",
 					"facilities.label": "Amenities & Details",
 					"facilities.title": "Designed for absolute comfort",
+					"facilities.tag_ciubar": "hot tub",
+					"facilities.tag_semineu": "wood fireplace",
+					"facilities.tag_foisor": "gazebo & grill",
+					"facilities.tag_bucatarie": "fully equipped kitchen",
+					"facilities.tag_parcare": "parking",
 					"facilities.intro": "A premium experience in the heart of nature. We offer modern amenities and generous spaces, thought out down to the smallest detail to ensure a worry-free vacation.",
 					"facilities.spaces_title": "Capacity & Bathrooms",
 					"facilities.spaces_desc": "3 elegant matrimonial bedrooms with private bathrooms and 2 spacious suites (each with 2 rooms and a modern bathroom). The chalet has a total of 5 fully equipped bathrooms with shower.",
@@ -179,15 +253,110 @@ const { title } = Astro.props;
 					"rooms.title": "Room Configuration at Chalet Chiba",
 					"rooms.desc": "The chalet offers an elegant retreat, combining rustic decor with modern amenities, structured into individual bedrooms and spacious suites.",
 					"rooms.matrimonial_title": "Matrimonial Rooms with Bath",
-					"rooms.matrimonial_desc": "An elegant retreat with rustic decor, comfortable king-size bed, and fully equipped private bathroom, ideal for relaxation.",
+					"rooms.matrimonial_desc": "An elegant retreat with rustic decor, generous space for relaxation, and fully equipped private bathroom.",
 					"rooms.apartment_title": "Suites (Two rooms with Bath)",
 					"rooms.apartment_desc": "Combines rustic decor with generous space. Equipped with a master bedroom, a cozy living room, and a modern bathroom, perfect for families or groups.",
 					"rezerva.check_in_title": "Check-in & Check-out",
 					"rezerva.check_in_desc": "Check-in: after 2:00 PM • Check-out: before 11:00 AM.",
 					"rezerva.reception_title": "Individual Bookings",
 					"rezerva.reception_desc": "Contact the chalet reception for rates and availability of individual rooms."
+				},
+				de: {
+					"nav.about": "Über uns",
+					"nav.rooms": "Zimmer",
+					"nav.exp": "Erlebnisse",
+					"nav.gallery": "Galerie",
+					"nav.rezerva": "Reservierungen",
+					"nav.contact": "Kontakt",
+					"preloader.sub": "Ein Rückzugsort in den Bergen",
+					"hero.title": "Ein authentischer Rückzugsort in den Bergen",
+					"hero.desc": "Verbindung von modernem Komfort mit malerischen Landschaften,<br> Chalet Chiba ist ideal für Entspannung und Wandern.",
+					"hero.btn": "Entdecke das Chalet",
+					"document.title": "Chalet Chiba · Berghütte",
+					"document.description": "Ziehen Sie sich in das Herz der Bucegi-Berge im Chalet Chiba zurück. Premium-Komfort, spektakuläre Landschaften und authentische Bergerlebnisse in den rumänischen Karpaten. Buchen Sie jetzt Ihren unvergesslichen Kurzurlaub!",
+					"about.label": "UNSERE GESCHICHTE",
+					"about.title": "Willkommen im Chiba Chalet!",
+					"about.text1": "Verlangsamen Sie das Tempo. Wählen Sie die Stille des Waldes, lauschen Sie dem Bach im Garten und entdecken Sie einen Morgen ohne Termine neu. Ein friedlicher Zufluchtsort in der Nähe von Kronstadt.",
+					"about.cta": "Entdecke die Erlebnisse",
+					"exp.label": "ERLEBNISSE",
+					"exp.title": "Entdecke lokale Erlebnisse",
+					"exp.card1_title": "Bergpfade in der Nähe",
+					"exp.card1_desc": "Wir sind der ideale Ausgangspunkt für den berühmten <a href=\"https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari\" target=\"_blank\" rel=\"noopener noreferrer\">Sieben-Leitern-Schlucht</a> und das <a href=\"https://www.google.com/maps/search/?api=1&query=Masivul+Piatra+Mare\" target=\"_blank\" rel=\"noopener noreferrer\">Piatra Mare Massiv</a>. Ebenfalls in der Nähe kannst du den spektakulären <a href=\"https://www.google.com/maps/search/?api=1&query=Cascada+Tamina\" target=\"_blank\" rel=\"noopener noreferrer\">Tamina-Wasserfall</a> genießen.",
+					"exp.card2_title": "Aktivitäten für Kinder",
+					"exp.card2_desc": "Nur eine kurze Strecke von uns entfernt befinden sich die Seilrutschen bei den <a href=\"https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari\" target=\"_blank\" rel=\"noopener noreferrer\">Sieben Leitern</a> und der berühmte <a href=\"https://www.google.com/maps/search/?api=1&query=Parc+Aventura+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Aventura Park</a>. Die umliegende Natur bietet leichte Wege, ideal für kleine Entdecker.",
+					"exp.card3_title": "Zentrum von Kronstadt",
+					"exp.card3_desc": "Nur 10-15 Autominuten (ca. 10 km) entfernt erwarten dich der <a href=\"https://www.google.com/maps/search/?api=1&query=Piata+Sfatului+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Rathausplatz</a>, die <a href=\"https://www.google.com/maps/search/?api=1&query=Biserica+Neagra+Brasov\" target=\"_blank\" rel=\"noopener noreferrer\">Schwarze Kirche</a> und der unvergleichliche Charme der Cafés im Herzen der Stadt.",
+					"exp.card1.title": "Bergpfade",
+					"exp.card1.subtitle": "Grat-Abenteuer",
+					"exp.card1.desc": "Erkunde die malerischen Pfade der Bucegi-Berge direkt vor der Haustür des Chalets. Spektakuläre Aussichten erwarten dich bei jedem Schritt.",
+					"exp.card1.item1": "Omu-Gipfel (2507m)",
+					"exp.card1.item2": "Babele & Die Sphinx",
+					"exp.card1.item3": "Sieben-Leitern-Schlucht",
+					"exp.card2.title": "Lokale Gastronomie",
+					"exp.card2.subtitle": "Geschmack der Berge",
+					"exp.card2.desc": "Genieße traditionelle, über dem Feuer zubereitete siebenbürgische Gerichte, gereiften Käse aus lokalen Schafställen und erlesene regionale Weinverkostungen.",
+					"exp.card2.item1": "Polenta & Bulz über dem Feuer",
+					"exp.card2.item2": "Verkostung handwerklicher Käsesorten",
+					"exp.card2.item3": "Traditionelle Restaurants",
+					"exp.card3.title": "Lokale Sehenswürdigkeiten",
+					"exp.card3.subtitle": "Geschichte & Kultur",
+					"exp.card3.desc": "Besuche das legendäre mittelalterliche Schloss Bran (Draculaschloss) oder erkunde die Altstadt von Brașov (Kronstadt) mit ihren charmanten Gassen und historischen Monumenten.",
+					"exp.card3.item1": "Schloss Bran",
+					"exp.card3.item2": "Rathausplatz Kronstadt",
+					"exp.card3.item3": "Die Schwarze Kirche",
+					"gallery.label": "GALERIE",
+					"gallery.title": "Momente der Stille im Bild festgehalten",
+					"rezerva.label": "RESERVIERUNGEN",
+					"rezerva.title": "Wähle das perfekte Paket für deinen Rückzugsort",
+					"rezerva.midweek_title": "Midweek-Paket",
+					"rezerva.midweek_desc": "Montag — Donnerstag",
+					"rezerva.midweek_price": "2.500 RON / Nacht",
+					"rezerva.weekend_title": "Weekend-Paket",
+					"rezerva.weekend_desc": "Freitag — Sonntag",
+					"rezerva.weekend_price": "3.500 RON / Nacht",
+					"rezerva.btn": "Für Reservierung anrufen",
+					"contact.label": "KONTAKT",
+					"contact.title": "Wir erwarten dich im Herzen der Berge",
+					"contact.address": "Canionului-Straße, Timisu de Jos, Brasov",
+					"contact.phone": "Telefon: +40 769 555 558",
+					"contact.email": "E-Mail: contact@chaletchiba.ro",
+					"contact.feedback_title": "Schreib uns eine Nachricht",
+					"contact.feedback_placeholder": "Deine Nachricht...",
+					"contact.feedback_btn": "Per WhatsApp senden",
+					"reviews.title": "Was unsere Gäste sagen",
+					"reviews.t1": "„Wir hatten einen wunderbaren Aufenthalt in diesem Chalet! Das Personal ist sehr freundlich und die Lage bietet allen Komfort, den man braucht, um Natur und Ruhe in vollen Zügen zu genießen. Eine hervorragende Wahl!“",
+					"reviews.t2": "„Wir hatten die Gelegenheit, einige Tage im Chalet Chiba in Timișu de Jos zu verbringen, nur 6 km vom Stadtzentrum von Brașov entfernt, und die Erfahrung war absolut unvergesslich.“",
+					"reviews.t3": "„Wir hatten einen herrlichen Aufenthalt in dieser wunderschönen Hütte, die direkt zwischen den Bergen liegt. Die Zimmer waren sauber und bestens gepflegt. Sehr zu empfehlen, sowohl zum Arbeiten als auch zum Entspannen.“",
+					"facilities.label": "Ausstattung & Details",
+					"facilities.title": "Entworfen für absoluten Komfort",
+					"facilities.tag_ciubar": "Hot Tub",
+					"facilities.tag_semineu": "Kaminofen",
+					"facilities.tag_foisor": "Pavillon & Grill",
+					"facilities.tag_bucatarie": "voll ausgestattete Küche",
+					"facilities.tag_parcare": "Parkplatz",
+					"facilities.intro": "Ein Premium-Erlebnis inmitten der Natur. Wir bieten moderne Annehmlichkeiten und großzügige Räume, bis ins kleinste Detail durchdacht für einen sorgenfreien Urlaub.",
+					"facilities.spaces_title": "Kapazität & Badezimmer",
+					"facilities.spaces_desc": "3 elegante Doppelzimmer mit eigenem Bad und 2 geräumige Suiten (jeweils mit 2 Zimmern und einem modernen Bad). Das Chalet verfügt über insgesamt 5 voll ausgestattete Badezimmer mit Dusche.",
+					"facilities.wellness_title": "Entspannung & Natur",
+					"facilities.wellness_desc": "Siebenbürgischer Hot Tub mit warmem Wasser unter freiem Himmel, traditioneller Holzkamin im Wohnzimmer und ein großer privater Garten, der von einem Bergbach durchquert wird, mit Pavillon und Grill.",
+					"facilities.tech_title": "Küche & Technologie",
+					"facilities.tech_desc": "Voll ausgestattete Küche (Kühlschrank, Geschirrspüler, Kaffeemaschine), kostenlose Highspeed-WLAN-Internetverbindung, Flachbild-Smart-TV und kostenloser privater Parkplatz auf dem Gelände.",
+					"rooms.label": "SCHLAFZIMMER & SUITEN",
+					"rooms.title": "Zimmerkonfiguration im Chalet Chiba",
+					"rooms.desc": "Das Chalet bietet einen eleganten Rückzugsort, der rustikales Dekor mit modernen Annehmlichkeiten verbindet, aufgeteilt in einzelne Schlafzimmer und geräumige Suiten.",
+					"rooms.matrimonial_title": "Doppelzimmer mit Bad",
+					"rooms.matrimonial_desc": "Ein eleganter Rückzugsort mit rustikalem Dekor, großzügiger Komfort und voll ausgestattetem privaten Badezimmer.",
+					"rooms.apartment_title": "Suiten (Zwei Zimmer mit Bad)",
+					"rooms.apartment_desc": "Verbindet rustikales Dekor mit großzügigem Raumangebot. Ausgestattet mit einem Hauptschlafzimmer, einem gemütlichen Wohnzimmer und einem modernen Badezimmer, perfekt für Familien oder Gruppen.",
+					"rezerva.check_in_title": "Check-in & Check-out",
+					"rezerva.check_in_desc": "Check-in: nach 14:00 Uhr • Check-out: vor 11:00 Uhr.",
+					"rezerva.reception_title": "Einzelbuchungen",
+					"rezerva.reception_desc": "Kontaktiere die Chalet-Rezeption für Preise und Verfügbarkeit einzelner Zimmer."
 				}
 			};
+
+			// Expose translations cache globally for component scripts to access
+			(window as any).translationsCache = translations;
 
 			function updateLanguage(lang) {
 				localStorage.setItem('lang', lang);
@@ -196,17 +365,45 @@ const { title } = Astro.props;
 				document.querySelectorAll('[data-i18n]').forEach(el => {
 					const key = el.getAttribute('data-i18n');
 					if (translations[lang] && translations[lang][key]) {
-						const link = el.querySelector('a');
-						if (link) {
-							link.innerHTML = translations[lang][key];
-						} else {
+						// If translation content has HTML tags (like <a>), always use innerHTML directly on the element
+						if (translations[lang][key].indexOf('<') !== -1) {
 							el.innerHTML = translations[lang][key];
+						} else {
+							const link = el.querySelector('a');
+							if (link) {
+								link.innerHTML = translations[lang][key];
+							} else {
+								el.innerHTML = translations[lang][key];
+							}
 						}
 					}
 				});
 
 				if (translations[lang] && translations[lang]['document.title']) {
-					document.title = translations[lang]['document.title'];
+					const transTitle = translations[lang]['document.title'];
+					document.title = transTitle;
+					
+					// Update OpenGraph Title
+					const ogTitleEl = document.getElementById('og-title');
+					if (ogTitleEl) {
+						ogTitleEl.setAttribute('content', transTitle);
+					}
+				}
+
+				if (translations[lang] && translations[lang]['document.description']) {
+					const transDesc = translations[lang]['document.description'];
+					
+					// Update Meta Description
+					const metaDescEl = document.getElementById('meta-description');
+					if (metaDescEl) {
+						metaDescEl.setAttribute('content', transDesc);
+					}
+					
+					// Update OpenGraph Description
+					const ogDescEl = document.getElementById('og-description');
+					if (ogDescEl) {
+						ogDescEl.setAttribute('content', transDesc);
+					}
 				}
 
 				document.querySelectorAll('.lang-btn').forEach(btn => {

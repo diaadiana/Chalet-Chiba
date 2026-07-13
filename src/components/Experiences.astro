@@ -16,19 +16,39 @@ const cards = [
 ---
 <section id="exp" class="exp-section">
   <div class="exp-container">
-    {cards.map((card, index) => (
-      <div class="exp-card">
-        <div class="exp-card-content">
-          <h3 class="exp-card-title">{card.title}</h3>
-          <p class="exp-card-desc" set:html={card.description}></p>
-        </div>
-        <div class="exp-hint">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </div>
+    <div class="exp-card">
+      <div class="exp-card-content">
+        <h3 class="exp-card-title" data-i18n="exp.card1_title">Trasee montane în apropiere</h3>
+        <p class="exp-card-desc" data-i18n="exp.card1_desc">Suntem punctul ideal de plecare spre faimosul <a href="https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari" target="_blank" rel="noopener noreferrer">Canionul Șapte Scări</a> și <a href="https://www.google.com/maps/search/?api=1&query=Masivul+Piatra+Mare" target="_blank" rel="noopener noreferrer">Masivul Piatra Mare</a>. Tot în apropiere te poți bucura de spectaculoasa <a href="https://www.google.com/maps/search/?api=1&query=Cascada+Tamina" target="_blank" rel="noopener noreferrer">Cascadă Tamina</a>.</p>
       </div>
-    ))}
+      <div class="exp-hint">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-card-content">
+        <h3 class="exp-card-title" data-i18n="exp.card2_title">Activități pentru copii</h3>
+        <p class="exp-card-desc" data-i18n="exp.card2_desc">La scurtă distanță de noi se află tirolienele de la <a href="https://www.google.com/maps/search/?api=1&query=Canionul+Sapte+Scari" target="_blank" rel="noopener noreferrer">Șapte Scări</a> și faimosul <a href="https://www.google.com/maps/search/?api=1&query=Parc+Aventura+Brasov" target="_blank" rel="noopener noreferrer">Parc Aventura</a>. Natura din jur oferă poteci ușoare, perfecte pentru micii exploratori.</p>
+      </div>
+      <div class="exp-hint">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-card-content">
+        <h3 class="exp-card-title" data-i18n="exp.card3_title">Centrul Brașovului</h3>
+        <p class="exp-card-desc" data-i18n="exp.card3_desc">La doar 10-15 minute (aprox. 10 km) cu mașina, te așteaptă <a href="https://www.google.com/maps/search/?api=1&query=Piata+Sfatului+Brasov" target="_blank" rel="noopener noreferrer">Piața Sfatului</a>, <a href="https://www.google.com/maps/search/?api=1&query=Biserica+Neagra+Brasov" target="_blank" rel="noopener noreferrer">Biserica Neagră</a> și farmecul inegalabil al cafenelelor din inima orașului.</p>
+      </div>
+      <div class="exp-hint">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    </div>
   </div>
 </section>
 

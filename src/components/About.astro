@@ -8,7 +8,7 @@
 
 
       <div class="about-inner">
-        <p class="about-text" id="about-text">
+        <p class="about-text" id="about-text" data-i18n="about.text1">
           Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă. Un adăpost liniștit lângă Brașov.
         </p>
       </div>
@@ -16,7 +16,7 @@
 
     <div class="small-rect">
       <!-- User requested to put the attached water image here -->
-      <img src="/images/Chiba-23.jpg" alt="Pârâul din curte" class="attached-image" id="water-image" />
+      <img src="/images/Chiba-23.webp" alt="Pârâul din curte" class="attached-image" id="water-image" />
     </div>
   </div>
 </section>
@@ -43,12 +43,12 @@
   }
 
   .large-rect {
-    grid-column: 2 / 10; /* Centrat în grid (lasă o coloană liberă în stânga) */
+    grid-column: 2 / 10; /* Restored column space for text room */
     grid-row: 1;
     background-color: var(--forest, #1A3A1A);
     position: relative;
-    padding: 3rem 6rem 3rem 3rem; /* Padding dreapta mai mare pentru a proteja textul de suprapunere */
-    min-height: 40vh;
+    padding: 4rem 10rem 4rem 4rem; /* Substantial right padding to block text from overlapping with the small image */
+    min-height: 48vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,10 +56,11 @@
   }
 
   .small-rect {
-    grid-column: 9 / 12; /* Suprapune coloana 9, lasă coloana 12 liberă în dreapta pentru centrare */
+    grid-column: 9 / 12; /* Overlaps with large-rect (spans 2/10) to visually connect the elements */
     grid-row: 1;
     z-index: 5;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1.15 / 1;
+    max-width: 275px; /* increased slightly from 240px to 275px */
     box-shadow: 0 15px 30px rgba(0,0,0,0.2);
   }
 
@@ -178,6 +179,12 @@
       if (st)    { st.kill();      st    = null; }
       if (split) { split.revert(); split = null; }
 
+      // Fetch the translated string from translationsCache and assign it back to the node before split-type runs
+      const currentLang = localStorage.getItem('lang') || 'ro';
+      const key = textEl.getAttribute('data-i18n');
+      if (key && (window as any).translationsCache && (window as any).translationsCache[currentLang] && (window as any).translationsCache[currentLang][key]) {
+        textEl.innerHTML = (window as any).translationsCache[currentLang][key];
+      }
 
       // ── Split text into words ───────────────────────────────────────
       split = new SplitType(textEl, { types: "words", tagName: "span" });
@@ -207,7 +214,8 @@
       st = tl.scrollTrigger as ScrollTrigger;
     }
 
-    document.fonts.ready.then(build);
+    // Delay slightly to ensure translationsCache is initialized by Layout.astro
+    document.fonts.ready.then(() => setTimeout(build, 100));
 
     window.addEventListener("resize", () => {
       if (window.innerWidth === lastWidth) return;
@@ -215,7 +223,15 @@
       build();
     }, { passive: true });
 
-    window.addEventListener("langChanged", () => setTimeout(build, 50));
+    window.addEventListener("langChanged", (e: any) => {
+      const currentLang = e.detail || localStorage.getItem('lang') || 'ro';
+      // Fetch text directly from local storage key to update textEl before rebuilding split
+      const key = textEl.getAttribute('data-i18n');
+      if (key && (window as any).translationsCache && (window as any).translationsCache[currentLang] && (window as any).translationsCache[currentLang][key]) {
+        textEl.innerHTML = (window as any).translationsCache[currentLang][key];
+      }
+      setTimeout(build, 80);
+    });
   }
 
   if (document.readyState === "loading") {

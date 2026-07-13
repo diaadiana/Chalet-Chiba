@@ -1,42 +1,65 @@
----
----
 <section id="rezerva" class="rezerva-section">
-  <div class="rezerva-header">
-    <h2 class="rezerva-title" data-i18n="rezerva.title">Alege pachetul potrivit pentru escapada ta</h2>
-  </div>
+
   
   <div class="rezerva-container">
-    <div class="rezerva-cards">
-      <!-- Midweek -->
-      <div class="rezerva-card">
-        <h3 class="rezerva-card-title" data-i18n="rezerva.midweek_title">Pachet Midweek</h3>
-        <p class="rezerva-card-desc" data-i18n="rezerva.midweek_desc">Luni — Joi • Închiriere integrală</p>
-        <span class="rezerva-card-price" data-i18n="rezerva.midweek_price">2.500 RON / Noapte</span>
-      </div>
+    <!-- Editorial Pricing Layout -->
+    <div class="editorial-pricing">
       
+      <!-- Midweek -->
+      <div class="editorial-col slide-up">
+        <h3 class="editorial-title" data-i18n="rezerva.midweek_title">Pachet Midweek</h3>
+        <p class="editorial-desc" data-i18n="rezerva.midweek_desc">Luni — Joi</p>
+        <span class="editorial-price" data-i18n="rezerva.midweek_price">2.500 RON / Noapte</span>
+      </div>
+
+      <!-- Vertical Divider -->
+      <div class="editorial-divider slide-up" style="transition-delay: 0.2s;"></div>
+
       <!-- Weekend -->
-      <div class="rezerva-card special-card">
-        <h3 class="rezerva-card-title" data-i18n="rezerva.weekend_title">Pachet Weekend</h3>
-        <p class="rezerva-card-desc" data-i18n="rezerva.weekend_desc">Vineri — Duminică • Închiriere integrală</p>
-        <span class="rezerva-card-price" data-i18n="rezerva.weekend_price">3.500 RON / Noapte</span>
+      <div class="editorial-col slide-up" style="transition-delay: 0.4s;">
+        <h3 class="editorial-title" data-i18n="rezerva.weekend_title">Pachet Weekend</h3>
+        <p class="editorial-desc" data-i18n="rezerva.weekend_desc">Vineri — Duminică</p>
+        <span class="editorial-price" data-i18n="rezerva.weekend_price">3.500 RON / Noapte</span>
       </div>
-    </div>
-    
-    <!-- Minimalist details for Check-in / reception -->
-    <div class="rezerva-info-meta">
-      <div class="meta-item">
-        <h4 class="meta-title" data-i18n="rezerva.check_in_title">Check-in & Check-out</h4>
-        <p class="meta-desc" data-i18n="rezerva.check_in_desc">Check-in: după ora 14:00 • Check-out: înainte de ora 11:00.</p>
-      </div>
-      <div class="meta-item">
-        <h4 class="meta-title" data-i18n="rezerva.reception_title">Rezervări Individuale</h4>
-        <p class="meta-desc" data-i18n="rezerva.reception_desc">Contactează recepția cabanei pentru prețuri și disponibilitate pe camere individuale.</p>
-      </div>
+
     </div>
 
-    <div class="rezerva-action" style="text-align: center; margin-top: 3.5rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-      <a href="tel:+40769555558" class="rezerva-glass-btn" data-i18n="rezerva.btn">Sună pentru Rezervare</a>
+    <!-- Minimalist footnote for meta info -->
+    <div class="rezerva-info-meta slide-up" style="transition-delay: 0.6s;">
+      <p class="meta-desc">
+        <span data-i18n="rezerva.check_in_desc">Check-in: după ora 14:00 • Check-out: înainte de ora 11:00.</span>
+        <br>
+        <span data-i18n="rezerva.reception_desc">Contactează recepția cabanei pentru prețuri și disponibilitate pe camere individuale.</span>
+      </p>
+    </div>
+
+    <!-- Button directly below the text -->
+    <div class="rezerva-action slide-up" style="transition-delay: 0.8s;">
       <a href="https://booking.com" target="_blank" class="rezerva-glass-btn">Rezervă prin Booking</a>
     </div>
   </div>
 </section>
+
+<script>
+  function initReservationsAnimation() {
+    const elements = document.querySelectorAll('.slide-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    elements.forEach(el => observer.observe(el));
+  }
+
+  // Support Astro page transitions / hot reload
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReservationsAnimation);
+  } else {
+    initReservationsAnimation();
+  }
+</script>
+
