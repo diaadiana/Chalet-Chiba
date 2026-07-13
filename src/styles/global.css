@@ -1005,7 +1005,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 4rem 3rem;
+  padding: 3rem 3rem 3.5rem; /* Reduced top and bottom padding to shrink height */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -1019,7 +1019,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   background: rgba(0, 0, 0, 0.25);
   border-radius: 50px;
   padding: 4px;
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.5rem; /* Reduced from 3.5rem */
   width: 320px;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -1061,7 +1061,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
 .pricing-content-wrapper {
   position: relative;
   width: 100%;
-  height: 110px; /* fixed height to avoid layout shift */
+  height: 90px; /* Reduced from 110px to avoid empty space */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1087,9 +1087,9 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .pricing-days {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.6rem;
+  font-size: 2.4rem; /* Slightly smaller to fit tighter height */
   color: var(--cream);
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.25rem 0; /* Reduced from 0.5rem */
   font-weight: 300;
 }
 
@@ -1105,8 +1105,8 @@ nav.sc .lang-btn.active{color:var(--forest)}
 /* Static Meta Info */
 .rezerva-info-meta {
   text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-top: 1.5rem; /* Reduced from 2rem */
+  margin-bottom: 2.5rem; /* Reduced from 4rem */
 }
 
 .meta-desc {
