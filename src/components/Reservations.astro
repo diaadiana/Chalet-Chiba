@@ -1,47 +1,55 @@
 <section id="rezerva" class="rezerva-section">
 
   
-  <div class="rezerva-container">
-    <!-- Editorial Pricing Layout -->
-    <div class="editorial-pricing">
+  <div class="rezerva-container slide-up">
+    <div class="rezerva-single-card">
       
-      <!-- Midweek -->
-      <div class="editorial-col slide-up">
-        <h3 class="editorial-title" data-i18n="rezerva.midweek_title">Pachet Midweek</h3>
-        <p class="editorial-desc" data-i18n="rezerva.midweek_desc">Luni — Joi</p>
-        <span class="editorial-price" data-i18n="rezerva.midweek_price">2.500 RON / Noapte</span>
+      <!-- Pill Toggle -->
+      <div class="pill-toggle-container">
+        <div class="pill-active-bg" id="pill-bg"></div>
+        <button class="pill-btn active" id="btn-midweek" data-target="midweek">Midweek</button>
+        <button class="pill-btn" id="btn-weekend" data-target="weekend">Weekend</button>
       </div>
 
-      <!-- Vertical Divider -->
-      <div class="editorial-divider slide-up" style="transition-delay: 0.2s;"></div>
+      <!-- Content Area -->
+      <div class="pricing-content-wrapper">
+        
+        <!-- Midweek Content -->
+        <div class="pricing-content active" id="content-midweek">
+          <p class="pricing-days">Luni — Joi</p>
+          <p class="pricing-price">2.500 RON / Noapte</p>
+        </div>
 
-      <!-- Weekend -->
-      <div class="editorial-col slide-up" style="transition-delay: 0.4s;">
-        <h3 class="editorial-title" data-i18n="rezerva.weekend_title">Pachet Weekend</h3>
-        <p class="editorial-desc" data-i18n="rezerva.weekend_desc">Vineri — Duminică</p>
-        <span class="editorial-price" data-i18n="rezerva.weekend_price">3.500 RON / Noapte</span>
+        <!-- Weekend Content -->
+        <div class="pricing-content" id="content-weekend">
+          <p class="pricing-days">Vineri — Duminică</p>
+          <p class="pricing-price">3.500 RON / Noapte</p>
+        </div>
+
       </div>
 
-    </div>
+      <!-- Static Meta Info -->
+      <div class="rezerva-info-meta">
+        <p class="meta-desc">
+          <span>Check in: 14:00 • Check out: 11:00</span>
+          <br><br>
+          <span>Contactează recepția pentru prețuri și disponibilitate pe camere individuale.</span>
+        </p>
+      </div>
 
-    <!-- Minimalist footnote for meta info -->
-    <div class="rezerva-info-meta slide-up" style="transition-delay: 0.6s;">
-      <p class="meta-desc">
-        <span data-i18n="rezerva.check_in_desc">Check-in: după ora 14:00 • Check-out: înainte de ora 11:00.</span>
-        <br>
-        <span data-i18n="rezerva.reception_desc">Contactează recepția cabanei pentru prețuri și disponibilitate pe camere individuale.</span>
-      </p>
-    </div>
+      <!-- Action Buttons -->
+      <div class="rezerva-actions-row">
+        <a href="https://booking.com" target="_blank" class="rezerva-glass-btn">Booking</a>
+        <a href="tel:+40000000000" class="rezerva-glass-btn">Telefon</a>
+      </div>
 
-    <!-- Button directly below the text -->
-    <div class="rezerva-action slide-up" style="transition-delay: 0.8s;">
-      <a href="https://booking.com" target="_blank" class="rezerva-glass-btn">Rezervă prin Booking</a>
     </div>
   </div>
 </section>
 
 <script>
-  function initReservationsAnimation() {
+  function initReservationsInteraction() {
+    // 1. Scroll Animation
     const elements = document.querySelectorAll('.slide-up');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -50,16 +58,46 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.2 });
-
+    }, { threshold: 0.1 });
     elements.forEach(el => observer.observe(el));
+
+    // 2. Pill Toggle Logic
+    const btnMidweek = document.getElementById('btn-midweek');
+    const btnWeekend = document.getElementById('btn-weekend');
+    const pillBg = document.getElementById('pill-bg');
+    
+    const contentMidweek = document.getElementById('content-midweek');
+    const contentWeekend = document.getElementById('content-weekend');
+
+    function switchTab(tab) {
+      if (!btnMidweek || !btnWeekend || !pillBg || !contentMidweek || !contentWeekend) return;
+
+      if (tab === 'midweek') {
+        pillBg.style.transform = 'translateX(0)';
+        btnMidweek.classList.add('active');
+        btnWeekend.classList.remove('active');
+
+        contentMidweek.classList.add('active');
+        contentWeekend.classList.remove('active');
+      } else {
+        pillBg.style.transform = 'translateX(100%)';
+        btnWeekend.classList.add('active');
+        btnMidweek.classList.remove('active');
+
+        contentWeekend.classList.add('active');
+        contentMidweek.classList.remove('active');
+      }
+    }
+
+    if (btnMidweek) btnMidweek.addEventListener('click', () => switchTab('midweek'));
+    if (btnWeekend) btnWeekend.addEventListener('click', () => switchTab('weekend'));
   }
 
   // Support Astro page transitions / hot reload
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initReservationsAnimation);
+    document.addEventListener('DOMContentLoaded', initReservationsInteraction);
   } else {
-    initReservationsAnimation();
+    initReservationsInteraction();
   }
 </script>
 
