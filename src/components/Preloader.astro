@@ -83,34 +83,82 @@ import rawSvg from '../../public/preloadercabana.svg?raw';
     const icon = document.getElementById('preloader-icon');
     const text = document.getElementById('preloader-text');
     
+    // Get the video element on the landing page
+    const video = document.querySelector('.hero-vid') as HTMLVideoElement | null;
+    
+    let isVideoReady = false;
+    let isAnimDone = false;
+    let fallbackTimeout: any = null;
+
+    function hidePreloader() {
+      if (!preloader || preloader.classList.contains('loaded')) return;
+      
+      clearTimeout(fallbackTimeout);
+      preloader.classList.add('loaded');
+      
+      // Ensure the background video starts playing seamlessly
+      if (video) {
+        video.play().catch(e => {
+          console.log('Video autoplay blocked or interrupted:', e);
+        });
+      }
+    }
+
+    function checkReady() {
+      // Hide the preloader only when the animation is finished AND the video is ready to play
+      if (isAnimDone && (isVideoReady || !video)) {
+        hidePreloader();
+      }
+    }
+
+    // Safety fallback: if video or assets take too long to load, hide preloader anyway after 4 seconds
+    fallbackTimeout = setTimeout(() => {
+      hidePreloader();
+    }, 4000);
+
+    if (video) {
+      // Check if video is already buffered/ready to play
+      if (video.readyState >= 3) {
+        isVideoReady = true;
+      } else {
+        // Listen to canplay/loadeddata as events that signal the video is ready
+        video.addEventListener('canplay', () => {
+          isVideoReady = true;
+          checkReady();
+        }, { once: true });
+        
+        video.addEventListener('loadeddata', () => {
+          isVideoReady = true;
+          checkReady();
+        }, { once: true });
+      }
+    }
+
     if (!icon || !text) {
-      setTimeout(() => preloader?.classList.add('loaded'), 1000);
+      setTimeout(hidePreloader, 1000);
       return;
     }
 
     const tl = gsap.timeline({
       onComplete: () => {
-        // Dispare după animație
-        setTimeout(() => preloader?.classList.add('loaded'), 600);
+        isAnimDone = true;
+        checkReady();
       }
     });
 
-    // Animația cabanei ("se construiește" de jos în sus în 2 secunde)
+    // Cabin building animation (reveal from bottom-up in 2.2 seconds)
     tl.to(icon, {
       clipPath: 'inset(0% 0% 0% 0%)',
-      duration: 2,
+      duration: 2.2,
       ease: 'power2.inOut'
     }, 0);
 
-    // Textul apare treptat
+    // Text fades in smoothly
     tl.to(text, {
       opacity: 1,
-      duration: 1.5,
+      duration: 1.6,
       ease: 'power2.out'
-    }, 0.5); // Începe cu o mică întârziere (după jumătate de secundă)
-    
-    // Fallback de siguranță
-    setTimeout(() => preloader?.classList.add('loaded'), 5000);
+    }, 0.6);
   }
 
   if (document.readyState === 'loading') {

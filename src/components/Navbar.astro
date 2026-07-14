@@ -28,6 +28,31 @@
   </div>
 </nav>
 
+<!-- Floating Audio Button (Independent of Nav scroll hiding) -->
+<button id="nav-audio-btn" class="nav-audio-btn" title="Ascultă sunetul pădurii" aria-label="Sunetul pădurii">
+  <svg class="bird-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Body Outline -->
+    <path d="M 9.5 3.5 C 12.5 3.5 15.5 4.5 16.8 6.8 C 17.2 7.8 17 9.2 16 10.5 C 14.8 12.2 13.2 13.5 12 14.2 L 12 21 C 12 21.5 11.7 22 11.2 22 L 9.2 22 C 8.7 22 8.5 21.5 8.5 21 L 8.5 16 C 6 14.5 5.2 11.8 5.2 9.5 C 5.2 6.2 7.2 3.5 9.5 3.5 Z" />
+    <!-- Beak -->
+    <path d="M 16.8 6.8 L 19.5 7.3 L 16.6 8.3 Z" fill="currentColor" stroke="none" />
+    <!-- Eye (white/cream fill with dark pupil) -->
+    <circle cx="13.8" cy="7.2" r="2" stroke="currentColor" stroke-width="1.1" fill="var(--off, #F5F0E8)" />
+    <circle cx="14.3" cy="7.2" r="0.8" fill="#1A341A" stroke="none" />
+    <!-- Wing -->
+    <path d="M 9.5 8.5 C 12.2 8.5 14 9.5 14.3 11 C 14.3 11.8 13.7 12.5 13 12.8 C 11.8 13.6 10.5 14 9.2 13.5 C 8.5 12.8 8.2 11.2 9.5 8.5 Z" />
+    <!-- Wing Inner feathers -->
+    <path d="M 12.5 9.8 C 13.2 10.3 13.5 11 13.3 11.8" />
+    <path d="M 11.2 10.8 C 11.8 11.3 12.1 12 11.9 12.7" />
+    <!-- Chest ticks (hand-drawn feather details) -->
+    <path d="M 7.2 9 C 7 9.5 7 10 7.2 10.5" />
+    <path d="M 6.3 10 C 6.1 10.5 6.1 11 6.3 11.5" />
+    <path d="M 7.4 11.2 C 7.2 11.7 7.2 12.2 7.4 12.7" />
+    <!-- Tail dividers -->
+    <path d="M 9.7 16.5 L 9.7 21.5" />
+    <path d="M 10.8 16.5 L 10.8 21.5" />
+  </svg>
+</button>
+
 <script>
   const nav = document.getElementById('mainNav');
   if (nav) {
@@ -45,5 +70,68 @@
       }
       
     }, { passive: true });
+  }
+
+  // Ambient Audio Logic
+  const audioBtn = document.getElementById('nav-audio-btn');
+  const audio = new Audio('/forest-ambient.mp3');
+  audio.loop = true;
+  audio.volume = 0;
+  let isPlaying = false;
+  let fadeInterval: any = null;
+
+  function playAudio() {
+    clearInterval(fadeInterval);
+    audio.play().then(() => {
+      audioBtn?.classList.add('playing');
+      isPlaying = true;
+      fadeInterval = setInterval(() => {
+        if (audio.volume < 0.22) { // 22% is a perfect gentle ambient background volume
+          audio.volume = Math.min(0.22, audio.volume + 0.02);
+        } else {
+          clearInterval(fadeInterval);
+        }
+      }, 80);
+    }).catch(e => {
+      console.log('Audio autoplay blocked:', e);
+      audioBtn?.classList.remove('playing');
+      isPlaying = false;
+    });
+  }
+
+  function pauseAudio() {
+    clearInterval(fadeInterval);
+    fadeInterval = setInterval(() => {
+      if (audio.volume > 0.02) {
+        audio.volume = Math.max(0, audio.volume - 0.02);
+      } else {
+        clearInterval(fadeInterval);
+        audio.pause();
+        audioBtn?.classList.remove('playing');
+        isPlaying = false;
+      }
+    }, 50);
+  }
+
+  if (audioBtn) {
+    audioBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isPlaying) {
+        pauseAudio();
+        localStorage.setItem('audioPreferred', 'false');
+      } else {
+        playAudio();
+        localStorage.setItem('audioPreferred', 'true');
+      }
+    });
+  }
+
+  // If user preferred audio on a previous page load, play it on first interaction
+  if (localStorage.getItem('audioPreferred') === 'true') {
+    const startOnInteraction = () => {
+      playAudio();
+      document.removeEventListener('click', startOnInteraction);
+    };
+    document.addEventListener('click', startOnInteraction);
   }
 </script>

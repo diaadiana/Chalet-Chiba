@@ -83,7 +83,7 @@
   .gallery-carousel-fan-container {
     position: relative;
     width: 100%;
-    height: 480px; /* adjusted to fit viewport nicely without clipping */
+    height: 525px; /* adjusted to fit medium-large slides nicely without clipping */
     overflow: visible; /* ensures 3D transforms aren't clipped */
   }
   .gallery-facilities-wrap {
@@ -127,6 +127,9 @@
     vertical-align: middle;
   }
   @media (max-width: 768px) {
+    .gallery-carousel-fan-container {
+      height: clamp(320px, 86vw, 460px); /* dynamically scales height to perfectly frame the cards */
+    }
     .gallery-facilities-list {
       gap: 1rem 1.5rem;
       padding-top: 1.5rem;

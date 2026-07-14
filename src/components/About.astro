@@ -4,18 +4,18 @@
 
   <div class="layout-container">
     <div class="large-rect" id="about-large-rect">
-
-
-
       <div class="about-inner">
         <p class="about-text" id="about-text" data-i18n="about.text1">
           Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă. Un adăpost liniștit lângă Brașov.
         </p>
       </div>
+      <!-- Floating Bird in the bottom left of the green box -->
+      <div class="about-bird-container-new">
+        <img src="/images/pasere1.svg?v=3" alt="Pasăre decorativă" class="about-bird-img" />
+      </div>
     </div>
 
     <div class="small-rect">
-      <!-- User requested to put the attached water image here -->
       <img src="/images/Chiba-23.webp" alt="Pârâul din curte" class="attached-image" id="water-image" />
     </div>
   </div>
@@ -23,7 +23,7 @@
 
 <style>
   .about-section {
-    background: var(--off, #F9F6F0);
+    background: #E3EAE0; /* faded/muted greenish background */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .small-rect {
@@ -137,22 +137,89 @@
   }
 
   @media (max-width: 992px) {
+    .about-section {
+      padding: 5rem 1.5rem 6.5rem 1.5rem; /* extra bottom padding to accommodate the overlapping image */
+    }
     .layout-container {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      width: 100%;
+      max-width: 500px; /* bounds width on mobile/tablets to keep it elegant and readable */
+      margin: 0 auto;
+      position: relative;
     }
     .large-rect {
       width: 100%;
-      padding: 4rem 2rem;
+      padding: 4.5rem 2.2rem 5.5rem 2.2rem; /* extra bottom padding so text doesn't touch the overlapping image bounds */
+      min-height: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
     .small-rect {
-      width: 90%;
-      margin-top: -4rem; /* create overlap vertically */
-      align-self: flex-end;
+      width: 75%;
+      max-width: 300px;
+      aspect-ratio: 1.15 / 1;
+      margin-top: -3.8rem; /* vertical overlap */
+      align-self: flex-end; /* aligned to the right */
+      margin-right: 1rem; /* slight offset from the right boundary for a more dynamic, artistic look */
+      z-index: 5;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+      border-radius: 4px;
     }
-    .about-facilities-tags {
-      gap: 0.8rem 1.2rem !important;
+    .about-text {
+      font-size: clamp(1.2rem, 4.5vw, 1.55rem);
+      line-height: 1.6;
+    }
+  }
+
+  /* Floating Chirping Bird */
+  .about-bird-container-new {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.5rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+    width: 4.5rem;
+    height: auto;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.55), z-index 0.6s step-end;
+    transform-origin: left bottom;
+  }
+
+  .about-bird-container-new.zoomed {
+    z-index: 99;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.55), z-index 0s;
+    transform: scale(4.2) translateY(-8px) translateX(8px) rotate(6deg); /* BOOM zoom slightly adjusted for larger base size */
+  }
+
+  .about-bird-container-new:hover:not(.zoomed) {
+    transform: scale(1.15) rotate(-4deg);
+  }
+
+  .about-bird-img {
+    width: 100%;
+    height: auto;
+    opacity: 0.85;
+    display: block;
+    transition: opacity 0.3s ease;
+  }
+
+  .about-bird-container-new:hover .about-bird-img,
+  .about-bird-container-new.zoomed .about-bird-img {
+    opacity: 1;
+  }
+
+
+
+  /* Responsive layout overrides */
+  @media (max-width: 900px) {
+    .about-bird-container-new {
+      bottom: 0.8rem;
+      left: 0.7rem;
+      width: 3.5rem;
     }
   }
 </style>
@@ -170,6 +237,14 @@
     const textEl   = document.getElementById("about-text") as HTMLElement | null;
 
     if (!section || !largeRect || !textEl) return;
+
+    // Click to Zoom Interactive easter-egg
+    const bird = section.querySelector('.about-bird-container-new');
+    if (bird) {
+      bird.addEventListener('click', () => {
+        bird.classList.toggle('zoomed');
+      });
+    }
 
     let split: InstanceType<typeof SplitType> | null = null;
     let st: ScrollTrigger | null = null;

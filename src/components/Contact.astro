@@ -39,3 +39,92 @@
     <p class="contact-credit">Designed and made by <a href="https://achieve.ro" target="_blank" rel="noopener noreferrer">achieve.ro</a></p>
   </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+
+  function initGiantText() {
+    const el = document.querySelector('.contact-giant-text');
+    if (!el) return;
+
+    // Prevent duplicate wrapping
+    if (el.querySelector('.jump-letter')) return;
+
+    // Recursive text node wrapping to preserve formatting tags like <em>
+    function wrapText(node: Node) {
+      const children = Array.from(node.childNodes);
+      children.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = child.textContent || '';
+          const fragment = document.createDocumentFragment();
+          text.split('').forEach(char => {
+            if (char === ' ') {
+              fragment.appendChild(document.createTextNode(' '));
+            } else {
+              const span = document.createElement('span');
+              span.className = 'jump-letter';
+              span.textContent = char;
+              fragment.appendChild(span);
+            }
+          });
+          child.parentNode?.replaceChild(fragment, child);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          wrapText(child);
+        }
+      });
+    }
+
+    wrapText(el);
+
+    const letters = el.querySelectorAll('.jump-letter');
+    if (letters.length === 0) return;
+
+    // 1. Hover interaction
+    letters.forEach(letter => {
+      letter.addEventListener('mouseenter', () => {
+        gsap.to(letter, {
+          top: -22,
+          duration: 0.16,
+          ease: "power2.out",
+          overwrite: "auto",
+          onComplete: () => {
+            gsap.to(letter, {
+              top: 0,
+              duration: 0.55,
+              ease: "bounce.out"
+            });
+          }
+        });
+      });
+    });
+
+    // 2. Continuous random ambient jumps
+    function scheduleJump() {
+      const randIndex = Math.floor(Math.random() * letters.length);
+      const letter = letters[randIndex];
+      if (letter) {
+        gsap.to(letter, {
+          top: -15,
+          duration: 0.2,
+          ease: "power2.out",
+          onComplete: () => {
+            gsap.to(letter, {
+              top: 0,
+              duration: 0.55,
+              ease: "bounce.out"
+            });
+          }
+        });
+      }
+      setTimeout(scheduleJump, gsap.utils.random(800, 2500));
+    }
+
+    setTimeout(scheduleJump, 2000);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGiantText);
+  } else {
+    initGiantText();
+  }
+</script>

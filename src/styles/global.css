@@ -1,6 +1,24 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{}
-body{font-family:'Jost',sans-serif;background:#F9F6F0;color:#141C12;overflow-x:hidden}
+html {
+  overflow-y: scroll; /* Forces standard scroll viewport availability */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+body {
+  font-family:'Jost',sans-serif;
+  background:#F9F6F0;
+  color:#141C12;
+  overflow-x:hidden;
+  overflow-y: auto; /* Ensures standard scrolling is enabled */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
 img{display:block;max-width:100%}
 a{text-decoration:none}
 
@@ -63,12 +81,12 @@ nav.sc .logo-t{color:var(--sage)}
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 2.2rem;
+  gap: clamp(1.1rem, 1.6vw, 2.2rem); /* Dynamic gap to shrink on narrower desktop viewports */
   background: rgba(26, 52, 26, 0.18);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: none;
-  padding: 0.8rem 2.4rem;
+  padding: 0.8rem clamp(1.4rem, 2vw, 2.4rem); /* Dynamic padding */
   border-radius: 25px;
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.08), 
@@ -82,7 +100,7 @@ nav.sc .nav-links {
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
-.nav-links a{font-size:0.82rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.85);font-weight:400;transition:color 0.3s}
+.nav-links a{font-size:0.82rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.85);font-weight:400;transition:color 0.3s;white-space:nowrap}
 nav.sc .nav-links a{color:var(--muted)}
 .nav-links a:hover{color:var(--gold)!important}
 .nav-r{display:flex;align-items:center;gap:2rem}
@@ -106,6 +124,93 @@ nav.sc .nav-map-btn {
 nav.sc .nav-map-btn:hover {
   color: var(--gold);
 }
+
+/* Ambient Audio Button (Floating bottom right) */
+.nav-audio-btn {
+  position: fixed;
+  bottom: 2.2rem;
+  right: 2.2rem;
+  z-index: 999;
+  background: rgba(26, 52, 26, 0.45); /* Glass forest green base */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 3.2rem;
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+  outline: none;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.12), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.nav-audio-btn:hover {
+  border-color: var(--gold);
+  background: rgba(26, 52, 26, 0.6);
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 
+    0 14px 35px rgba(0, 0, 0, 0.18), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.nav-audio-btn:active {
+  transform: scale(0.96) translateY(0);
+}
+
+.bird-icon {
+  width: 1.5rem; /* Larger size to stand out as the sole icon */
+  height: 1.5rem;
+  color: rgba(245, 240, 232, 0.95);
+  transition: color 0.3s, transform 0.3s;
+  transform-origin: center bottom;
+}
+
+.nav-audio-btn:hover .bird-icon {
+  color: var(--gold);
+  transform: rotate(-8deg) scale(1.05);
+}
+
+/* Rocking / singing animation when audio is playing */
+@keyframes birdSinging {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  30% {
+    transform: rotate(-6deg) scale(1.06);
+  }
+  60% {
+    transform: rotate(6deg) scale(1.06);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.nav-audio-btn.playing .bird-icon {
+  animation: birdSinging 1.8s ease-in-out infinite;
+  color: var(--gold);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 900px) {
+  .nav-audio-btn {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+  .bird-icon {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+}
+
 .nav-lang{display:flex;align-items:center;gap:0.25rem;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,255,255,0.85);transition:color var(--tr)}
 nav.sc .nav-lang{color:var(--muted)}
 .lang-btn{background:none;border:none;padding:0.5rem 0.6rem;margin:0;font-family:inherit;font-size:inherit;letter-spacing:inherit;color:currentColor;cursor:pointer;opacity:0.5;transition:opacity 0.3s,color 0.3s,font-weight 0.3s}
@@ -501,9 +606,9 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .carousel-item {
   position: absolute;
-  width: 24vw;
-  max-width: 320px;
-  min-width: 200px;
+  width: 26vw;
+  max-width: 345px;
+  min-width: 205px;
   aspect-ratio: 2 / 3;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease, filter 0.8s ease;
   display: flex;
@@ -524,7 +629,8 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 @media(max-width: 900px) {
   .carousel-item {
-    width: 45vw;
+    width: 56vw;
+    max-width: 300px;
     height: auto;
   }
   .gallery-header-overlay {
@@ -944,15 +1050,48 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 /* RESERVATIONS SECTION */
 .rezerva-section {
-  min-height: auto; /* changed from 100vh to prevent height clipping of buttons */
+  min-height: 100vh; /* Set to exactly 100vh to ensure it is centered perfectly on the screen */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8rem 6rem; /* increased from 5rem to make it much more airy and tall */
+  padding: 4rem 2rem; /* Adjusted padding to ensure it fits without clipping */
   background: var(--forest);
   position: relative;
+}
+
+/* Floating Particles Container */
+.rezerva-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
   overflow: hidden;
+}
+
+.r-particle {
+  position: absolute;
+  bottom: -10px;
+  background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  90% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.5);
+    opacity: 0;
+  }
 }
 
 .rezerva-header {
@@ -961,7 +1100,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   flex-direction: column;
   align-items: center;
   margin-top: 0;
-  margin-bottom: 3.5rem; /* increased from 1.5rem */
+  margin-bottom: 3.5rem;
   width: 100%;
 }
 
@@ -972,16 +1111,16 @@ nav.sc .lang-btn.active{color:var(--forest)}
   text-transform: uppercase;
   color: var(--gold);
   font-weight: 500;
-  margin-bottom: 0.6rem; /* reduced from 1.2rem */
+  margin-bottom: 0.6rem;
 }
 
 .rezerva-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.8rem, 3vw, 2.6rem); /* slightly scaled down title */
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 300;
   color: var(--off);
   line-height: 1.25;
-  margin-bottom: 0.5rem; /* reduced from 1.8rem */
+  margin-bottom: 0.5rem;
 }
 
 .rezerva-divider {
@@ -994,34 +1133,55 @@ nav.sc .lang-btn.active{color:var(--forest)}
 .rezerva-container {
   max-width: 1000px;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-/* Single Card Pill Toggle Layout */
+/* Single Card — Cream Premium */
 .rezerva-single-card {
-  max-width: 950px;
+  max-width: 680px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: #F2EDE3; /* Exact rooms page cream background */
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 3rem 3rem 3.5rem; /* Reduced top and bottom padding to shrink height */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border: none;
+  padding: 2.2rem 2.5rem 2.5rem;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.25),
+    0 10px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  margin-top: -4vh;
 }
 
-/* Pill Toggle */
+/* Subtle animated border glow */
+.rezerva-single-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(184,149,90,0.3), transparent 40%, transparent 60%, rgba(184,149,90,0.2));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.rezerva-single-card:hover::before {
+  opacity: 1;
+}
+
+/* Pill Toggle - Solid Style */
 .pill-toggle-container {
   display: flex;
   position: relative;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(26, 58, 26, 0.08); /* Clean light green container background */
   border-radius: 50px;
   padding: 4px;
-  margin-bottom: 2.5rem; /* Reduced from 3.5rem */
-  width: 320px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 1.8rem;
+  width: 340px;
+  box-shadow:
+    inset 0 2px 6px rgba(26, 58, 26, 0.06);
 }
 
 .pill-active-bg {
@@ -1030,10 +1190,11 @@ nav.sc .lang-btn.active{color:var(--forest)}
   left: 4px;
   width: calc(50% - 4px);
   height: calc(100% - 8px);
-  background: var(--off);
+  background: var(--forest); /* Active slide is forest green */
   border-radius: 46px;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
+  box-shadow: 0 4px 15px rgba(26, 58, 26, 0.25);
 }
 
 .pill-btn {
@@ -1041,27 +1202,36 @@ nav.sc .lang-btn.active{color:var(--forest)}
   background: transparent;
   border: none;
   font-family: 'Jost', sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.8rem 0;
-  color: var(--off);
+  letter-spacing: 0.12em;
+  padding: 0.85rem 0;
+  color: var(--muted); /* Inactive text is muted green */
   cursor: pointer;
   z-index: 2;
-  transition: color 0.4s ease;
+  transition: color 0.4s ease, transform 0.2s ease;
   outline: none;
 }
 
-.pill-btn.active {
+.pill-btn:hover {
   color: var(--forest);
+}
+
+.pill-btn.active {
+  color: var(--off); /* Active text is white/off-white */
+  font-weight: 600;
+}
+
+.pill-btn:active {
+  transform: scale(0.97);
 }
 
 /* Pricing Content */
 .pricing-content-wrapper {
   position: relative;
   width: 100%;
-  height: 90px; /* Reduced from 110px to avoid empty space */
+  height: 95px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1074,110 +1244,181 @@ nav.sc .lang-btn.active{color:var(--forest)}
   left: 0;
   width: 100%;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   pointer-events: none;
 }
 
 .pricing-content.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: all;
 }
 
 .pricing-days {
   font-family: 'Cormorant Garamond', serif;
   font-size: 2.8rem;
-  color: var(--off);
-  margin: 0 0 0.25rem 0;
-  font-weight: 400;
-  font-style: italic;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  color: var(--forest); /* Forest green matching site style */
+  margin: 0 0 0.3rem 0;
+  font-weight: 300; /* Lighter font weight to match site style */
+  font-style: normal;
+  letter-spacing: 0.02em;
+  text-shadow: none;
 }
 
 .pricing-price {
   font-family: 'Jost', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.25em;
+  font-size: 1.25rem; /* Increased size as requested */
+  font-weight: 500; /* Slightly heavier for better presence */
+  letter-spacing: 0.18em;
   color: var(--gold);
   margin: 0;
   text-transform: uppercase;
-  text-shadow: 0 2px 10px rgba(184, 149, 90, 0.25);
+}
+
+/* Shimmer effect on price text */
+.shimmer-text {
+  display: inline-block;
+  background: linear-gradient(
+    110deg,
+    var(--gold) 0%,
+    var(--gold) 40%,
+    #e8d5a8 50%,
+    var(--gold) 60%,
+    var(--gold) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 200% center; }
+  50% { background-position: -200% center; }
+}
+
+/* Decorative Separator */
+.rezerva-separator {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); /* Solid gold */
+  margin: 0.5rem 0 1.5rem;
 }
 
 /* Static Meta Info */
 .rezerva-info-meta {
   text-align: center;
-  margin-top: 1.5rem;
-  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.8rem; /* Reduced from 2.5rem to shrink height */
 }
 
-.meta-desc {
+.meta-highlight-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.2rem;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.meta-time {
   font-family: 'Jost', sans-serif;
-  line-height: 1.8;
-  margin: 0;
-}
-
-.meta-highlight {
-  font-size: 1.2rem;
-  font-family: 'Cormorant Garamond', serif;
-  color: var(--off);
+  font-size: 0.95rem;
+  color: var(--forest);
+  font-weight: 400;
 }
 
 .meta-accent {
   color: var(--gold);
   font-family: 'Jost', sans-serif;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .meta-sub {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  color: var(--muted); /* Inverted to muted green */
+  letter-spacing: 0.04em;
+  font-style: normal; /* Normal style */
 }
 
 /* Action Buttons */
 .rezerva-actions-row {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   justify-content: center;
   width: 100%;
 }
 
-.rezerva-glass-btn {
-  display: inline-block;
-  flex: 1;
-  max-width: 200px;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--off);
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  padding: 1rem 2rem;
-  border-radius: 4px;
+.btn-icon-only {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  z-index: 2; /* Keep above hover glow */
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.rezerva-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px; /* Perfectly sized circular buttons */
+  height: 52px;
+  border-radius: 50%;
+  background: var(--forest); /* Solid forest green button base */
+  border: 1px solid var(--forest);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  text-align: center;
+  box-shadow: 0 8px 20px rgba(26, 58, 26, 0.15);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.rezerva-glass-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: var(--off);
-  transform: translateY(-2px);
-  color: var(--off);
+.btn-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(184,149,90,0.2), transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  pointer-events: none;
 }
 
-/* Animations for Layout */
+.rezerva-icon-btn:hover {
+  background: var(--sage);
+  border-color: var(--sage);
+  transform: translateY(-3px) scale(1.05); /* Slight grow to feel reactive */
+  box-shadow: 0 10px 24px rgba(26, 58, 26, 0.25);
+}
+
+.rezerva-icon-btn:hover .btn-icon-only {
+  transform: scale(1.08); /* Pop the inner icon slightly */
+}
+
+.rezerva-icon-btn:hover .btn-glow {
+  width: 120px;
+  height: 120px;
+}
+
+.rezerva-icon-btn:active {
+  transform: translateY(-1px) scale(0.96);
+}
+
+
+/* Animations for Layout — Staggered Reveal */
 .slide-up {
   opacity: 0;
   transform: translateY(30px);
@@ -1190,17 +1431,30 @@ nav.sc .lang-btn.active{color:var(--forest)}
 }
 
 @media (max-width: 768px) {
+  .rezerva-section {
+    padding: 5rem 1.5rem;
+  }
   .rezerva-single-card {
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+  }
+  .pill-toggle-container {
+    width: 280px;
+  }
+  .pricing-days {
+    font-size: 2.2rem;
   }
   .rezerva-actions-row {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: center;
   }
   .rezerva-glass-btn {
     width: 100%;
     max-width: 100%;
+  }
+  .rezerva-gold-line {
+    margin-bottom: 2rem;
   }
 }
 
@@ -1271,10 +1525,24 @@ nav.sc .lang-btn.active{color:var(--forest)}
   position: absolute;
   left: 48.5%;
   transform: translateX(-50%);
-  bottom: 4rem;
+  bottom: 5.2rem;
   z-index: 0;
   letter-spacing: -0.06em;
   font-weight: 500;
+  overflow: visible;
+}
+
+.jump-letter {
+  position: relative;
+  display: inline;
+  will-change: top;
+  pointer-events: auto; /* allow hover events on letters while container is click-through */
+  cursor: default;
+  transition: color 0.3s ease;
+}
+
+.jump-letter:hover {
+  color: rgba(245, 240, 232, 0.1); /* subtle highlight on hover */
 }
 
 .contact-header {
@@ -1326,7 +1594,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   width: 100%;
   align-items: flex-start;
   padding-top: 0;
-  margin-top: -14.5rem;
+  margin-top: -18.5rem;
   position: relative;
   z-index: 2;
 }
@@ -1447,8 +1715,12 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 /* RESPONSIVENESS */
 @media(max-width: 900px) {
-  .gallery-section, .rezerva-section, .contact-section {
+  .gallery-section, .rezerva-section {
     padding: 6rem 1.8rem;
+    height: auto;
+  }
+  .contact-section {
+    padding: 6rem 1.8rem 6.5rem 1.8rem; /* added extra bottom padding to account for the absolute footer */
     height: auto;
   }
   
@@ -1465,6 +1737,8 @@ nav.sc .lang-btn.active{color:var(--forest)}
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 4rem;
+    margin-top: 0; /* Reset negative margin on mobile to prevent content from hiding under previous section */
+    margin-bottom: 5.5rem; /* Pushes the contact form up to leave clear breathing space for Chalet Chiba text below */
   }
   
   .contact-form {
@@ -1472,14 +1746,22 @@ nav.sc .lang-btn.active{color:var(--forest)}
   }
 
   .contact-footer {
-    position: relative;
-    width: 100%;
-    bottom: auto;
-    margin-top: 2rem;
-    padding-bottom: 2rem;
-    flex-direction: column;
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.8rem;
+    width: calc(100% - 3.6rem);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
-    text-align: center;
+  }
+  .contact-copy, .contact-credit {
+    font-size: clamp(0.68rem, 2.5vw, 0.8rem);
+  }
+  .contact-giant-text {
+    font-size: 22.2vw; /* slightly smaller on mobile/tablets to prevent screen overflow */
+    bottom: 5.5rem;
   }
 }
 
