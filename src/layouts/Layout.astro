@@ -14,7 +14,11 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=5" />
+		
+		<!-- Preload the hero poster to eliminate any millisecond flashes -->
+		<link rel="preload" as="image" href="/hero-poster.jpg" />
+		
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- SEO Meta Tags -->
@@ -44,6 +48,12 @@ const { title } = Astro.props;
 		<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
 		<!-- JSON-LD Local Business Structured Data for Google search index -->
+		<script>
+			if (window.history && 'scrollRestoration' in window.history) {
+				window.history.scrollRestoration = 'manual';
+			}
+			window.scrollTo(0, 0);
+		</script>
 		<script type="application/ld+json">
 			{
 				"@context": "https://schema.org",
@@ -92,7 +102,10 @@ const { title } = Astro.props;
 					"document.description": "Retrage-te în inima Munților Bucegi la Chalet Chiba. Confort premium, peisaje spectaculoase și experiențe montane autentice în Carpații României. Rezervă acum o escapadă de neuitat!",
 					"about.label": "POVESTEA NOASTRĂ",
 					"about.title": "Bine ați venit la Chiba Chalet!",
-					"about.text1": "Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă. Un adăpost liniștit lângă Brașov.",
+					"about.heading": "Despre...",
+					"about.subheading": "Chalet Chiba",
+					"about.text1": "Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă.",
+					"about.text2": "Un adăpost confortabil și liniștit lângă Brașov.",
 					"about.cta": "Descoperă Experiențele",
 					"exp.label": "EXPERIENȚE",
 					"exp.title": "Descoperă Experiențele Locale",
@@ -186,7 +199,10 @@ const { title } = Astro.props;
 					"document.description": "Retreat to the heart of the Bucegi Mountains at Chalet Chiba. Premium comfort, spectacular landscapes, and authentic mountain experiences in the Romanian Carpathians. Book your unforgettable getaway now!",
 					"about.label": "OUR STORY",
 					"about.title": "Welcome to Chiba Chalet!",
-					"about.text1": "Slow down. Choose the quiet of the forest, listen to the backyard stream and rediscover a morning without an agenda. A peaceful shelter near Brașov.",
+					"about.heading": "About...",
+					"about.subheading": "Chalet Chiba",
+					"about.text1": "Chalet Chiba is a luxury cabin hidden in the heart of the mountains, where wild nature meets modern comfort. Every detail of the space has been designed to create a complete relaxation experience — from the warm wood and stone interiors to the panoramic views from the terrace.",
+					"about.text2": "Whether you come with family, friends or as a couple, Chiba offers you an authentic refuge, far from the daily noise.",
 					"about.cta": "Discover the Experiences",
 					"exp.label": "EXPERIENCES",
 					"exp.title": "Discover Local Experiences",
@@ -280,7 +296,10 @@ const { title } = Astro.props;
 					"document.description": "Ziehen Sie sich in das Herz der Bucegi-Berge im Chalet Chiba zurück. Premium-Komfort, spektakuläre Landschaften und authentische Bergerlebnisse in den rumänischen Karpaten. Buchen Sie jetzt Ihren unvergesslichen Kurzurlaub!",
 					"about.label": "UNSERE GESCHICHTE",
 					"about.title": "Willkommen im Chiba Chalet!",
-					"about.text1": "Verlangsamen Sie das Tempo. Wählen Sie die Stille des Waldes, lauschen Sie dem Bach im Garten und entdecken Sie einen Morgen ohne Termine neu. Ein friedlicher Zufluchtsort in der Nähe von Kronstadt.",
+					"about.heading": "Über...",
+					"about.subheading": "Chalet Chiba",
+					"about.text1": "Chalet Chiba ist eine Luxushütte versteckt im Herzen der Berge, wo wilde Natur auf modernen Komfort trifft. Jedes Detail des Raumes wurde entworfen, um ein vollkommenes Entspannungserlebnis zu schaffen – von den warmen Holz- und Steininterieurs bis zum Panoramablick von der Terrasse.",
+					"about.text2": "Ob Sie mit Familie, Freunden oder zu zweit kommen, Chiba bietet Ihnen einen authentischen Zufluchtsort, fernab vom Alltagslaerm.",
 					"about.cta": "Entdecke die Erlebnisse",
 					"exp.label": "ERLEBNISSE",
 					"exp.title": "Entdecke lokale Erlebnisse",

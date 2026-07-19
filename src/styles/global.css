@@ -1,5 +1,6 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html {
+  background: #F9F6F0;
   overflow-y: scroll; /* Forces standard scroll viewport availability */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -34,7 +35,7 @@ a{text-decoration:none}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 4.5rem;display:flex;align-items:center;justify-content:space-between;min-height:5.5rem;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, padding 0.3s, min-height 0.3s}
-nav.sc{background:rgba(249,246,240,0.95);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:0.9rem 4.5rem;min-height:4.8rem;box-shadow:0 1px 0 rgba(26,58,26,0.07)}
+nav.sc{background:transparent;padding:0.9rem 4.5rem;min-height:4.8rem;box-shadow:none}
 nav.nav-hidden { transform: translateY(-100%); pointer-events: none; }
 .logo {
   display: flex;
@@ -52,11 +53,7 @@ nav.nav-hidden { transform: translateY(-100%); pointer-events: none; }
     inset 0 1px 0 rgba(255, 255, 255, 0.1); 
   transition: all var(--tr);
 }
-nav.sc .logo {
-  background: rgba(249, 246, 240, 0.85);
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-}
+
 .logo-n {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.35rem; /* Clean, standard base size for smaller/medium screens to prevent it from ever looking giant */
@@ -67,10 +64,7 @@ nav.sc .logo {
   transition: color var(--tr);
 }
 .logo-n em{font-style:italic}
-nav.sc .logo-n{color:var(--forest)}
 .logo-t{font-size:0.52rem;letter-spacing:0.32em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px;transition:color var(--tr)}
-nav.sc .logo-t{color:var(--sage)}
-
 @media(min-width: 901px) {
   .logo-n {
     font-size: max(1.5rem, 1.35vw); /* only scales up slightly on desktop viewports to match huge screen proportions without breaking vertical alignment */
@@ -95,35 +89,40 @@ nav.sc .logo-t{color:var(--sage)}
   transition: all var(--tr);
 }
 
-nav.sc .nav-links {
-  background: rgba(249, 246, 240, 0.7);
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-}
+
 .nav-links a{font-size:0.82rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.85);font-weight:400;transition:color 0.3s;white-space:nowrap}
-nav.sc .nav-links a{color:var(--muted)}
+
 .nav-links a:hover{color:var(--gold)!important}
-.nav-r{display:flex;align-items:center;gap:2rem}
+/* Right-side corner: map pin + language switcher (fixed, top-right, independent of nav) */
+.nav-corner-r {
+  position: fixed;
+  top: 0;
+  right: 4.5rem;
+  z-index: 1001;
+  height: 5.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+nav.sc .nav-r {
+  /* removed */
+}
 .nav-map-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.85);
-  transition: color var(--tr);
+  color: rgba(255, 255, 255, 0.95);
+  transition: color var(--tr), transform var(--tr);
 }
 .nav-map-btn:hover {
   color: var(--gold);
+  transform: scale(1.05);
 }
 .map-icon {
-  width: 1.45rem;
-  height: 1.45rem;
+  width: 1.1rem;
+  height: 1.1rem;
 }
-nav.sc .nav-map-btn {
-  color: var(--muted);
-}
-nav.sc .nav-map-btn:hover {
-  color: var(--gold);
-}
+
 
 /* Ambient Audio Button (Floating bottom right) */
 .nav-audio-btn {
@@ -211,16 +210,24 @@ nav.sc .nav-map-btn:hover {
   }
 }
 
-.nav-lang{display:flex;align-items:center;gap:0.25rem;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,255,255,0.85);transition:color var(--tr)}
-nav.sc .nav-lang{color:var(--muted)}
-.lang-btn{background:none;border:none;padding:0.5rem 0.6rem;margin:0;font-family:inherit;font-size:inherit;letter-spacing:inherit;color:currentColor;cursor:pointer;opacity:0.5;transition:opacity 0.3s,color 0.3s,font-weight 0.3s}
-.lang-btn:hover{opacity:1;color:var(--gold)}
-.lang-btn.active{opacity:1;font-weight:500;color:#fff}
-nav.sc .lang-btn.active{color:var(--forest)}
-.lang-separator{opacity:0.4;user-select:none;margin:0 -0.2rem}
+.nav-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.85);
+  transition: color var(--tr);
+}
+
+.lang-btn{background:none;border:none;color:inherit;font:inherit;cursor:pointer;padding:0.2rem 0.3rem;opacity:0.6;font-weight:400;transition:opacity var(--tr), font-weight var(--tr)}
+.lang-btn:hover{opacity:1}
+.lang-btn.active{opacity:1;color:#fff;font-weight:600}
+
+.lang-separator{opacity:0.4;user-select:none;margin:0 0.1rem}
 
 /* HERO */
-.hero{height:100vh;min-height:680px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 4.5rem 8.5rem 2rem;background:#000}
+.hero{height:100vh;height:100dvh;min-height:680px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 4.5rem 8.5rem 2rem;background:#1A3A1A url('/hero-poster.jpg') center/cover no-repeat}
 .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,10,0.35) 0%,rgba(10,22,10,0.08) 50%,transparent 100%),linear-gradient(to right,rgba(10,22,10,0.2) 0%,transparent 60%)}
 .hero-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:hidden}
@@ -311,6 +318,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
 @media(max-width:900px){
   nav,nav.sc{padding:0.8rem 1.2rem; min-height: auto !important;}
   .nav-links{display:none}
+  .nav-corner-r { right: 1.2rem; }
   .logo {
     padding: 0.4rem 0.8rem !important;
     box-shadow: none !important;
@@ -322,9 +330,9 @@ nav.sc .lang-btn.active{color:var(--forest)}
     font-size: 0.45rem !important;
     margin-top: 2px !important;
   }
-  .hero{padding:0; height:100vh; min-height:620px;} /* increased minimum height slightly on mobile to avoid small viewport overlaps */
+  .hero{padding:0; height:100vh; min-height:620px;}
   .hb-logo-huge{font-size:clamp(2.2rem, 7vw, 3.2rem) !important; letter-spacing:normal; margin-bottom:0.6rem; white-space: normal !important;}
-  .hb-left{left:1.2rem; right:1.2rem; bottom:8% !important; max-width:none;} /* pushed slightly lower on mobile and cleared overrides */
+  .hb-left{left:1.2rem; right:1.2rem; bottom:8% !important; max-width:none;}
 }
 
 /* ABOUT SECTION — Curtain Reveal + Mini Carousel */
@@ -615,6 +623,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   align-items: center;
   justify-content: center;
   transform-origin: bottom center;
+  will-change: transform, filter, opacity;
 }
 
 .carousel-item img {
@@ -700,21 +709,14 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .exp-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: 12px;
   overflow: hidden;
-  height: 520px;
-  background: #000;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  cursor: pointer;
+  background: transparent;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .exp-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  transform: none;
 }
 
 .exp-card-image-wrapper {
@@ -779,20 +781,20 @@ nav.sc .lang-btn.active{color:var(--forest)}
 
 .exp-card-desc {
   font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.75);
-  font-weight: 300;
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #4A5A43;
+  margin: 0;
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
+/* No longer needed — flip card handles visibility */
 .exp-card:hover .exp-card-desc {
   opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.08s;
+  transform: none;
+  transition-delay: 0s;
 }
 
 .exp-card-divider {
@@ -878,6 +880,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   }
 }
 
+/* FORCE UPDATE TO CLEAR BROWSER CACHE v2 */
 /* GALLERY SECTION */
 .gallery-section {
   min-height: auto;
@@ -1171,17 +1174,23 @@ nav.sc .lang-btn.active{color:var(--forest)}
   opacity: 1;
 }
 
-/* Pill Toggle - Solid Style */
+/* Pill Toggle - Refined Glassmorphism Style */
 .pill-toggle-container {
   display: flex;
   position: relative;
-  background: rgba(26, 58, 26, 0.08); /* Clean light green container background */
+  background: rgba(255, 255, 255, 0.15); /* Very transparent for true glass look */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   padding: 4px;
   margin-bottom: 1.8rem;
   width: 340px;
-  box-shadow:
-    inset 0 2px 6px rgba(26, 58, 26, 0.06);
+  box-shadow: 
+    0 8px 32px rgba(26, 58, 26, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .pill-active-bg {
@@ -1190,7 +1199,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   left: 4px;
   width: calc(50% - 4px);
   height: calc(100% - 8px);
-  background: var(--forest); /* Active slide is forest green */
+  background: var(--forest); /* Clean solid forest green */
   border-radius: 46px;
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
@@ -1276,27 +1285,12 @@ nav.sc .lang-btn.active{color:var(--forest)}
   text-transform: uppercase;
 }
 
-/* Shimmer effect on price text */
+/* Price text - static gold, bold */
 .shimmer-text {
   display: inline-block;
-  background: linear-gradient(
-    110deg,
-    var(--gold) 0%,
-    var(--gold) 40%,
-    #e8d5a8 50%,
-    var(--gold) 60%,
-    var(--gold) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0%, 100% { background-position: 200% center; }
-  50% { background-position: -200% center; }
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 /* Decorative Separator */
@@ -1516,7 +1510,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   font-family: 'Cormorant Garamond', serif;
   font-size: 21.5vw;
   line-height: 0.65;
-  color: rgba(245, 240, 232, 0.03);
+  color: rgba(245, 240, 232, 0.06);
   width: 100vw;
   text-align: center;
   white-space: nowrap;
@@ -1678,7 +1672,7 @@ nav.sc .lang-btn.active{color:var(--forest)}
   border-radius: 4px;
   color: #fff;
   min-height: 60px;
-  resize: vertical;
+  resize: none;
   outline: none;
   transition: border-color 0.4s ease;
 }
@@ -2004,5 +1998,410 @@ nav.sc .lang-btn.active{color:var(--forest)}
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+}
+
+/* =============================
+   MOBILE & TABLET RESPONSIVE
+   (Extra Small, Small, Medium)
+   ============================= */
+
+@media (max-width: 900px) {
+  /* Prevent horizontal scroll on mobile */
+  html, body {
+    overflow-x: hidden;
+    width: 100vw;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Global Adjustments */
+  .about-section, .exp-section, .gallery-section, .rezerva-section, .contact-section, .facilities-section {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+  .about-title, .exp-card-title, .gallery-title, .rezerva-title, .contact-title, .facilities-title {
+    font-size: clamp(1.8rem, 8vw, 2.4rem) !important;
+  }
+
+  /* Typography tweaks */
+  .about-text, .exp-card-desc, .rezerva-card-desc, .facilities-text-desc {
+    font-size: 0.9rem !important;
+  }
+
+  /* Contact Adjustments */
+  .contact-footer {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    gap: 0.5rem !important;
+    left: 0 !important;
+    width: 100% !important;
+  }
+  .contact-giant-text {
+    bottom: 7rem !important; /* Push up to avoid overlapping column footer */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Very small mobile devices */
+  nav, nav.sc {
+    padding: 0.8rem 1rem;
+  }
+  .nav-corner-r {
+    right: 1rem;
+  }
+
+  .logo {
+    padding: 0.4rem 0.6rem !important;
+  }
+  .logo-n {
+    font-size: 1rem !important;
+  }
+
+  .hb-logo-huge {
+    font-size: clamp(1.8rem, 9vw, 2.2rem) !important;
+  }
+
+  .about-visuals {
+    height: 280px !important;
+  }
+  .mini-carousel-item {
+    width: 160px !important;
+    height: 240px !important;
+  }
+
+  .exp-card {
+    height: 420px !important;
+  }
+  .exp-card-content {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .pill-toggle-container {
+    width: 100% !important;
+    max-width: 320px;
+  }
+  .pill-btn {
+    font-size: 0.8rem;
+  }
+  .pricing-days {
+    font-size: 2rem !important;
+  }
+
+  .contact-form {
+    padding: 1.5rem 1rem !important;
+  }
+  .contact-textarea {
+    font-size: 1rem; /* Prevent iOS auto-zoom */
+  }
+}
+
+@media (max-width: 380px) {
+  /* Extra small mobile (e.g. iPhone SE) */
+  .hb-logo-huge {
+    font-size: 1.5rem !important;
+  }
+  .nav-corner-r .nav-lang {
+    gap: 0.2rem;
+  }
+  .lang-btn {
+    padding: 0.2rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* =============================
+   LARGE DESKTOP RESPONSIVE
+   (1400px / 1600px / 1920px+)
+   ============================= */
+
+/* 1400px — standard widescreen laptops & monitors */
+@media (min-width: 1400px) {
+  nav, nav.sc {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+  .nav-corner-r {
+    right: 6rem;
+  }
+
+  .hero {
+    padding-left: 6rem !important;
+    padding-right: 6rem !important;
+  }
+
+  .about-section {
+    padding: 8rem 8rem;
+  }
+  .about-container {
+    max-width: 1380px;
+    gap: 7rem;
+  }
+
+  .exp-section {
+    padding: 8rem 8rem;
+  }
+  .exp-grid {
+    max-width: 1380px;
+    gap: 2.5rem;
+  }
+  .exp-card {
+    height: clamp(340px, 48vh, 480px);
+  }
+
+  .gallery-section {
+    padding: 6rem 8rem 8rem 8rem;
+  }
+  .boxes-container {
+    max-width: 1380px;
+  }
+
+  .rezerva-section {
+    padding: 6rem 8rem;
+  }
+  .rezerva-container {
+    max-width: 1100px;
+  }
+
+  .contact-section {
+    padding: 5rem 8rem 6rem;
+  }
+  .contact-container {
+    max-width: 1300px;
+  }
+
+  .facilities-section {
+    padding: 8rem 8rem;
+  }
+  .facilities-container {
+    max-width: 1380px;
+    gap: 9rem;
+  }
+}
+
+/* 1600px — wide monitors */
+@media (min-width: 1600px) {
+  nav, nav.sc {
+    padding-left: 7rem;
+    padding-right: 7rem;
+  }
+  .nav-corner-r {
+    right: 7rem;
+  }
+
+  .hero {
+    padding-left: 7rem !important;
+    padding-right: 7rem !important;
+  }
+
+  .about-section {
+    padding: 8rem 10rem;
+  }
+  .about-container {
+    max-width: 1500px;
+    gap: 8rem;
+  }
+  .mini-carousel-item {
+    width: 340px;
+    height: 500px;
+  }
+
+  .exp-section {
+    padding: 8rem 10rem;
+  }
+  .exp-grid {
+    max-width: 1500px;
+    gap: 3rem;
+  }
+  .exp-card {
+    height: clamp(360px, 50vh, 520px);
+  }
+  .exp-card-title {
+    font-size: 2rem;
+  }
+
+  .gallery-section {
+    padding: 6rem 10rem 8rem 10rem;
+  }
+  .boxes-container {
+    max-width: 1500px;
+    gap: 1.4rem;
+  }
+  .box {
+    max-width: 310px;
+    max-height: 310px;
+  }
+
+  .rezerva-section {
+    padding: 6rem 10rem;
+  }
+  .rezerva-container {
+    max-width: 1200px;
+  }
+  .rezerva-single-card {
+    max-width: 780px;
+  }
+
+  .contact-section {
+    padding: 5rem 10rem 6rem;
+  }
+  .contact-container {
+    max-width: 1450px;
+  }
+
+  .facilities-section {
+    padding: 8rem 10rem;
+  }
+  .facilities-container {
+    max-width: 1500px;
+    gap: 10rem;
+  }
+}
+
+/* 1920px+ — Full HD monitors and above */
+@media (min-width: 1920px) {
+  nav, nav.sc {
+    padding-left: 9rem;
+    padding-right: 9rem;
+  }
+  .nav-corner-r {
+    right: 9rem;
+  }
+  .nav-links {
+    gap: clamp(1.4rem, 1.8vw, 2.8rem);
+  }
+  .nav-links a {
+    font-size: 0.88rem;
+  }
+
+  .hero {
+    padding-left: 9rem !important;
+    padding-right: 9rem !important;
+  }
+  .hb-logo-huge {
+    font-size: max(4.5rem, 7vw);
+  }
+
+  .about-section {
+    padding: 10rem 12rem;
+  }
+  .about-container {
+    max-width: 1700px;
+    gap: 10rem;
+  }
+  .about-title {
+    font-size: clamp(2.4rem, 2.5vw, 3.6rem);
+  }
+  .about-text {
+    font-size: 1rem;
+  }
+  .about-visuals {
+    height: clamp(450px, 55vh, 600px);
+  }
+  .mini-carousel-item {
+    width: 380px;
+    height: 560px;
+  }
+
+  .exp-section {
+    padding: 10rem 12rem;
+  }
+  .exp-grid {
+    max-width: 1700px;
+    gap: 3rem;
+  }
+  .exp-card {
+    height: clamp(400px, 52vh, 560px);
+  }
+  .exp-card-title {
+    font-size: 2.2rem;
+  }
+
+  .gallery-section {
+    padding: 8rem 12rem 10rem 12rem;
+  }
+  .boxes-container {
+    max-width: 1700px;
+    gap: 1.6rem;
+  }
+  .box {
+    max-width: 340px;
+    max-height: 340px;
+  }
+
+  .rezerva-section {
+    padding: 8rem 12rem;
+  }
+  .rezerva-container {
+    max-width: 1300px;
+  }
+  .rezerva-single-card {
+    max-width: 860px;
+  }
+  .pill-toggle-container {
+    width: 400px;
+  }
+  .pricing-days {
+    font-size: 3.4rem;
+  }
+  .pricing-price {
+    font-size: 1.5rem;
+  }
+
+  .contact-section {
+    padding: 6rem 12rem 7rem;
+  }
+  .contact-container {
+    max-width: 1700px;
+  }
+  .contact-form-title {
+    font-size: 1.8rem;
+  }
+
+  .facilities-section {
+    padding: 10rem 12rem;
+  }
+  .facilities-container {
+    max-width: 1700px;
+    gap: 12rem;
+  }
+  .facility-title-inline {
+    font-size: 2rem;
+  }
+  .facilities-intro {
+    font-size: 1.05rem;
+  }
+}
+
+/* 2560px+ — 2K and 4K displays (ultra-wide) */
+@media (min-width: 2560px) {
+  .about-container,
+  .exp-grid,
+  .boxes-container,
+  .contact-container,
+  .facilities-container {
+    max-width: 2100px;
+  }
+
+  .about-title {
+    font-size: clamp(3rem, 2.2vw, 4.5rem);
+  }
+  .about-text {
+    font-size: 1.1rem;
+  }
+
+  .exp-card-title {
+    font-size: 2.5rem;
+  }
+
+  .hb-logo-huge {
+    font-size: max(6rem, 7.5vw);
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
   }
 }

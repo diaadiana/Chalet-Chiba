@@ -12,21 +12,23 @@
     <a href="#rezerva" data-i18n="nav.rezerva">Rezervări</a>
     <a href="#contact" data-i18n="nav.contact">Contact</a>
   </div>
-  <div class="nav-r">
-    <a href="https://maps.google.com/?q=Chalet+Chiba" target="_blank" rel="noopener noreferrer" class="nav-map-btn" title="Locație Google Maps">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="map-icon">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-      </svg>
-    </a>
-    <div class="nav-lang">
-      <button class="lang-btn" data-lang="ro">RO</button>
-      <span class="lang-separator">|</span>
-      <button class="lang-btn" data-lang="en">EN</button>
-      <span class="lang-separator">|</span>
-      <button class="lang-btn" data-lang="de">DE</button>
-    </div>
-  </div>
 </nav>
+
+<!-- Top-right fixed corner: map pin + language switcher -->
+<div class="nav-corner-r">
+  <a href="https://maps.google.com/?q=Chalet+Chiba" target="_blank" rel="noopener noreferrer" class="nav-map-btn" title="Locație Google Maps">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="map-icon">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  </a>
+  <div class="nav-lang">
+    <button class="lang-btn" data-lang="ro">RO</button>
+    <span class="lang-separator">|</span>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <span class="lang-separator">|</span>
+    <button class="lang-btn" data-lang="de">DE</button>
+  </div>
+</div>
 
 <!-- Floating Audio Button (Independent of Nav scroll hiding) -->
 <button id="nav-audio-btn" class="nav-audio-btn" title="Ascultă sunetul pădurii" aria-label="Sunetul pădurii">
@@ -56,20 +58,31 @@
 <script>
   const nav = document.getElementById('mainNav');
   if (nav) {
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.scrollY;
-      
-      // Toggle 'sc' class for the background (only really visible near the top before hiding)
-      nav.classList.toggle('sc', currentScroll > 70);
-      
-      // Permanently hide navbar when scrolling past the landing page
-      if (currentScroll > window.innerHeight * 0.8) {
-         nav.classList.add('nav-hidden');
-      } else {
-         nav.classList.remove('nav-hidden'); // Show again only when returning to the very top
-      }
-      
-    }, { passive: true });
+    const navCorner = document.querySelector('.nav-corner-r') as HTMLElement | null;
+
+    function showNav() {
+      nav.classList.remove('nav-hidden');
+      if (navCorner) { navCorner.style.opacity = '1'; navCorner.style.pointerEvents = 'auto'; }
+    }
+
+    function hideNav() {
+      nav.classList.add('nav-hidden');
+      if (navCorner) { navCorner.style.opacity = '0'; navCorner.style.pointerEvents = 'none'; }
+    }
+
+    // Navbar visible ONLY when hero (#hero) is in view
+    const heroSection = document.getElementById('hero');
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          showNav();
+        } else {
+          hideNav();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    if (heroSection) heroObserver.observe(heroSection);
   }
 
   // Ambient Audio Logic

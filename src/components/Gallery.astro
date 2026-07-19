@@ -85,6 +85,7 @@
     width: 100%;
     height: 525px; /* adjusted to fit medium-large slides nicely without clipping */
     overflow: visible; /* ensures 3D transforms aren't clipped */
+    margin-top: -55px; /* moved slightly upwards for millimetric finesse */
   }
   .gallery-facilities-wrap {
     max-width: 1000px;
@@ -163,6 +164,7 @@
           el.style.transform = `
             translateX(${pos * 100}%) 
             translateY(0%)
+            translateZ(0px)
             rotate(0deg)
             scale(${isCenter ? 1 : isAdjacent ? 0.85 : 0.7})
           `;

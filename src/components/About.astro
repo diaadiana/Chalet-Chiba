@@ -2,28 +2,43 @@
 ---
 <section id="about" class="about-section">
 
-  <div class="layout-container">
-    <div class="large-rect" id="about-large-rect">
-      <div class="about-inner">
-        <p class="about-text" id="about-text" data-i18n="about.text1">
-          Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă. Un adăpost liniștit lângă Brașov.
-        </p>
-      </div>
-      <!-- Floating Bird in the bottom left of the green box -->
-      <div class="about-bird-container-new">
-        <img src="/images/pasere1.svg?v=3" alt="Pasăre decorativă" class="about-bird-img" />
-      </div>
-    </div>
+  <!-- Inline SVG – draw from both ends meeting at center -->
+  <svg class="about-bg-munte" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4125 2250" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <!-- Base path (draws left → center) -->
+    <path
+      id="munte-path-l"
+      fill="none"
+      stroke-width="85.0394"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke="#FFFFFF"
+      stroke-opacity="1"
+      stroke-miterlimit="10"
+      transform="matrix(0.1, 0, 0, -0.1, 0, 2250)"
+      d="M 2553.4375 7344.21875 C 3357.421875 7158.789062 6646.09375 10685.703125 6482.1875 10169.492188 C 6163.046875 9164.335938 7453.203125 11345.898438 8019.648438 11577.5 C 8586.054688 11809.101562 8610.15625 11947.890625 8610.15625 11650.117188 C 8610.15625 11352.382812 8414.960938 10070.390625 7999.609375 9504.648438 C 7584.257812 8938.867188 8372.8125 11471.484375 8921.679688 11873.515625 C 9470.546875 12275.507812 9574.375 13019.882812 9693.046875 12841.210938 C 9811.71875 12662.617188 9718.90625 11177.382812 9614.023438 10819.492188 C 9509.140625 10461.601562 9823.828125 10608.90625 9823.828125 11156.40625 C 9823.828125 11703.789062 9760.898438 12082.8125 9928.710938 12335.507812 C 10096.484375 12588.203125 10953.984375 13377.1875 11072.617188 13466.484375 C 11191.289062 13555.898438 11349.414062 13776.992188 11430.585938 13753.710938 C 11511.71875 13730.507812 11291.484375 12496.992188 11245.117188 11845.390625 C 11198.710938 11193.710938 10874.101562 10658.398438 10642.304688 10355.898438 C 10410.390625 10053.28125 10039.492188 7656.210938 10178.59375 7912.226562 C 10317.695312 8168.242188 10549.609375 9727.539062 10758.203125 10076.601562 C 10966.914062 10425.703125 11569.6875 10542.109375 11407.382812 10518.789062 C 11245.117188 10495.507812 10897.304688 10286.09375 11175.585938 10821.289062 C 11453.789062 11356.601562 11314.6875 11566.09375 11384.21875 12287.5 C 11453.789062 13008.984375 11685.507812 13925.117188 11801.601562 14335.585938 C 11917.617188 14746.09375 11873.710938 14627.8125 11962.695312 14776.71875 C 12051.71875 14925.585938 12437.382812 15074.492188 12912.109375 15491.40625 C 13386.796875 15908.28125 13446.09375 16146.484375 14098.789062 16503.789062 C 14751.484375 16861.09375 14460.117188 16904.609375 15131.40625 16483.398438 C 15802.8125 16062.304688 15593.007812 15893.90625 16180.390625 15936.015625 C 16767.8125 15978.085938 16264.296875 16315 16893.59375 15978.085938 C 17523.007812 15641.210938 17332.695312 15372.304688 16472.304688 15610.507812 C 15611.914062 15848.710938 14959.21875 16533.59375 14988.90625 16146.484375 C 15018.515625 15759.414062 15344.882812 15908.28125 15344.882812 15014.882812 C 15344.882812 14121.601562 14678.515625 11315.507812 14510.585938 10388.984375 C 14342.8125 9462.578125 14323.085938 8585.976562 14234.101562 9062.382812 C 14145.117188 9538.828125 13729.804688 9241.054688 14382.5 10461.914062 C 15035.195312 11682.8125 15582.1875 15253.203125 15611.914062 15461.601562 C 15641.601562 15670 16487.109375 15297.8125 16501.992188 15148.90625 C 16516.796875 15000.117188 16914.6875 12983.515625 17181.71875 12566.601562 C 17448.789062 12149.6875 17508.085938 12209.296875 17404.296875 12492.1875 C 17300.390625 12775 16781.210938 12760.195312 16766.40625 13072.8125 C 16751.601562 13385.507812 16546.484375 15253.203125 16887.617188 15372.304688 C 17228.789062 15491.40625 17488.398438 15379.6875 17629.414062 15409.492188 C 17770.3125 15439.296875 17836.992188 15282.890625 17948.28125 15074.492188 C 18059.492188 14866.09375 18207.890625 14650.195312 18393.28125 14449.21875 C 18578.710938 14248.203125 18764.21875 13459.101562 18623.203125 13630.3125 C 18482.304688 13801.484375 18445.195312 14270.507812 18630.703125 14367.304688 C 18816.09375 14464.101562 18912.5 14382.1875 19105.390625 14627.8125 C 19298.203125 14873.515625 19253.710938 15029.804688 19431.71875 15096.796875 C 19609.6875 15163.789062 19535.585938 15111.71875 19624.609375 15223.398438 C 19713.59375 15335 19661.601562 15372.304688 19758.085938 15320.195312 C 19854.492188 15268.007812 19750.703125 15364.804688 19943.515625 15163.789062 C 20136.289062 14962.8125 20076.992188 15163.789062 20314.296875 14866.09375 C 20551.71875 14568.28125 20879.609375 14841.09375 21120.898438 14641.09375 C 21362.109375 14441.09375 21236.210938 14398.90625 21435.507812 14198.90625 C 21634.804688 13998.90625 21582.382812 14514.804688 21676.796875 13872.617188 C 21676.796875 13872.617188 21771.289062 13245.390625 21817.617188 13454.882812 C 21863.984375 13664.296875 21724.882812 13699.296875 21898.789062 13734.21875 C 22072.695312 13769.101562 22072.695312 13676.015625 22153.789062 13827.304688 C 22235 13978.515625 22235 14153.085938 22374.101562 14246.210938 C 22513.203125 14339.296875 22466.796875 14188.007812 22605.898438 14455.585938 C 22745.117188 14723.28125 22594.296875 15037.382812 22791.40625 14851.289062 C 22988.515625 14665.117188 23116.015625 14944.414062 23162.382812 14560.390625 C 23208.789062 14176.289062 23347.890625 13769.101562 23231.914062 13978.515625 C 23116.015625 14188.007812 23162.382812 14420.703125 23069.609375 14222.890625 C 22976.914062 14025.117188 23034.882812 14048.28125 22930.507812 13897.109375 C 22826.210938 13745.78125 22640.703125 13862.1875 22710.3125 13699.296875 C 22779.804688 13536.289062 22861.015625 13734.21875 22814.609375 13420 C 22768.203125 13105.78125 22594.296875 13454.882812 22721.914062 12989.414062 C 22849.414062 12523.984375 22953.710938 12233.085938 22988.515625 11895.585938 C 23023.28125 11558.085938 23058.085938 12151.601562 22942.109375 12582.1875 C 22826.210938 13012.695312 22976.914062 12686.914062 23162.382812 12593.789062 C 23347.890625 12500.703125 23382.617188 12570.507812 23521.796875 12372.695312 C 23660.898438 12174.882812 24205.703125 11150.898438 24170.898438 10964.6875 C 24136.210938 10778.515625 23904.296875 11383.59375 23869.492188 11965.390625 C 23834.804688 12547.1875 23753.59375 13047.617188 23614.492188 13536.289062 C 23475.390625 14025.117188 23231.914062 14560.390625 23371.09375 14525.390625 C 23510.195312 14490.507812 23371.09375 14467.304688 23626.09375 14443.984375 C 23881.09375 14420.703125 23602.890625 14676.71875 23950.703125 14420.703125 C 24209.414062 14230.3125 24615 13872.109375 24806.796875 13845.898438 C 24989.414062 13821.09375 25455.390625 13143.085938 25643.203125 12799.492188 C 25819.609375 12476.992188 25898.28125 11682.382812 26130.117188 11379.882812 C 26361.992188 11077.304688 26547.5 11123.90625 26756.09375 10751.484375 C 26964.804688 10379.21875 27498.085938 8936.210938 27915.390625 9075.859375 C 28332.695312 9215.507812 26895.195312 9587.890625 26802.5 10286.09375 C 26709.6875 10984.296875 26686.601562 10798.085938 26292.382812 11589.296875 C 25898.28125 12380.585938 25481.796875 13543.203125 25562.890625 13671.210938 C 25643.984375 13799.21875 24918.710938 13780.703125 25272.304688 13908.710938 C 25625.78125 14036.71875 25805.507812 14036.71875 26269.21875 13827.304688 C 26732.890625 13617.8125 27266.210938 13198.90625 27498.085938 13152.304688 C 27729.882812 13105.78125 27521.210938 13524.6875 27706.71875 13454.882812 C 27892.1875 13385.117188 27973.398438 13321.09375 28042.890625 13088.28125 C 28112.5 12855.585938 29097.8125 9312.304688 29329.6875 9102.851562 C 29561.484375 8893.398438 28147.1875 12756.71875 28240 12966.210938 C 28332.695312 13175.585938 28634.101562 12803.203125 28773.203125 12756.71875 C 28912.382812 12710.195312 29167.382812 12989.414062 29491.992188 12826.484375 C 29816.601562 12663.59375 29932.5 12500.703125 30025.3125 12430.898438 C 30118.007812 12361.09375 30048.398438 11988.710938 30558.515625 11383.59375 C 31068.59375 10778.515625 31218.984375 11086.914062 31193.710938 10550.3125 C 31188.398438 10438.007812 31833.007812 9394.726562 32520.507812 10068.203125 C 32778.710938 10321.09375 32356.601562 10891.015625 32586.09375 10594.804688 C 32815.585938 10298.59375 32618.90625 9969.492188 33110.703125 9870.742188 C 33602.617188 9771.992188 34603.515625 9836.523438 33733.710938 9969.492188 C 32141.40625 10212.890625 31564.882812 9902.773438 31405.703125 10496.09375 C 31246.40625 11089.804688 31453.710938 10393.28125 31093.007812 11150.3125 C 30732.304688 11907.304688 30240.507812 12104.804688 30666.71875 12104.804688 C 31093.007812 12104.804688 31158.59375 12401.015625 31486.484375 12038.984375 C 31814.414062 11676.914062 31486.484375 11808.59375 32437.304688 11446.601562 C 33388.203125 11084.492188 32863.59375 11413.59375 33880.117188 10854.101562 C 34896.484375 10294.609375 34896.484375 10163.007812 35093.28125 9965.46875 C 35290 9768.007812 35093.28125 9965.46875 35421.210938 9274.296875 C 35748.984375 8583.125 35421.210938 9603.4375 35355.585938 9998.398438 C 35290 10393.28125 35388.398438 10097.109375 35617.890625 9932.578125 C 35847.382812 9768.007812 36068.710938 9636.367188 36126.09375 9504.6875 C 36183.515625 9373.046875 36208.085938 8945.195312 35486.71875 8583.125 C 34765.390625 8221.09375 35751.992188 6868.671875 33108.90625 7473.75 C 30465.78125 8078.867188 29601.09375 7612.226562 29502.695312 7464.101562 C 29404.414062 7316.015625 29559.21875 6556.875 29411.601562 6639.140625 C 29264.101562 6721.445312 29223.984375 7924.882812 29109.296875 7760.3125 C 28994.492188 7595.742188 28969.882812 6896.367188 28904.296875 7052.695312 C 28838.789062 7209.023438 28838.789062 7883.75 28789.609375 7743.867188 C 28740.390625 7603.984375 28650.195312 7398.28125 28650.195312 7241.953125 C 28650.195312 7085.625 28740.390625 6674.21875 28674.804688 6855.195312 C 28609.21875 7036.25 28617.382812 8097.695312 28535.507812 7982.460938 C 28453.515625 7867.304688 28330.507812 7250.15625 28305.898438 7406.523438 C 28281.289062 7562.851562 28314.101562 8245.78125 28223.984375 8040.078125 C 28133.789062 7834.375 28112.5 7578.476562 27973.398438 7438.828125 C 27834.21875 7299.21875 27509.609375 7217.734375 27556.015625 7299.21875 C 27602.382812 7380.664062 27764.6875 7241.015625 27787.890625 7520.3125 C 27811.09375 7799.570312 27683.515625 8742.148438 27648.789062 8590.859375 C 27613.984375 8439.570312 27312.617188 7450.46875 27312.617188 7450.46875 C 27312.617188 7450.46875 26976.40625 8916.679688 26906.796875 8555.9375 C 26837.304688 8195.195312 26848.90625 7089.765625 26756.09375 7252.65625 C 26663.398438 7415.585938 26686.601562 8905.039062 26628.59375 8579.21875 C 26570.585938 8253.398438 26466.289062 8160.3125 26535.898438 8090.46875 C 26605.390625 8020.664062 26756.09375 7974.101562 26628.59375 7892.65625 C 26501.09375 7811.210938 26361.992188 7904.296875 26454.6875 7776.289062 C 26547.5 7648.28125 26779.296875 7403.945312 26582.1875 7473.75 C 26385.195312 7543.554688 26361.992188 8881.757812 26280.78125 8579.21875 C 26199.6875 8276.679688 26141.71875 7473.75 26037.382812 7787.929688 C 25933.007812 8102.109375 25933.007812 8963.203125 25851.914062 8683.945312 C 25770.703125 8404.6875 25944.609375 7869.375 25585.3125 7799.570312 C 25225.898438 7729.765625 24866.484375 7625.039062 25167.890625 7764.648438 C 25469.296875 7904.296875 25979.414062 7974.101562 25631.601562 8125.390625 C 25283.789062 8276.679688 24568.007812 8583.125 23485.898438 8286.914062 C 23098.203125 8180.78125 22738.085938 7804.375 22321.796875 7827.304688 C 21896.71875 7850.742188 21361.40625 8125.195312 21191.601562 8424.21875 C 21052.5 8796.601562 20983.007812 9518.046875 20611.992188 9983.515625 C 20241.015625 10448.984375 20313.28125 10550.3125 19846.40625 11068.085938 C 19135 11856.796875 18863.28125 12899.804688 19059.414062 12631.40625 C 19234.21875 12392.1875 19272.5 12252.890625 19813.59375 11249.101562 C 20354.609375 10245.195312 20666.09375 9603.4375 20797.1875 9257.851562 C 20928.398438 8912.265625 20895.585938 8204.648438 21190.703125 8056.523438 C 21485.78125 7908.4375 21547.109375 7525.46875 21321.914062 7365.351562 C 21096.71875 7205.273438 23502.109375 7193.164062 17469.492188 6619.648438 C 11436.992188 6046.171875 10887.1875 4769.179688 21485.78125 6904.609375 C 23251.09375 7260.234375 25061.601562 7351.445312 26285.195312 7045.585938 C 27367.5 6775.078125 28599.414062 5350.390625 30566.71875 6107.382812 C 32534.101562 6864.375 29092.890625 6410.898438 30273.28125 6180.507812 C 31453.710938 5950.117188 33735.195312 6574.257812 34653.28125 6228.671875 C 35571.40625 5883.085938 34766.992188 6317.617188 34874.609375 6417.929688 C 34982.1875 6518.203125 35038.59375 6319.179688 35153.28125 7010.351562 C 35268.085938 7701.523438 35350.117188 7849.648438 35350.117188 7372.382812 C 35350.117188 6895.15625 35448.398438 6467.304688 35546.796875 6763.515625 C 35645.195312 7059.726562 35661.601562 8557.265625 35776.289062 8195.195312 C 35891.09375 7833.164062 35841.914062 6763.515625 35973.085938 6895.15625 C 36104.21875 7026.796875 36005.898438 7207.8125 36218.984375 7257.1875 C 36432.109375 7306.5625 36607.617188 8265.273438 36476.40625 8281.71875 C 36345.3125 8298.164062 35886.210938 8808.320312 36541.992188 8907.070312 C 37197.8125 9005.78125 38077.109375 7776.757812 37847.5 7217.265625 C 37618.007812 6657.734375 37305.507812 7563.125 38696.601562 7958.789062"
+    />
+    <!-- Mirror path (draws right → center, via negative dashoffset) -->
+    <use id="munte-path-r" href="#munte-path-l" />
+  </svg>
 
-    <div class="small-rect">
-      <img src="/images/Chiba-23.webp" alt="Pârâul din curte" class="attached-image" id="water-image" />
+  <div class="about-wrapper">
+    <div class="about-content about-fadein">
+      <h2 class="about-heading" data-i18n="about.heading">About...</h2>
+      <p class="about-subheading"><em data-i18n="about.subheading">Chalet Chiba</em></p>
+      <p class="about-desc" data-i18n="about.text1">
+        Încetinește. Alege liniștea pădurii, ascultă pârâul din curte și redescoperă o dimineață fără agendă.
+      </p>
+      <p class="about-desc" data-i18n="about.text2">
+        Un adăpost confortabil și liniștit lângă Brașov.
+      </p>
     </div>
   </div>
 </section>
 
 <style>
   .about-section {
-    background: #E3EAE0; /* faded/muted greenish background */
+    background: linear-gradient(160deg, #234023 0%, #112811 100%);
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,195 +47,106 @@
     overflow: hidden;
   }
 
-  .layout-container {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    width: 100%;
-    max-width: 1100px; /* Am micșorat lățimea maximă pentru a face ambele dreptunghiuri mai mici */
-    align-items: center;
-    position: relative;
-    margin: 0 auto;
-  }
-
-  .large-rect {
-    grid-column: 2 / 10; /* Restored column space for text room */
-    grid-row: 1;
-    background-color: var(--forest, #1A3A1A);
-    position: relative;
-    padding: 4rem 10rem 4rem 4rem; /* Substantial right padding to block text from overlapping with the small image */
-    min-height: 48vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
-  }
-
-  .small-rect {
-    grid-column: 9 / 12; /* Overlaps with large-rect (spans 2/10) to visually connect the elements */
-    grid-row: 1;
-    z-index: 5;
-    aspect-ratio: 1.15 / 1;
-    max-width: 275px; /* increased slightly from 240px to 275px */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-  }
-
-  .attached-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-
-  .about-inner {
-    position: relative;
-    z-index: 2; /* textul deasupra ramurilor */
-    max-width: 900px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .about-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.5rem, 2.5vw, 2.4rem);
-    line-height: 1.65;
-    font-weight: 500;
-    font-style: italic; /* Text cursiv */
-    margin: 0;
-    max-width: 60ch;
-    text-wrap: balance;
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: var(--off, #F9F6F0); /* Text is now cream to contrast with green background */
-  }
-
-  :global(.about-text .word) {
-    opacity: 0.25;
-    display: inline-block;
-    will-change: opacity;
-  }
-
-  .about-facilities-tags {
-    margin-top: 0.5rem;
-  }
-
-  .facility-tag {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.82rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(245, 240, 232, 0.7);
-    font-weight: 400;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: default;
-  }
-
-  .facility-tag:hover {
-    color: var(--gold);
-    transform: translateY(-1px);
-  }
-
-  .tag-bullet {
-    color: var(--gold);
-    font-size: 0.9rem;
-  }
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
-  }
-
-  @media (max-width: 992px) {
-    .about-section {
-      padding: 5rem 1.5rem 6.5rem 1.5rem; /* extra bottom padding to accommodate the overlapping image */
-    }
-    .layout-container {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 500px; /* bounds width on mobile/tablets to keep it elegant and readable */
-      margin: 0 auto;
-      position: relative;
-    }
-    .large-rect {
-      width: 100%;
-      padding: 4.5rem 2.2rem 5.5rem 2.2rem; /* extra bottom padding so text doesn't touch the overlapping image bounds */
-      min-height: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    }
-    .small-rect {
-      width: 75%;
-      max-width: 300px;
-      aspect-ratio: 1.15 / 1;
-      margin-top: -3.8rem; /* vertical overlap */
-      align-self: flex-end; /* aligned to the right */
-      margin-right: 1rem; /* slight offset from the right boundary for a more dynamic, artistic look */
-      z-index: 5;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
-      border-radius: 4px;
-    }
-    .about-text {
-      font-size: clamp(1.2rem, 4.5vw, 1.55rem);
-      line-height: 1.6;
-    }
-  }
-
-  /* Floating Chirping Bird */
-  .about-bird-container-new {
+  /* ── Munte SVG Background ── */
+  .about-bg-munte {
     position: absolute;
-    bottom: 1rem;
-    left: 1.5rem;
-    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: auto;
+    z-index: 0;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Both paths start invisible – JS sets dasharray+offset */
+  #munte-path-l,
+  #munte-path-r {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    will-change: stroke-dashoffset;
+  }
+
+  /* ── Text wrapper ── */
+  .about-wrapper {
+    position: relative;
+    z-index: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    width: 4.5rem;
-    height: auto;
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.55), z-index 0.6s step-end;
-    transform-origin: left bottom;
-  }
-
-  .about-bird-container-new.zoomed {
-    z-index: 99;
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.55), z-index 0s;
-    transform: scale(4.2) translateY(-8px) translateX(8px) rotate(6deg); /* BOOM zoom slightly adjusted for larger base size */
-  }
-
-  .about-bird-container-new:hover:not(.zoomed) {
-    transform: scale(1.15) rotate(-4deg);
-  }
-
-  .about-bird-img {
+    flex-direction: column;
+    gap: 2rem;
     width: 100%;
-    height: auto;
-    opacity: 0.85;
-    display: block;
-    transition: opacity 0.3s ease;
+    max-width: 560px;
+    align-items: flex-start;
+    text-align: left;
   }
 
-  .about-bird-container-new:hover .about-bird-img,
-  .about-bird-container-new.zoomed .about-bird-img {
+  /* ── Fade-in – box starts hidden, appears after SVG draw ── */
+  .about-fadein {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-fadein.visible {
     opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Content Card ── */
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: none;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .about-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 400;
+    color: #FAFAFA;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .about-subheading {
+    display: inline-block;
+    position: relative;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.3rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold, #B8955A);
+    margin: 0 0 1.2rem 0;
+    line-height: 1.2;
+    padding-bottom: 0.3rem;
   }
 
 
 
-  /* Responsive layout overrides */
+  .about-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 1.5rem 0;
+    font-weight: 300;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 900px) {
-    .about-bird-container-new {
-      bottom: 0.8rem;
-      left: 0.7rem;
-      width: 3.5rem;
-    }
+    .about-wrapper { max-width: 100%; }
+    .about-content { padding: 2.5rem; }
   }
 </style>
 
@@ -231,87 +157,108 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  function initAbout() {
-    const section  = document.getElementById("about");
-    const largeRect = document.getElementById("about-large-rect");
-    const textEl   = document.getElementById("about-text") as HTMLElement | null;
+  // ── 1. Bidirectional SVG stroke animation ────────────────────────────
+  function initMountainDraw() {
+    const pathL = document.getElementById('munte-path-l') as SVGPathElement | null;
+    const pathR = document.getElementById('munte-path-r') as SVGElement | null;
+    if (!pathL || !pathR) return;
 
-    if (!section || !largeRect || !textEl) return;
+    const length = pathL.getTotalLength();
+    const DRAW_DURATION = '2.8s';
+    const EASE = 'cubic-bezier(0.37, 0, 0.63, 1)';
 
-    // Click to Zoom Interactive easter-egg
-    const bird = section.querySelector('.about-bird-container-new');
-    if (bird) {
-      bird.addEventListener('click', () => {
-        bird.classList.toggle('zoomed');
-      });
-    }
-
-    let split: InstanceType<typeof SplitType> | null = null;
-    let st: ScrollTrigger | null = null;
-    let lastWidth = window.innerWidth;
-
-    function build() {
-      if (st)    { st.kill();      st    = null; }
-      if (split) { split.revert(); split = null; }
-
-      // Fetch the translated string from translationsCache and assign it back to the node before split-type runs
-      const currentLang = localStorage.getItem('lang') || 'ro';
-      const key = textEl.getAttribute('data-i18n');
-      if (key && (window as any).translationsCache && (window as any).translationsCache[currentLang] && (window as any).translationsCache[currentLang][key]) {
-        textEl.innerHTML = (window as any).translationsCache[currentLang][key];
-      }
-
-      // ── Split text into words ───────────────────────────────────────
-      split = new SplitType(textEl, { types: "words", tagName: "span" });
-      const words = split.words as HTMLElement[];
-      gsap.set(words, { opacity: 0.25 });
-
-      // ── Master timeline — pinned + scrubbed cu gap mai mic ────────────────
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "center center",
-          end: () => `+=${window.innerHeight * 0.5}`, /* Gap redus semnificativ */
-          pin: true,
-          scrub: 1.2,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Cuvintele apar treptat
-      tl.to(words, {
-        opacity: 1,
-        ease: "power2.out",
-        duration: 0.8,
-        stagger: { each: 0.35 },
-      }, 0);
-
-      st = tl.scrollTrigger as ScrollTrigger;
-    }
-
-    // Delay slightly to ensure translationsCache is initialized by Layout.astro
-    document.fonts.ready.then(() => setTimeout(build, 100));
-
-    window.addEventListener("resize", () => {
-      if (window.innerWidth === lastWidth) return;
-      lastWidth = window.innerWidth;
-      build();
-    }, { passive: true });
-
-    window.addEventListener("langChanged", (e: any) => {
-      const currentLang = e.detail || localStorage.getItem('lang') || 'ro';
-      // Fetch text directly from local storage key to update textEl before rebuilding split
-      const key = textEl.getAttribute('data-i18n');
-      if (key && (window as any).translationsCache && (window as any).translationsCache[currentLang] && (window as any).translationsCache[currentLang][key]) {
-        textEl.innerHTML = (window as any).translationsCache[currentLang][key];
-      }
-      setTimeout(build, 80);
+    // Kill any leftover transition, set initial (invisible) state
+    [pathL as SVGElement, pathR].forEach(p => {
+      p.style.transition = 'none';
+      p.style.strokeDasharray = `${length}`;
     });
+    // Left → right: positive offset
+    pathL.style.strokeDashoffset = `${length}`;
+    // Right → left: negative offset
+    pathR.style.strokeDashoffset = `-${length}`;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+
+          // Double rAF ensures styles are committed before transition fires
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            const tr = `stroke-dashoffset ${DRAW_DURATION} ${EASE}`;
+            pathL.style.transition = tr;
+            pathR.style.transition = tr;
+            pathL.style.strokeDashoffset = '0';
+            pathR.style.strokeDashoffset = '0';
+
+            // Card appears slightly before lines fully meet → feels alive
+            setTimeout(revealCard, 2200);
+          }));
+
+          observer.disconnect();
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    const section = document.getElementById('about');
+    if (section) observer.observe(section);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAbout);
-  } else {
-    initAbout();
+  // ── 2. Reveal card after SVG draw ────────────────────────────────────
+  function revealCard() {
+    const el = document.querySelector('.about-fadein');
+    if(el) el.classList.add('visible');
   }
+
+  // ── 3. Word-by-word scrub on paragraphs (GSAP pin) ───────────────────
+  function initWordScrub() {
+    const section = document.querySelector('#about');
+    const descElements = Array.from(document.querySelectorAll('.about-desc'));
+    if (!descElements.length || !section) return;
+
+    if ((section as any).__st) {
+      (section as any).__st.kill();
+    }
+
+    let allWords: HTMLElement[] = [];
+
+    descElements.forEach(el => {
+      if ((el as any).__split) (el as any).__split.revert();
+      const text = new SplitType(el as HTMLElement, { types: 'words', tagName: 'span' });
+      (el as any).__split = text;
+      if (text.words) allWords = allWords.concat(text.words);
+    });
+
+    gsap.set(allWords, { opacity: 0.18 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "center center",
+        end: () => `+=${window.innerHeight * 0.6}`,
+        pin: true,
+        scrub: 1.2,
+        invalidateOnRefresh: true,
+      }
+    });
+    (section as any).__st = tl.scrollTrigger;
+
+    tl.to(allWords, {
+      opacity: 1,
+      ease: "power2.out",
+      duration: 0.8,
+      stagger: { each: 0.35 }
+    }, 0);
+  }
+
+  function init() {
+    initMountainDraw();
+    initWordScrub();
+  }
+
+  setTimeout(init, 80);
+
+  window.addEventListener('langChanged', () => {
+    setTimeout(initWordScrub, 100);
+  });
 </script>

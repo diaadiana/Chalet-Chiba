@@ -21,10 +21,11 @@ import rawSvg from '../../public/preloadercabana.svg?raw';
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Glassmorphism Implementation */
-    background: rgba(10, 14, 10, 0.35); /* Dark subtle tint */
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: rgba(20, 30, 20, 0.2); /* Perfect neutral mix-blend glassmorphism */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    will-change: opacity;
+    transform: translate3d(0, 0, 0);
     transition: opacity 1.4s cubic-bezier(0.7, 0, 0.3, 1),
                 visibility 1.4s;
   }
@@ -48,9 +49,14 @@ import rawSvg from '../../public/preloadercabana.svg?raw';
   #preloader-icon {
     width: 180px;
     max-width: 50vw;
-    color: #fff; /* Crisp white for max contrast */
-    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4)); /* Elegant glow/shadow */
-    clip-path: inset(100% 0% 0% 0%); /* Initially hidden from top */
+    color: #fff; /* White for perfect contrast against the blurred landscape */
+    clip-path: inset(100% 0% 0% 0%);
+    transition: filter 0.5s ease;
+  }
+
+  /* Soft shadow for depth and legibility */
+  #preloader-icon.has-shadow {
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.3));
   }
 
   #preloader-icon :global(svg) {
@@ -65,8 +71,8 @@ import rawSvg from '../../public/preloadercabana.svg?raw';
     color: #fff;
     letter-spacing: 0.03em;
     font-weight: 400;
-    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); /* Matching shadow */
-    opacity: 0; /* Hidden initially for fade-in */
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    opacity: 0;
   }
 
   #preloader-text em {
@@ -117,16 +123,13 @@ import rawSvg from '../../public/preloadercabana.svg?raw';
     }, 4000);
 
     if (video) {
-      // Check if video is already buffered/ready to play
       if (video.readyState >= 3) {
         isVideoReady = true;
       } else {
-        // Listen to canplay/loadeddata as events that signal the video is ready
         video.addEventListener('canplay', () => {
           isVideoReady = true;
           checkReady();
         }, { once: true });
-        
         video.addEventListener('loadeddata', () => {
           isVideoReady = true;
           checkReady();
@@ -141,6 +144,8 @@ import rawSvg from '../../public/preloadercabana.svg?raw';
 
     const tl = gsap.timeline({
       onComplete: () => {
+        // Apply the drop-shadow filter only when animation is done
+        icon.classList.add('has-shadow');
         isAnimDone = true;
         checkReady();
       }
