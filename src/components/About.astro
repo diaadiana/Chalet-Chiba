@@ -62,8 +62,8 @@
 
   @media (max-width: 768px) {
     .about-bg-munte {
-      width: 350%; /* Massive scale up on mobile so it draws across the whole screen */
-      opacity: 0.35; /* Slightly faded so it doesn't overpower the text */
+      width: 200%; /* Make it whole on mobile */
+      opacity: 0.35;
     }
   }
 
@@ -171,7 +171,7 @@
     if (!pathL || !pathR) return;
 
     const length = pathL.getTotalLength();
-    const DRAW_DURATION = '2.8s';
+    const DRAW_DURATION = '2.0s'; // draws in 2 seconds
     const EASE = 'cubic-bezier(0.37, 0, 0.63, 1)';
 
     // Kill any leftover transition, set initial (invisible) state
@@ -197,8 +197,8 @@
             pathL.style.strokeDashoffset = '0';
             pathR.style.strokeDashoffset = '0';
 
-            // Card appears slightly before lines fully meet → feels alive
-            setTimeout(revealCard, 2200);
+            // Reveal text AFTER 2 seconds of drawing
+            setTimeout(revealCard, 2000);
           }));
 
           observer.disconnect();
@@ -217,7 +217,7 @@
     if(el) el.classList.add('visible');
   }
 
-  // ── 3. Word-by-word scrub on paragraphs (GSAP pin) ───────────────────
+  // ── 3. Word-by-word scrub on paragraphs (GSAP pin removed) ───────────────────
   function initWordScrub() {
     const section = document.querySelector('#about');
     const descElements = Array.from(document.querySelectorAll('.about-desc'));
@@ -241,9 +241,8 @@
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "center center",
-        end: () => `+=${window.innerHeight * 0.6}`,
-        pin: true,
+        start: "top center", // start revealing when section is halfway up
+        end: "bottom bottom",
         scrub: 1.2,
         invalidateOnRefresh: true,
       }
