@@ -184,31 +184,25 @@
     // Right → left: negative offset
     pathR.style.strokeDashoffset = `-${length}`;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
+    // Use ScrollTrigger instead of IntersectionObserver for precise firing
+    ScrollTrigger.create({
+      trigger: '#about',
+      start: 'top 55%', // fires when the top of #about hits 55% down the viewport
+      once: true,
+      onEnter: () => {
+        // Double rAF ensures styles are committed before transition fires
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          const tr = `stroke-dashoffset ${DRAW_DURATION} ${EASE}`;
+          pathL.style.transition = tr;
+          pathR.style.transition = tr;
+          pathL.style.strokeDashoffset = '0';
+          pathR.style.strokeDashoffset = '0';
 
-          // Double rAF ensures styles are committed before transition fires
-          requestAnimationFrame(() => requestAnimationFrame(() => {
-            const tr = `stroke-dashoffset ${DRAW_DURATION} ${EASE}`;
-            pathL.style.transition = tr;
-            pathR.style.transition = tr;
-            pathL.style.strokeDashoffset = '0';
-            pathR.style.strokeDashoffset = '0';
-
-            // Reveal text AFTER 2 seconds of drawing
-            setTimeout(revealCard, 2000);
-          }));
-
-          observer.disconnect();
-        });
-      },
-      { threshold: 0.12 }
-    );
-
-    const section = document.getElementById('about');
-    if (section) observer.observe(section);
+          // Reveal text AFTER 2 seconds of drawing
+          setTimeout(revealCard, 2000);
+        }));
+      }
+    });
   }
 
   // ── 2. Reveal card after SVG draw ────────────────────────────────────
