@@ -52,7 +52,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 110%;
     height: auto;
     z-index: 0;
@@ -65,14 +64,6 @@
       width: 100%; /* Make it fully whole and visible */
       opacity: 0.45;
     }
-  }
-
-  /* Both paths start invisible – JS sets dasharray+offset */
-  #munte-path-l,
-  #munte-path-r {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    will-change: stroke-dashoffset;
   }
 
   /* ── Text wrapper ── */
@@ -92,14 +83,6 @@
   .about-fadein {
     opacity: 0;
     transform: translateY(30px);
-    transition:
-      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .about-fadein.visible {
-    opacity: 1;
-    transform: translateY(0);
   }
 
   /* ── Content Card ── */
@@ -160,105 +143,59 @@
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import SplitType from "split-type";
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── 1. Bidirectional SVG stroke animation ────────────────────────────
-  function initMountainDraw() {
+  function initMountainTimeline() {
     const pathL = document.getElementById('munte-path-l') as SVGPathElement | null;
-    const pathR = document.getElementById('munte-path-r') as SVGElement | null;
-    if (!pathL || !pathR) return;
+    const pathR = document.getElementById('munte-path-r') as SVGPathElement | null;
+    const munteBg = document.querySelector('.about-bg-munte');
+    const textCard = document.querySelector('.about-fadein');
+    
+    if (!pathL || !pathR || !munteBg || !textCard) return;
 
     const length = pathL.getTotalLength();
-    const DRAW_DURATION = '2.0s'; // draws in 2 seconds
-    const EASE = 'cubic-bezier(0.37, 0, 0.63, 1)';
 
-    // Kill any leftover transition, set initial (invisible) state
-    [pathL as SVGElement, pathR].forEach(p => {
-      p.style.transition = 'none';
-      p.style.strokeDasharray = `${length}`;
-    });
-    // Left → right: positive offset
-    pathL.style.strokeDashoffset = `${length}`;
-    // Right → left: negative offset
-    pathR.style.strokeDashoffset = `-${length}`;
-
-    // Use ScrollTrigger instead of IntersectionObserver for precise firing
-    ScrollTrigger.create({
-      trigger: '#about',
-      start: 'top 55%', // fires when the top of #about hits 55% down the viewport
-      once: true,
-      onEnter: () => {
-        // Double rAF ensures styles are committed before transition fires
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          const tr = `stroke-dashoffset ${DRAW_DURATION} ${EASE}`;
-          pathL.style.transition = tr;
-          pathR.style.transition = tr;
-          pathL.style.strokeDashoffset = '0';
-          pathR.style.strokeDashoffset = '0';
-
-          // Reveal text AFTER 2 seconds of drawing
-          setTimeout(revealCard, 2000);
-        }));
-      }
-    });
-  }
-
-  // ── 2. Reveal card after SVG draw ────────────────────────────────────
-  function revealCard() {
-    const el = document.querySelector('.about-fadein');
-    if(el) el.classList.add('visible');
-  }
-
-  // ── 3. Word-by-word scrub on paragraphs (GSAP pin removed) ───────────────────
-  function initWordScrub() {
-    const section = document.querySelector('#about');
-    const descElements = Array.from(document.querySelectorAll('.about-desc'));
-    if (!descElements.length || !section) return;
-
-    if ((section as any).__st) {
-      (section as any).__st.kill();
-    }
-
-    let allWords: HTMLElement[] = [];
-
-    descElements.forEach(el => {
-      if ((el as any).__split) (el as any).__split.revert();
-      const text = new SplitType(el as HTMLElement, { types: 'words', tagName: 'span' });
-      (el as any).__split = text;
-      if (text.words) allWords = allWords.concat(text.words);
-    });
-
-    gsap.set(allWords, { opacity: 0.18 });
-
+    // Reset styles for GSAP
+    gsap.set(munteBg, { xPercent: -50, yPercent: -50, scale: 1 });
+    gsap.set([pathL, pathR], { strokeDasharray: length, strokeDashoffset: length });
+    gsap.set(pathR, { strokeDashoffset: -length });
+    
+    // Create master timeline
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: section,
-        start: "top center", // start revealing when section is halfway up
-        end: "bottom bottom",
-        scrub: 1.2,
-        invalidateOnRefresh: true,
+        trigger: '#about',
+        start: 'top 50%',
+        once: true
       }
     });
-    (section as any).__st = tl.scrollTrigger;
 
-    tl.to(allWords, {
+    // 1. Draw mountain (2.0s)
+    tl.to([pathL, pathR], {
+      strokeDashoffset: 0,
+      duration: 2.0,
+      ease: "power2.inOut"
+    })
+    // 2. Wait 1.5s
+    .to({}, { duration: 1.5 })
+    // 3. Text appears while SVG gets bigger (scales up)
+    .to(textCard, {
       opacity: 1,
-      ease: "power2.out",
-      duration: 0.8,
-      stagger: { each: 0.35 }
-    }, 0);
+      y: 0,
+      duration: 1.2,
+      ease: "power2.out"
+    }, "reveal")
+    .to(munteBg, {
+      scale: 1.35, // Lines get bigger/thicker as it scales
+      opacity: 0.25, // Fade out slightly so it doesn't overpower text
+      duration: 3.5, // Slow, elegant expansion
+      ease: "power2.out"
+    }, "reveal");
   }
 
   function init() {
-    initMountainDraw();
-    initWordScrub();
+    initMountainTimeline();
   }
 
   setTimeout(init, 80);
-
-  window.addEventListener('langChanged', () => {
-    setTimeout(initWordScrub, 100);
-  });
 </script>
