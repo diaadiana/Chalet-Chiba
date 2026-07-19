@@ -60,6 +60,13 @@
     pointer-events: none;
   }
 
+  @media (max-width: 768px) {
+    .about-bg-munte {
+      width: 350%; /* Massive scale up on mobile so it draws across the whole screen */
+      opacity: 0.35; /* Slightly faded so it doesn't overpower the text */
+    }
+  }
+
   /* Both paths start invisible – JS sets dasharray+offset */
   #munte-path-l,
   #munte-path-r {

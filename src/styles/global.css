@@ -638,8 +638,8 @@ nav.sc .nav-r {
 
 @media(max-width: 900px) {
   .carousel-item {
-    width: 56vw;
-    max-width: 300px;
+    width: 78vw;
+    max-width: 380px;
     height: auto;
   }
   .gallery-header-overlay {
