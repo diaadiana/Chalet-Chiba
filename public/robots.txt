@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://chaletchiba.ro/sitemap.xml
+Sitemap: https://chaletchiba.ro/sitemap-index.xml
