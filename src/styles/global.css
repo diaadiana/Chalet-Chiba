@@ -335,8 +335,8 @@ nav.sc .nav-r {
   .hero{padding:0; height:100vh; min-height:620px;}
   .hb-logo-huge{font-size:clamp(2.2rem, 7vw, 3.2rem) !important; letter-spacing:normal; margin-bottom:0.6rem; white-space: normal !important;}
   .hb-left{left:1.2rem; right:1.2rem; bottom:8% !important; max-width:none;}
-  .hb-title { font-size: 2rem !important; }
-  .hb-desc { font-size: 1.05rem !important; line-height: 1.6; }
+  .hb-title { font-size: 2.4rem !important; }
+  .hb-desc { font-size: 1.15rem !important; line-height: 1.6; }
 }
 
 /* ABOUT SECTION — Curtain Reveal + Mini Carousel */
