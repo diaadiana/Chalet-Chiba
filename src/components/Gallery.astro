@@ -77,33 +77,36 @@ const images = [
     }
     .stacked-gallery-container {
       position: relative;
-      width: 80vw;
-      height: 60svh;
+      width: 75vw;
+      height: 55svh; /* slightly smaller to look more like a card */
       perspective: 1000px;
+      margin: 0;
+      padding: 0;
     }
     .stacked-item {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      border-radius: 18px; /* Slightly rounder for the glass frame */
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      border-radius: 20px; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       will-change: transform, opacity;
       transform-origin: center center;
       
       /* Glassmorphism Frame (Margin) */
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 10px; /* The white/glass margin around the image */
+      background: rgba(255, 255, 255, 0.25); /* brighter so it's not black */
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5); /* stronger border */
+      padding: 12px; /* The white/glass margin around the image */
     }
     .stacked-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      border-radius: 12px; /* Inner radius for the image */
+      border-radius: 14px; /* Inner radius for the image */
+      background: transparent;
     }
   }
 </style>
