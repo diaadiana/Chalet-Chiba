@@ -89,15 +89,16 @@ const images = [
       width: 100%;
       height: 100%;
       border-radius: 20px; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      /* Extremely subtle shadow to prevent black blob when 19 cards are stacked */
+      box-shadow: 0 8px 24px rgba(0,0,0,0.03); 
       will-change: transform, opacity;
       transform-origin: center center;
       
-      /* Glassmorphism Frame (Margin) */
-      background: rgba(255, 255, 255, 0.25); /* brighter so it's not black */
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.5); /* stronger border */
+      /* Clean Glassmorphism Frame */
+      background: rgba(255, 255, 255, 0.35); /* Elegant translucent white */
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7); /* Crisp border */
       padding: 12px; /* The white/glass margin around the image */
     }
     .stacked-item img {
@@ -186,14 +187,14 @@ const images = [
           pin: true,
           scrub: 1.5, // Increase scrub to make it smoother and prevent flying through multiple cards instantly
           start: "top top", 
-          // Increase end distance so that one full scroll wheel/swipe moves about 1 card
-          end: () => `+=${items.length * window.innerHeight * 0.8}`, 
+          // Increase end distance significantly so that one full scroll swipe naturally moves 1 card
+          end: () => `+=${items.length * window.innerHeight * 1.2}`, 
           invalidateOnRefresh: true,
           snap: {
             snapTo: "labels", // Snap perfectly to each card
-            duration: { min: 0.2, max: 0.6 },
-            delay: 0.1,
-            ease: "power1.inOut"
+            duration: { min: 0.3, max: 0.8 },
+            delay: 0.05,
+            ease: "power2.inOut"
           }
         }
       });
