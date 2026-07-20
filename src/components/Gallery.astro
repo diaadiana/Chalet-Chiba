@@ -79,8 +79,8 @@ const images = [
     }
     .stacked-gallery-container {
       position: relative;
-      width: 90vw; 
-      height: 65svh; 
+      width: 92vw; /* Maximize width */
+      height: 80svh; /* Massive height to remove white space */
       perspective: 1000px;
       margin: 0;
       padding: 0;
@@ -90,7 +90,7 @@ const images = [
       inset: 0;
       width: 100%;
       height: 100%;
-      border-radius: 16px; 
+      border-radius: 20px; 
       box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
       will-change: transform, opacity;
       transform-origin: center center;
@@ -102,11 +102,11 @@ const images = [
       height: 100%;
       object-fit: cover;
       display: block;
-      border-radius: 16px; 
+      border-radius: 20px; 
     }
     .swipe-message {
       position: absolute;
-      bottom: 40px;
+      bottom: 25px; /* Safely at the bottom */
       left: 50%;
       transform: translateX(-50%);
       font-size: 0.75rem;
@@ -200,7 +200,7 @@ const images = [
         trigger: section,
         pin: true,
         start: "top top",
-        end: "+=1500", // Keep pinned for enough scroll distance to allow interaction
+        end: "+=3000", // Keep pinned securely for a long scroll distance to allow interaction
         invalidateOnRefresh: true,
       });
 
@@ -215,9 +215,7 @@ const images = [
 
         const item = items[currentIndex];
 
-        if (currentIndex === 0 && message) {
-          gsap.to(message, { opacity: 0, duration: 0.5 });
-        }
+        // Do NOT hide the message, keep it visible!
 
         const minDistance = Math.max(window.innerWidth, window.innerHeight) * 1.2;
         let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
