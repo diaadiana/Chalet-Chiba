@@ -161,36 +161,64 @@
     gsap.set([pathL, pathR], { strokeDasharray: length, strokeDashoffset: length });
     gsap.set(pathR, { strokeDashoffset: -length });
     
-    // Create master timeline
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top 50%',
-        once: true
-      }
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 769px)", () => {
+      // Desktop: Time-based timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#about',
+          start: 'top 50%',
+          once: true
+        }
+      });
+
+      tl.to([pathL, pathR], {
+        strokeDashoffset: 0,
+        duration: 2.0,
+        ease: "power2.inOut"
+      })
+      .to({}, { duration: 1.5 })
+      .to(textCard, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power2.out"
+      }, "reveal")
+      .to(munteBg, {
+        scale: 1.35,
+        opacity: 0.25,
+        duration: 3.5,
+        ease: "power2.out"
+      }, "reveal");
     });
 
-    // 1. Draw mountain (2.0s)
-    tl.to([pathL, pathR], {
-      strokeDashoffset: 0,
-      duration: 2.0,
-      ease: "power2.inOut"
-    })
-    // 2. Wait 1.5s
-    .to({}, { duration: 1.5 })
-    // 3. Text appears while SVG gets bigger (scales up)
-    .to(textCard, {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      ease: "power2.out"
-    }, "reveal")
-    .to(munteBg, {
-      scale: 1.35, // Lines get bigger/thicker as it scales
-      opacity: 0.25, // Fade out slightly so it doesn't overpower text
-      duration: 3.5, // Slow, elegant expansion
-      ease: "power2.out"
-    }, "reveal");
+    mm.add("(max-width: 768px)", () => {
+      // Mobile: Scrub-based ScrollTrigger so it animates as they scroll
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#about',
+          start: 'top 80%',
+          end: 'center 50%',
+          scrub: 1
+        }
+      });
+
+      tl.to([pathL, pathR], {
+        strokeDashoffset: 0,
+        ease: "none"
+      }, 0)
+      .to(munteBg, {
+        scale: 1.35,
+        opacity: 0.25,
+        ease: "none"
+      }, 0)
+      .to(textCard, {
+        opacity: 1,
+        y: 0,
+        ease: "none"
+      }, 0);
+    });
   }
 
   function init() {
