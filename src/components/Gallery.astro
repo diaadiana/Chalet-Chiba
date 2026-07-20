@@ -202,89 +202,160 @@ const images = [
       if (!wrapper || !section || items.length === 0) return;
 
       // Pin the gallery section so it locks in place
-      ScrollTrigger.create({
+      let galleryPin = ScrollTrigger.create({
         trigger: section,
         pin: true,
         start: "top top",
-        end: "+=3000", // Keep pinned securely for a long scroll distance to allow interaction
+        end: "+=4000", // Keep pinned securely for a long scroll distance
         invalidateOnRefresh: true,
       });
 
       const message = wrapper.querySelector('.swipe-message');
 
       let currentIndex = 0;
-      let startX = 0;
-      let startY = 0;
+      let isDragging = false;
+      let startX = 0, startY = 0;
+      let currentX = 0, currentY = 0;
+      let activeItem: any = null;
 
-      function throwCard(deltaX: number, deltaY: number) {
-        if (currentIndex >= items.length - 1) return; // leave the last one
-
-        const item = items[currentIndex];
-
-        // Do NOT hide the message, keep it visible!
-
-        const minDistance = Math.max(window.innerWidth, window.innerHeight) * 1.2;
-        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        if (distance === 0) { deltaX = 1; distance = 1; }
-
-        const factor = minDistance / distance;
-        const tx = deltaX * factor;
-        const ty = deltaY * factor;
-        const rot = (Math.random() - 0.5) * 60; // Random spin
-
-        gsap.to(item, {
-          x: tx,
-          y: ty,
-          rotationZ: rot,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out"
-        });
-
-        currentIndex++;
-      }
-
-      // Touch events
+      // Touch events for premium drag physics
       wrapper.addEventListener('touchstart', (e: any) => {
+        if (currentIndex >= items.length - 1) return;
+        isDragging = true;
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
+        currentX = startX;
+        currentY = startY;
+        activeItem = items[currentIndex];
+        
+        // Opreste orice animatie in curs pentru a urmari degetul instant
+        gsap.killTweensOf(activeItem);
+      }, { passive: true });
+
+      wrapper.addEventListener('touchmove', (e: any) => {
+        if (!isDragging || !activeItem) return;
+        currentX = e.touches[0].clientX;
+        currentY = e.touches[0].clientY;
+        
+        let deltaX = currentX - startX;
+        let deltaY = currentY - startY;
+        let rot = deltaX * 0.05; // Rotatie fina in functie de tragere
+
+        // Cardul urmareste degetul finut
+        gsap.set(activeItem, {
+          x: deltaX,
+          y: deltaY,
+          rotationZ: rot
+        });
       }, { passive: true });
 
       wrapper.addEventListener('touchend', (e: any) => {
-        const endX = e.changedTouches[0].clientX;
-        const endY = e.changedTouches[0].clientY;
-        const deltaX = endX - startX;
-        const deltaY = endY - startY;
+        if (!isDragging || !activeItem) return;
+        isDragging = false;
 
-        // If user drags/swipes in any direction, throw ONE card
-        if (Math.abs(deltaX) > 20 || Math.abs(deltaY) > 20) {
-          throwCard(deltaX, deltaY);
+        let deltaX = currentX - startX;
+        let deltaY = currentY - startY;
+        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // Daca a tras suficient de tare (prag de 80px)
+        if (distance > 80) {
+          let factor = Math.max(window.innerWidth, window.innerHeight) / (distance || 1);
+          gsap.to(activeItem, {
+            x: deltaX * factor,
+            y: deltaY * factor,
+            rotationZ: deltaX * 0.1,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            onComplete: () => {
+              if (activeItem) activeItem.style.display = 'none';
+            }
+          });
+          
+          currentIndex++;
+
+          // Daca am ajuns la ultima poza, dezactivam blocajul (Scroll Pin)
+          if (currentIndex >= items.length - 1) {
+             if (galleryPin) {
+                galleryPin.kill(); // Elibereaza scroll-ul!
+             }
+             if (message) {
+                gsap.to(message, { opacity: 0, duration: 0.5 }); // Ascunde mesajul
+             }
+          }
+
+        } else {
+          // Snap inapoi lin daca nu a tras suficient
+          gsap.to(activeItem, {
+            x: 0,
+            y: 0,
+            rotationZ: 0,
+            duration: 0.5,
+            ease: "back.out(1.2)"
+          });
         }
+        
+        activeItem = null;
       }, { passive: true });
 
       // Mouse events for testing / desktop touch emulation
-      let isDragging = false;
       wrapper.addEventListener('mousedown', (e: any) => {
+        if (currentIndex >= items.length - 1) return;
+        isDragging = true;
         startX = e.clientX;
         startY = e.clientY;
-        isDragging = true;
+        currentX = startX;
+        currentY = startY;
+        activeItem = items[currentIndex];
+        gsap.killTweensOf(activeItem);
+      });
+
+      wrapper.addEventListener('mousemove', (e: any) => {
+        if (!isDragging || !activeItem) return;
+        currentX = e.clientX;
+        currentY = e.clientY;
+        let deltaX = currentX - startX;
+        let deltaY = currentY - startY;
+        let rot = deltaX * 0.05;
+        gsap.set(activeItem, { x: deltaX, y: deltaY, rotationZ: rot });
       });
 
       wrapper.addEventListener('mouseup', (e: any) => {
-        if (!isDragging) return;
+        if (!isDragging || !activeItem) return;
         isDragging = false;
-        const endX = e.clientX;
-        const endY = e.clientY;
-        const deltaX = endX - startX;
-        const deltaY = endY - startY;
+        let deltaX = currentX - startX;
+        let deltaY = currentY - startY;
+        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (Math.abs(deltaX) > 20 || Math.abs(deltaY) > 20) {
-          throwCard(deltaX, deltaY);
+        if (distance > 80) {
+          let factor = Math.max(window.innerWidth, window.innerHeight) / (distance || 1);
+          gsap.to(activeItem, {
+            x: deltaX * factor,
+            y: deltaY * factor,
+            rotationZ: deltaX * 0.1,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            onComplete: () => { if (activeItem) activeItem.style.display = 'none'; }
+          });
+          currentIndex++;
+          
+          if (currentIndex >= items.length - 1) {
+             if (galleryPin) galleryPin.kill();
+             if (message) gsap.to(message, { opacity: 0, duration: 0.5 });
+          }
+        } else {
+          gsap.to(activeItem, { x: 0, y: 0, rotationZ: 0, duration: 0.5, ease: "back.out(1.2)" });
         }
+        activeItem = null;
+      });
+      
+      wrapper.addEventListener('mouseleave', (e: any) => {
+         if (isDragging) wrapper.dispatchEvent(new Event('mouseup'));
       });
 
       return () => {
-        // Cleanup handled by matchMedia
+        if (galleryPin) galleryPin.kill();
       };
     });
   }
