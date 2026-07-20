@@ -67,21 +67,21 @@ const images = [
       display: none;
     }
     .mobile-gallery {
-      display: block;
-      position: relative;
-      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
       height: 100svh; 
       box-sizing: border-box;
-      margin: 0 auto;
+      position: relative;
       overflow: hidden;
     }
     .stacked-gallery-container {
-      position: absolute;
-      top: 46%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 88vw; 
+      position: relative;
+      width: 90vw; 
       height: 65svh; 
+      perspective: 1000px;
       margin: 0;
       padding: 0;
     }
@@ -200,7 +200,7 @@ const images = [
         trigger: section,
         pin: true,
         start: "top top",
-        end: "+=1000",
+        end: "+=1500", // Keep pinned for enough scroll distance to allow interaction
         invalidateOnRefresh: true,
       });
 
@@ -209,37 +209,35 @@ const images = [
       let currentIndex = 0;
       let startX = 0;
       let startY = 0;
-      let isExploding = false;
 
-      function scatterAllCards() {
-        if (isExploding || currentIndex >= items.length - 1) return;
-        isExploding = true;
+      function throwCard(deltaX: number, deltaY: number) {
+        if (currentIndex >= items.length - 1) return; // leave the last one
 
-        if (message) {
-          gsap.to(message, { opacity: 0, duration: 0.4 });
+        const item = items[currentIndex];
+
+        if (currentIndex === 0 && message) {
+          gsap.to(message, { opacity: 0, duration: 0.5 });
         }
 
-        const remainingItems = items.slice(currentIndex, items.length - 1);
-        
-        remainingItems.forEach((item: any, idx) => {
-          const angle = Math.random() * Math.PI * 2; // All 360-degree directions
-          const radius = Math.max(window.innerWidth, window.innerHeight) * 1.4;
-          const tx = Math.cos(angle) * radius;
-          const ty = Math.sin(angle) * radius;
-          const rot = (Math.random() - 0.5) * 120; // Dynamic rotation spin
+        const minDistance = Math.max(window.innerWidth, window.innerHeight) * 1.2;
+        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (distance === 0) { deltaX = 1; distance = 1; }
 
-          gsap.to(item, {
-            x: tx,
-            y: ty,
-            rotationZ: rot,
-            opacity: 0,
-            duration: 0.8,
-            delay: idx * 0.1, // Rapid succession scatter
-            ease: "power2.out"
-          });
+        const factor = minDistance / distance;
+        const tx = deltaX * factor;
+        const ty = deltaY * factor;
+        const rot = (Math.random() - 0.5) * 60; // Random spin
+
+        gsap.to(item, {
+          x: tx,
+          y: ty,
+          rotationZ: rot,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out"
         });
 
-        currentIndex = items.length - 1;
+        currentIndex++;
       }
 
       // Touch events
@@ -254,9 +252,9 @@ const images = [
         const deltaX = endX - startX;
         const deltaY = endY - startY;
 
-        // If user drags/swipes in any direction, trigger the scatter!
+        // If user drags/swipes in any direction, throw ONE card
         if (Math.abs(deltaX) > 20 || Math.abs(deltaY) > 20) {
-          scatterAllCards();
+          throwCard(deltaX, deltaY);
         }
       }, { passive: true });
 
@@ -277,7 +275,7 @@ const images = [
         const deltaY = endY - startY;
 
         if (Math.abs(deltaX) > 20 || Math.abs(deltaY) > 20) {
-          scatterAllCards();
+          throwCard(deltaX, deltaY);
         }
       });
 
