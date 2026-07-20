@@ -165,17 +165,18 @@ const images = [
     // Mobile: Random Fly-Off Gallery
     mm.add("(max-width: 768px)", () => {
       const wrapper = document.querySelector('.mobile-gallery');
+      const section = document.querySelector('#gallery');
       const items = gsap.utils.toArray('.stacked-item');
       
-      if (!wrapper || items.length === 0) return;
+      if (!wrapper || !section || items.length === 0) return;
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: wrapper,
+          trigger: section, // pin the whole section to avoid flex child layout breaks
           pin: true,
           scrub: 1, // Smooth scrub
-          start: "top top", // Pin it securely at the top of the screen
-          end: () => `+=${items.length * window.innerHeight * 0.40}`, // 40% vh per card
+          start: "top top", 
+          end: () => `+=${items.length * window.innerHeight * 0.40}`, 
           invalidateOnRefresh: true
         }
       });
