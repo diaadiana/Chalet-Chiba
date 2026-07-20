@@ -150,34 +150,72 @@
 </style>
 
 <script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
   const expSection = document.getElementById('exp');
-  const cards = document.querySelectorAll('.exp-card');
-  let flipTimer: ReturnType<typeof setTimeout> | null = null;
-  let hasFlipped = false;
+  const cards = gsap.utils.toArray('.exp-card');
+  
+  let mm = gsap.matchMedia();
 
-  function flipAll() {
-    // All 3 flip simultaneously
-    cards.forEach(card => card.classList.add('flipped'));
-    hasFlipped = true;
-  }
+  // Desktop (min-width: 901px): keep the original IntersectionObserver logic
+  mm.add("(min-width: 901px)", () => {
+    let flipTimer: ReturnType<typeof setTimeout> | null = null;
+    let hasFlipped = false;
 
-  function resetAll() {
-    cards.forEach(card => card.classList.remove('flipped'));
-    hasFlipped = false;
-    if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
-  }
+    function flipAll() {
+      cards.forEach((card: any) => card.classList.add('flipped'));
+      hasFlipped = true;
+    }
 
-  const expObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        if (!hasFlipped) {
-          flipTimer = setTimeout(flipAll, 2500); // 2.5s delay
+    function resetAll() {
+      cards.forEach((card: any) => card.classList.remove('flipped'));
+      hasFlipped = false;
+      if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
+    }
+
+    const expObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!hasFlipped) {
+            flipTimer = setTimeout(flipAll, 2500); // 2.5s delay
+          }
+        } else {
+          resetAll();
         }
-      } else {
-        resetAll();
-      }
-    });
-  }, { threshold: 0.5 });
+      });
+    }, { threshold: 0.5 });
 
-  if (expSection) expObserver.observe(expSection);
+    if (expSection) expObserver.observe(expSection);
+
+    return () => {
+      if (expSection) expObserver.unobserve(expSection);
+      resetAll();
+    };
+  });
+
+  // Mobile (max-width: 900px): GSAP ScrollTrigger staggered flip
+  mm.add("(max-width: 900px)", () => {
+    cards.forEach((card: any, i) => {
+      gsap.to(card.querySelector('.flip-inner'), {
+        rotateY: 180,
+        ease: "power2.out",
+        duration: 0.85,
+        scrollTrigger: {
+          trigger: card,
+          start: "top 75%", // Triggers when the card enters 75% of the viewport height
+          toggleActions: "play none none reverse" // Flips back if they scroll up
+        }
+      });
+    });
+
+    return () => {
+      // Clear inline styles applied by GSAP when moving back to desktop
+      cards.forEach((card: any) => {
+        gsap.set(card.querySelector('.flip-inner'), { clearProps: "all" });
+      });
+    };
+  });
 </script>

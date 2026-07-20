@@ -194,30 +194,44 @@
     });
 
     mm.add("(max-width: 768px)", () => {
-      // Mobile: Scrub-based ScrollTrigger so it animates as they scroll
-      const tl = gsap.timeline({
+      // Mobile: Mountain draws automatically, text appears with pinned scrub
+      
+      // 1. Mountain draws automatically on entering view
+      gsap.to([pathL, pathR], {
+        strokeDashoffset: 0,
+        duration: 1.5,
+        ease: "power2.inOut",
         scrollTrigger: {
           trigger: '#about',
-          start: 'top 80%',
-          end: 'center 50%',
-          scrub: 1
+          start: 'top 70%',
+          once: true
+        }
+      });
+      
+      gsap.to(munteBg, {
+        scale: 1.25,
+        opacity: 0.3,
+        duration: 2.0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: '#about',
+          start: 'top 70%',
+          once: true
         }
       });
 
-      tl.to([pathL, pathR], {
-        strokeDashoffset: 0,
-        ease: "none"
-      }, 0)
-      .to(munteBg, {
-        scale: 1.35,
-        opacity: 0.25,
-        ease: "none"
-      }, 0)
-      .to(textCard, {
+      // 2. Text appears as you scroll down, section pinned to give time to read
+      gsap.to(textCard, {
         opacity: 1,
         y: 0,
-        ease: "none"
-      }, 0);
+        scrollTrigger: {
+          trigger: '#about',
+          start: 'top top',
+          pin: true,
+          end: '+=100%',
+          scrub: 1
+        }
+      });
     });
   }
 
