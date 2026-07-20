@@ -72,15 +72,15 @@ const images = [
       align-items: center;
       width: 100%;
       height: 100svh; 
-      padding-top: 65px; /* Offset the sticky header for perfect visual centering */
+      padding-top: 65px; /* Offset the sticky header */
       box-sizing: border-box;
       position: relative;
-      overflow: hidden; /* Hide flying cards cleanly */
+      /* overflow: hidden REMOVED so cards don't abruptly disappear when flying */
     }
     .stacked-gallery-container {
       position: relative;
-      width: 90vw; /* Restored to full wide size */
-      height: 68svh; /* Tall to remove empty space */
+      width: 95vw; /* Maximize width so it's not narrowed */
+      height: 72svh; /* Maximize height to eliminate empty space */
       perspective: 1000px;
       margin: 0;
       padding: 0;
@@ -90,25 +90,19 @@ const images = [
       inset: 0;
       width: 100%;
       height: 100%;
-      box-sizing: border-box; /* Extremely important so padding doesn't break alignment */
-      border-radius: 20px; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.2); 
+      border-radius: 16px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
       will-change: transform, opacity;
       transform-origin: center center;
-      
-      /* Glassmorphism Frame (Margin) */
-      background: rgba(255, 255, 255, 0.25); 
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.6); 
-      padding: 12px; /* The white/glass margin around the image */
+      background: transparent;
+      border: none;
     }
     .stacked-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      border-radius: 12px; 
+      border-radius: 16px; 
     }
     .swipe-message {
       position: absolute;
