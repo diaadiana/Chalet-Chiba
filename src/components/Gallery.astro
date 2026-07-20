@@ -33,15 +33,15 @@ const images = [
     </div>
   </div>
 
-  <!-- Mobile: Horizontal Gallery -->
-  <div class="horiz-gallery-wrapper mobile-gallery" id="portfolio">
-    <div class="horiz-gallery-strip">
-      {images.map(src => (
-        <div class="horiz-item">
-          <img src={src} alt="Chalet Chiba" loading="lazy" decoding="async" />
+  <!-- Mobile: Stacked Clip-Path Reveal Gallery -->
+  <div class="stacked-gallery-wrapper mobile-gallery" id="portfolio">
+    {images.map((src, index) => (
+      <div class="stacked-item" style={`z-index: ${images.length - index}`}>
+        <div class="stacked-img-wrap">
+           <img src={src} alt="Chalet Chiba" loading="lazy" decoding="async" />
         </div>
-      ))}
-    </div>
+      </div>
+    ))}
   </div>
 </section>
 
@@ -67,37 +67,34 @@ const images = [
       display: none;
     }
     .mobile-gallery {
-      display: flex; /* Use flex to center things naturally */
-      flex-direction: column;
-      justify-content: center;
+      display: block;
       width: 100%;
       height: 100svh; /* svh is better for mobile browsers */
-      overflow: hidden;
       position: relative;
-    }
-    .horiz-gallery-strip {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 0 1.5rem;
-      width: fit-content;
-      /* Removed will-change: transform to fix iOS cutting off images on long strips */
-    }
-    .horiz-item {
-      flex-shrink: 0;
-      width: 80vw;
-      height: 60svh;
-      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      /* Use hardware acceleration on the items instead of the parent strip */
-      transform: translateZ(0); 
+      /* Remove padding or flex that would break the absolute stacking */
     }
-    .horiz-item img {
+    .stacked-item {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      will-change: clip-path; /* Optimized for animation */
+      clip-path: inset(0 0 0% 0);
+    }
+    .stacked-img-wrap {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      will-change: transform; /* Optimized for animation */
+    }
+    .stacked-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      transform: scale(1);
     }
   }
 </style>
@@ -163,46 +160,49 @@ const images = [
       };
     });
 
-    // Mobile: Horizontal Scroll Gallery
+    // Mobile: Stacked Clip-Path Reveal Gallery
     mm.add("(max-width: 768px)", () => {
-      const horizontalSections = gsap.utils.toArray(".horiz-gallery-wrapper");
+      const wrapper = document.querySelector('.stacked-gallery-wrapper');
+      const items = gsap.utils.toArray('.stacked-item');
+      
+      if (!wrapper || items.length === 0) return;
 
-      horizontalSections.forEach(function (sec: any) {
-        const pinWrap = sec.querySelector(".horiz-gallery-strip");
-        if (!pinWrap) return;
-
-        let pinWrapWidth: number;
-        let horizontalScrollLength: number;
-
-        function refresh() {
-          pinWrapWidth = pinWrap.scrollWidth;
-          horizontalScrollLength = pinWrapWidth - window.innerWidth;
+      // Create a master timeline pinned to the wrapper
+      // Let's use 45% of viewport height per item to keep it fast but controllable.
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapper,
+          pin: true,
+          scrub: 1, // Smooth scrub
+          start: "top top",
+          end: () => `+=${items.length * window.innerHeight * 0.45}`, 
+          invalidateOnRefresh: true
         }
+      });
 
-        refresh();
+      // We animate each item EXCEPT the last one to clip from bottom to top
+      items.forEach((item: any, i) => {
+        if (i === items.length - 1) return; // The bottom-most item stays
 
-        // Pinning and horizontal scrolling
-        gsap.to(pinWrap, {
-          scrollTrigger: {
-            scrub: 1, // Smooth scrub
-            trigger: sec,
-            pin: true, // Use true instead of sec for better default behavior
-            start: "center center",
-            // Divide the scroll distance by 2 so it doesn't take 15 screens to scroll through
-            end: () => `+=${pinWrapWidth / 2}`,
-            invalidateOnRefresh: true,
-            // Add a small padding to pin spacer if needed, but native is usually fine
-          },
-          x: () => -horizontalScrollLength,
+        const imgWrap = item.querySelector('.stacked-img-wrap');
+
+        // Animate the clip-path wiping UP (100% means bottom is clipped fully to top)
+        tl.to(item, {
+          clipPath: "inset(0 0 100% 0)", 
           ease: "none"
-        });
-
-        ScrollTrigger.addEventListener("refreshInit", refresh);
+        }, i); // Use 'i' to sequence them linearly
+        
+        // Optional: Animate the image wrap scaling UP slightly for a parallax feel
+        if (imgWrap) {
+           tl.to(imgWrap, {
+             scale: 1.15,
+             ease: "none"
+           }, i);
+        }
       });
 
       return () => {
-        // Cleanup listener on unmatch
-        // ScrollTrigger automatically cleans up its triggers
+        // Cleanup listener on unmatch automatically handled by gsap.matchMedia()
       };
     });
   }
