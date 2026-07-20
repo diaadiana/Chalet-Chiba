@@ -76,13 +76,14 @@ const images = [
       box-sizing: border-box;
       position: relative;
       overflow: hidden;
+      padding-bottom: 20px; /* Safe area padding for mobile browsers */
     }
     .stacked-gallery-container {
       position: relative;
-      width: 92vw; /* Maximize width */
-      height: 80svh; /* Massive height to remove white space */
+      width: 92vw; 
+      height: 72svh; /* slightly reduced to make room for message below */
       perspective: 1000px;
-      margin: 0;
+      margin: 0 0 25px 0; /* Space between card and message */
       padding: 0;
     }
     .stacked-item {
@@ -96,6 +97,8 @@ const images = [
       transform-origin: center center;
       background: transparent;
       border: none;
+      /* Previne scroll-ul accidental cand tragi de poze */
+      touch-action: none; 
     }
     .stacked-item img {
       width: 100%;
@@ -105,14 +108,14 @@ const images = [
       border-radius: 20px; 
     }
     .swipe-message {
-      position: absolute;
-      bottom: 25px; /* Safely at the bottom */
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative; /* Placed cleanly in the flex footer */
+      bottom: auto;
+      left: auto;
+      transform: none;
       font-size: 0.75rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(26, 46, 38, 0.7); /* Dark green matching the theme */
+      color: rgba(26, 46, 38, 0.7); 
       pointer-events: none;
       animation: pulseText 2s infinite;
       text-align: center;
