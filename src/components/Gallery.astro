@@ -174,7 +174,7 @@ const images = [
           trigger: wrapper,
           pin: true,
           scrub: 1, // Smooth scrub
-          start: "center center", // Pin exactly when gallery is centered
+          start: "top top", // Pin it securely at the top of the screen
           end: () => `+=${items.length * window.innerHeight * 0.40}`, // 40% vh per card
           invalidateOnRefresh: true
         }
