@@ -42,6 +42,7 @@ const images = [
         </div>
       ))}
     </div>
+    <div class="swipe-message">Trage în orice direcție pentru a vedea galeria</div>
   </div>
 </section>
 
@@ -68,6 +69,7 @@ const images = [
     }
     .mobile-gallery {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       width: 100%;
@@ -75,12 +77,11 @@ const images = [
       padding-top: 65px; /* Offset the sticky header */
       box-sizing: border-box;
       position: relative;
-      /* overflow: hidden REMOVED so cards don't abruptly disappear when flying */
     }
     .stacked-gallery-container {
       position: relative;
-      width: 95vw; /* Maximize width so it's not narrowed */
-      height: 72svh; /* Maximize height to eliminate empty space */
+      width: 90vw; 
+      height: 68svh; 
       perspective: 1000px;
       margin: 0;
       padding: 0;
@@ -106,13 +107,13 @@ const images = [
     }
     .swipe-message {
       position: absolute;
-      bottom: 6vh; /* Placed safely at the bottom */
+      bottom: 35px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(26, 46, 38, 0.6); /* Dark green matching the theme */
+      color: rgba(26, 46, 38, 0.7); /* Dark green matching the theme */
       pointer-events: none;
       animation: pulseText 2s infinite;
       text-align: center;
@@ -194,14 +195,7 @@ const images = [
       
       if (!wrapper || items.length === 0) return;
 
-      // Create the hint message
-      let message = wrapper.querySelector('.swipe-message');
-      if (!message) {
-        message = document.createElement('div');
-        message.className = 'swipe-message';
-        message.innerText = "Trage în orice direcție pentru a vedea galeria";
-        wrapper.appendChild(message);
-      }
+      const message = wrapper.querySelector('.swipe-message');
 
       let currentIndex = 0;
       let startX = 0;
