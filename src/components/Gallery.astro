@@ -35,6 +35,7 @@ const images = [
 
   <!-- Mobile: Stacked Fly-Off Gallery -->
   <div class="mobile-gallery" id="portfolio">
+    <div class="swipe-message">Trage în orice direcție pentru a vedea galeria</div>
     <div class="stacked-gallery-container">
       {images.map((src, index) => (
         <div class="stacked-item" style={`z-index: ${images.length - index}`}>
@@ -42,7 +43,6 @@ const images = [
         </div>
       ))}
     </div>
-    <div class="swipe-message">Trage în orice direcție pentru a vedea galeria</div>
   </div>
 </section>
 
@@ -76,14 +76,30 @@ const images = [
       box-sizing: border-box;
       position: relative;
       overflow: hidden;
-      padding-bottom: 20px; /* Safe area padding for mobile browsers */
+      padding-top: 65px; /* Offset the sticky navigation bar */
+    }
+    .swipe-message {
+      position: relative; 
+      bottom: auto;
+      left: auto;
+      transform: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(26, 46, 38, 0.7); 
+      pointer-events: none;
+      animation: pulseText 2s infinite;
+      text-align: center;
+      width: 100%;
+      z-index: 100;
+      margin-bottom: 20px; /* Space between message and the card below it */
     }
     .stacked-gallery-container {
       position: relative;
       width: 92vw; 
-      height: 72svh; /* slightly reduced to make room for message below */
+      height: 72svh; 
       perspective: 1000px;
-      margin: 0 0 25px 0; /* Space between card and message */
+      margin: 0;
       padding: 0;
     }
     .stacked-item {
@@ -106,21 +122,6 @@ const images = [
       object-fit: cover;
       display: block;
       border-radius: 20px; 
-    }
-    .swipe-message {
-      position: relative; /* Placed cleanly in the flex footer */
-      bottom: auto;
-      left: auto;
-      transform: none;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(26, 46, 38, 0.7); 
-      pointer-events: none;
-      animation: pulseText 2s infinite;
-      text-align: center;
-      width: 100%;
-      z-index: 100;
     }
     @keyframes pulseText {
       0%, 100% { opacity: 0.4; }
