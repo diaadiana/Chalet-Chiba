@@ -67,28 +67,31 @@ const images = [
       display: none;
     }
     .mobile-gallery {
-      display: block;
+      display: flex; /* Use flex to center things naturally */
+      flex-direction: column;
+      justify-content: center;
       width: 100%;
-      height: 100vh; /* Full viewport height for pinning */
+      height: 100svh; /* svh is better for mobile browsers */
       overflow: hidden;
       position: relative;
     }
     .horiz-gallery-strip {
       display: flex;
-      height: 100%;
       align-items: center;
       gap: 1.5rem;
       padding: 0 1.5rem;
       width: fit-content;
-      will-change: transform;
+      /* Removed will-change: transform to fix iOS cutting off images on long strips */
     }
     .horiz-item {
       flex-shrink: 0;
       width: 80vw;
-      height: 60vh;
+      height: 60svh;
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      /* Use hardware acceleration on the items instead of the parent strip */
+      transform: translateZ(0); 
     }
     .horiz-item img {
       width: 100%;
@@ -183,10 +186,12 @@ const images = [
           scrollTrigger: {
             scrub: 1, // Smooth scrub
             trigger: sec,
-            pin: sec,
+            pin: true, // Use true instead of sec for better default behavior
             start: "center center",
-            end: () => `+=${pinWrapWidth}`,
-            invalidateOnRefresh: true
+            // Divide the scroll distance by 2 so it doesn't take 15 screens to scroll through
+            end: () => `+=${pinWrapWidth / 2}`,
+            invalidateOnRefresh: true,
+            // Add a small padding to pin spacer if needed, but native is usually fine
           },
           x: () => -horizontalScrollLength,
           ease: "none"
