@@ -106,6 +106,25 @@ const images = [
       border-radius: 14px; 
       background: transparent;
     }
+    .swipe-message {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(26, 46, 38, 0.6); /* Dark green matching the theme */
+      pointer-events: none;
+      animation: pulseText 2s infinite;
+      text-align: center;
+      width: 100%;
+      z-index: 100;
+    }
+    @keyframes pulseText {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.9; }
+    }
   }
 </style>
 
@@ -170,45 +189,97 @@ const images = [
       };
     });
 
-    // Mobile: Random Fly-Off Gallery
+    // Mobile: Interactive Swipe / Drag Gallery
     mm.add("(max-width: 768px)", () => {
       const wrapper = document.querySelector('.mobile-gallery');
-      const section = document.querySelector('#gallery');
       const items = gsap.utils.toArray('.stacked-item');
       
-      if (!wrapper || !section || items.length === 0) return;
+      if (!wrapper || items.length === 0) return;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapper, 
-          start: "top 25%", // Start playing when the gallery wrapper reaches 25% from the top
-          toggleActions: "play none none reverse" // Auto-play when entering, reverse if they scroll back up
+      // Create the hint message
+      let message = wrapper.querySelector('.swipe-message');
+      if (!message) {
+        message = document.createElement('div');
+        message.className = 'swipe-message';
+        message.innerText = "Trage în orice direcție pentru a vedea galeria";
+        wrapper.appendChild(message);
+      }
+
+      let currentIndex = 0;
+      let startX = 0;
+      let startY = 0;
+      let isDragging = false;
+
+      function throwCard(deltaX: number, deltaY: number) {
+        if (currentIndex >= items.length - 1) return; // leave the last one
+
+        const item = items[currentIndex];
+
+        if (currentIndex === 0 && message) {
+          gsap.to(message, { opacity: 0, duration: 0.5 });
         }
-      });
 
-      items.forEach((item: any, i) => {
-        if (i === items.length - 1) return; // The bottom-most item stays
+        const minDistance = Math.max(window.innerWidth, window.innerHeight) * 1.2;
+        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (distance === 0) { deltaX = 1; distance = 1; }
 
-        // Pre-calculate random target position outside the viewport
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.max(window.innerWidth, window.innerHeight) * 1.2;
-        const tx = Math.cos(angle) * radius;
-        const ty = Math.sin(angle) * radius;
-        
-        const rot = (Math.random() - 0.5) * 90;
+        const factor = minDistance / distance;
+        const tx = deltaX * factor;
+        const ty = deltaY * factor;
+        const rot = (Math.random() - 0.5) * 60; // Random spin
 
-        tl.to(item, {
+        gsap.to(item, {
           x: tx,
           y: ty,
           rotationZ: rot,
           opacity: 0,
-          duration: 1.8, /* Much slower float away */
-          ease: "power2.inOut"
-        }, i * 0.45); // Slower stagger
+          duration: 0.8,
+          ease: "power2.out"
+        });
+
+        currentIndex++;
+      }
+
+      // Touch events
+      wrapper.addEventListener('touchstart', (e: any) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+
+      wrapper.addEventListener('touchend', (e: any) => {
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+
+        // If it's a significant swipe (more than 30px)
+        if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
+          throwCard(deltaX, deltaY);
+        }
+      }, { passive: true });
+
+      // Mouse events for testing / desktop touch emulation
+      wrapper.addEventListener('mousedown', (e: any) => {
+        startX = e.clientX;
+        startY = e.clientY;
+        isDragging = true;
+      });
+
+      wrapper.addEventListener('mouseup', (e: any) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const endX = e.clientX;
+        const endY = e.clientY;
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+
+        if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
+          throwCard(deltaX, deltaY);
+        }
       });
 
       return () => {
-        // Cleanup handled by gsap.matchMedia()
+        // Cleanup handled by matchMedia
       };
     });
   }
