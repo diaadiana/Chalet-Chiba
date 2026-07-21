@@ -203,7 +203,6 @@ const images = [
         message.textContent = "Scroll pentru a explora galeria";
       }
 
-      // Initializam timeline-ul cerut, rafinat
       const tl = gsap.timeline({
         defaults: {
           ease: "none",
@@ -211,30 +210,41 @@ const images = [
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: `+=${window.innerHeight * (items.length * 1.2)}`, // Mai mult spatiu de scroll pentru un efect extra-smooth
-          scrub: 1.5, // 1.5s delay pentru o alunecare super fina
+          end: `+=${window.innerHeight * items.length}`, 
+          scrub: 1, 
           pin: true,
+          snap: {
+            snapTo: "labels",
+            duration: { min: 0.2, max: 1.5 },
+            delay: 0.15,
+            ease: "power1.inOut",
+          }
         }
       });
 
       // Ascundem mesajul usor
       if (message) {
-        tl.to(message, { opacity: 0, duration: 0.5 }, 0);
+        tl.to(message, { opacity: 0, duration: 0.2 }, 0);
       }
 
-      // Animam clipPath pe toate cardurile in afara de primul
-      tl.from(".stacked-item:not(:first-child)", {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 1,
-        stagger: 2
-      }, 0);
+      // Adaugam un label initial pentru prima poza
+      tl.addLabel("card0");
 
-      // Miscare y (exact ce ai cerut tu)
-      tl.to(".stacked-item:not(:last-child)", {
-        y: window.innerHeight,
-        duration: 1,
-        stagger: 2
-      }, 0);
+      // Construim timeline-ul manual pentru a adauga labels la fiecare card
+      items.forEach((item, i) => {
+        if (i === 0) return; // Primul card e vizibil implicit
+
+        const label = `card${i}`;
+        tl.addLabel(label)
+          .from(item, {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+            duration: 1
+          }, label)
+          .to(items[i - 1], {
+            y: window.innerHeight,
+            duration: 1
+          }, label);
+      });
 
       return () => {
         tl.kill();
