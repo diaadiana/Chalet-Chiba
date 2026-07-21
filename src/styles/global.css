@@ -1063,7 +1063,7 @@ nav.sc .nav-r {
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem; /* Adjusted padding to ensure it fits without clipping */
-  background: var(--forest);
+  background: linear-gradient(to bottom, var(--off) 0%, var(--forest) 15%, var(--forest) 85%, var(--off) 100%);
   position: relative;
 }
 
@@ -1465,7 +1465,7 @@ nav.sc .nav-r {
   align-items: center;
   justify-content: flex-start;
   padding: 4rem 6rem 5rem; /* added bottom padding */
-  background: var(--forest);
+  background: linear-gradient(to bottom, var(--off) 0%, var(--forest) 15%, var(--forest) 100%);
   color: #F5F0E8;
   position: relative;
   overflow: hidden;
