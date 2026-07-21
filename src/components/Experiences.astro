@@ -46,6 +46,10 @@
     align-items: center;
     justify-content: center;
     padding: 6rem 5%;
+    /* Hardware acceleration to prevent Safari pin-spacer clipping bugs */
+    position: relative;
+    z-index: 3;
+    transform: translateZ(0);
   }
 
   .exp-container {

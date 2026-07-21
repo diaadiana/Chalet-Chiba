@@ -73,10 +73,14 @@
     min-height: 100vh;
     box-sizing: border-box;
     display: flex;
-    align-items: center; /* centers the content vertically */
-    justify-content: center; /* centers the content horizontally */
-    padding: 7rem 0 3rem 0; /* added 7rem top padding to push it slightly below the sticky navbar */
+    align-items: center; 
+    justify-content: center; 
+    padding: 7rem 0 3rem 0; 
     background: var(--cream);
+    /* Forcing compositing layer to prevent iOS Safari rendering glitches when adjacent sections are pinned */
+    position: relative;
+    z-index: 2;
+    transform: translateZ(0);
   }
   .rooms-wrap {
     max-width: 900px;
