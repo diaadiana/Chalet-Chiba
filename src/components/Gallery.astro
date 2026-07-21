@@ -60,11 +60,13 @@ const images = [
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(26, 58, 26, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(184, 149, 90, 0.5);
-    color: var(--gold, #B8955A);
+    /* Efect Glassmorphism adaptiv (alb/inghetat) */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,8 +76,9 @@ const images = [
   }
   
   .gallery-nav:hover {
-    background: rgba(26, 58, 26, 0.7);
+    background: rgba(255, 255, 255, 0.25);
     border-color: var(--gold, #B8955A);
+    color: var(--gold, #B8955A);
     transform: translateY(-50%) scale(1.05);
   }
 
