@@ -661,7 +661,7 @@ nav.sc .nav-r {
   align-items: center;
   justify-content: center;
   padding: 8rem 6rem;
-  background: var(--off);
+  background: linear-gradient(to bottom, var(--cream) 0%, var(--forest) 15%, var(--forest) 85%, var(--off) 100%);
   position: relative;
   overflow: hidden;
 }
