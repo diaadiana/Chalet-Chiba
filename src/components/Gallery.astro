@@ -38,7 +38,7 @@ const images = [
     <div class="swipe-message">Trage în orice direcție pentru a vedea galeria</div>
     <div class="stacked-gallery-container">
       {images.map((src, index) => (
-        <div class="stacked-item" style={`z-index: ${images.length - index}`}>
+        <div class="stacked-item">
            <img src={src} alt="Chalet Chiba" loading="lazy" decoding="async" />
         </div>
       ))}
@@ -135,9 +135,8 @@ const images = [
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { Draggable } from "gsap/Draggable";
 
-  gsap.registerPlugin(ScrollTrigger, Draggable);
+  gsap.registerPlugin(ScrollTrigger);
 
   function initGalleryAnimation() {
     let mm = gsap.matchMedia();
@@ -194,91 +193,49 @@ const images = [
       };
     });
 
-    // Mobile: Interactive Swipe / Drag Gallery cu GSAP Draggable
+    // Mobile: Scroll-driven clip-path wipe animation
     mm.add("(max-width: 768px)", () => {
-      const wrapper = document.querySelector('.mobile-gallery');
       const section = document.querySelector('#gallery');
       const items = gsap.utils.toArray('.stacked-item');
+      const message = document.querySelector('.swipe-message');
       
-      if (!wrapper || !section || items.length === 0) return;
+      if (!section || items.length === 0) return;
 
-      // Pin the gallery section so it locks in place
-      let galleryPin = ScrollTrigger.create({
-        trigger: section,
-        pin: true,
-        start: "top top",
-        end: "+=4000", // Keep pinned securely
-        invalidateOnRefresh: true,
-      });
+      if (message) {
+        message.textContent = "Scroll pentru a descoperi galeria";
+      }
 
-      const message = wrapper.querySelector('.swipe-message');
-      let currentIndex = 0;
-
-      // Initializam GSAP Draggable pe toate cardurile
-      let draggables = Draggable.create(items, {
-        type: "x,y",
-        edgeResistance: 0.65,
-        onDragStart: function(e) {
-          // Permitem tragerea doar pentru cardul de sus (cel curent)
-          let index = items.indexOf(this.target);
-          if (index !== currentIndex) {
-            this.endDrag(e); // Opreste tragerea daca nu e cardul vizibil
-            return;
-          }
-          gsap.killTweensOf(this.target);
+      // Initializam timeline-ul cerut
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "none",
         },
-        onDrag: function() {
-          // Cardul urmareste degetul finut, cu o mica rotatie
-          gsap.set(this.target, { rotationZ: this.x * 0.05 });
-        },
-        onDragEnd: function() {
-          let index = items.indexOf(this.target);
-          if (index !== currentIndex) return;
-
-          let distance = Math.sqrt(this.x * this.x + this.y * this.y);
-
-          // Daca a tras suficient de tare (prag de 80px)
-          if (distance > 80) {
-            let factor = Math.max(window.innerWidth, window.innerHeight) / (distance || 1);
-            gsap.to(this.target, {
-              x: this.x * factor,
-              y: this.y * factor,
-              rotationZ: this.x * 0.1,
-              opacity: 0,
-              duration: 0.6,
-              ease: "power2.out",
-              onComplete: () => {
-                this.target.style.display = 'none';
-              }
-            });
-            
-            currentIndex++;
-
-            // Daca am ajuns la ultima poza, dezactivam blocajul (Scroll Pin)
-            if (currentIndex >= items.length - 1) {
-               if (galleryPin) {
-                  galleryPin.kill(); // Elibereaza scroll-ul!
-               }
-               if (message) {
-                  gsap.to(message, { opacity: 0, duration: 0.5 });
-               }
-            }
-          } else {
-            // Snap inapoi lin daca nu a tras suficient
-            gsap.to(this.target, {
-              x: 0,
-              y: 0,
-              rotationZ: 0,
-              duration: 0.5,
-              ease: "back.out(1.2)"
-            });
-          }
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: `+=${window.innerHeight * (items.length * 0.75)}`, 
+          scrub: 1, 
+          pin: true,
         }
       });
 
+      // Animam clipPath pe toate cardurile in afara de primul
+      tl.from(".stacked-item:not(:first-child)", {
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        duration: 1,
+        stagger: 2
+      });
+
+      // Miscare y pe toate cardurile in afara de ultimul
+      tl.to(".stacked-item:not(:last-child)", {
+        y: window.innerHeight,
+        duration: 1,
+        stagger: 2
+      }, "<");
+
       return () => {
-        if (galleryPin) galleryPin.kill();
-        if (draggables) draggables.forEach(d => d.kill());
+        tl.kill();
+        ScrollTrigger.getAll().forEach(t => t.kill());
       };
     });
   }
