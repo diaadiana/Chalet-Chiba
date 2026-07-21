@@ -892,7 +892,7 @@ nav.sc .nav-r {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6rem 6rem 8rem 6rem; /* extra bottom padding for spacing */
+  padding: 10rem 6rem 8rem 6rem; /* generous top padding for smooth section transition */
   background: var(--off);
   position: relative;
   overflow: visible;
@@ -1713,7 +1713,11 @@ nav.sc .nav-r {
 
 /* RESPONSIVENESS */
 @media(max-width: 900px) {
-  .gallery-section, .rezerva-section {
+  .gallery-section {
+    padding: 8.5rem 1.8rem 6.5rem 1.8rem;
+    height: auto;
+  }
+  .rezerva-section {
     padding: 6rem 1.8rem;
     height: auto;
   }
