@@ -22,8 +22,12 @@ const images = [
 ];
 ---
 <section id="gallery" class="gallery-section">
-  <!-- Desktop: Full-page Fan Carousel -->
-  <div class="gallery-carousel-fan-container desktop-carousel">
+  <!-- Universal Fan Carousel -->
+  <div class="gallery-carousel-fan-container">
+    <button class="gallery-nav prev" aria-label="Poza anterioara">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    
     <div class="gallery-carousel-fan">
       {images.map(src => (
         <div class="carousel-item">
@@ -31,226 +35,144 @@ const images = [
         </div>
       ))}
     </div>
-  </div>
 
-  <!-- Mobile: Stacked Fly-Off Gallery -->
-  <div class="mobile-gallery" id="portfolio">
-    <div class="swipe-message">Trage în orice direcție pentru a vedea galeria</div>
-    <div class="stacked-gallery-container">
-      {images.map((src, index) => (
-        <div class="stacked-item">
-           <img src={src} alt="Chalet Chiba" loading="lazy" decoding="async" />
-        </div>
-      ))}
-    </div>
+    <button class="gallery-nav next" aria-label="Urmatoarea poza">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
 </section>
 
 <style>
-  /* Base Desktop Styles */
-  .mobile-gallery {
-    display: none;
-  }
-  .desktop-carousel {
-    display: block;
-  }
   .gallery-carousel-fan-container {
     position: relative;
     width: 100%;
-    height: 525px;
+    height: 600px;
     overflow: visible;
-    margin-top: -55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  /* Mobile Styles */
-  @media (max-width: 768px) {
-    .desktop-carousel {
-      display: none;
+  
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(26, 58, 26, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(184, 149, 90, 0.5);
+    color: var(--gold, #B8955A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s ease;
+  }
+  
+  .gallery-nav:hover {
+    background: rgba(26, 58, 26, 0.7);
+    border-color: var(--gold, #B8955A);
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .gallery-nav:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  .gallery-nav svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .gallery-nav.prev {
+    left: 4rem;
+  }
+  
+  .gallery-nav.next {
+    right: 4rem;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 900px) {
+    .gallery-carousel-fan-container {
+      height: 480px; 
     }
-    .mobile-gallery {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100svh; 
-      box-sizing: border-box;
-      position: relative;
-      overflow: hidden;
-      padding-top: 65px; /* Offset the sticky navigation bar */
+    .gallery-nav {
+      width: 44px;
+      height: 44px;
     }
-    .swipe-message {
-      position: relative; 
-      bottom: auto;
-      left: auto;
-      transform: none;
-      font-family: 'Jost', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--forest, #1A3A1A); 
-      pointer-events: none;
-      animation: pulseText 2s infinite;
-      text-align: center;
-      width: 100%;
-      z-index: 100;
-      margin-bottom: 20px; 
+    .gallery-nav svg {
+      width: 24px;
+      height: 24px;
     }
-    .stacked-gallery-container {
-      position: relative;
-      width: 92vw; 
-      height: 72svh; 
-      perspective: 1000px;
-      margin: 0;
-      padding: 0;
+    .gallery-nav.prev {
+      left: 1rem;
     }
-    .stacked-item {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 20px; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-      will-change: transform, opacity;
-      transform-origin: center center;
-      background: transparent;
-      border: none;
-    }
-    .stacked-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 20px; 
-    }
-    @keyframes pulseText {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.9; }
+    .gallery-nav.next {
+      right: 1rem;
     }
   }
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
   function initGalleryAnimation() {
-    let mm = gsap.matchMedia();
+    const container = document.querySelector('.gallery-carousel-fan-container');
+    const items = container?.querySelectorAll('.carousel-item');
+    const btnPrev = document.querySelector('.gallery-nav.prev');
+    const btnNext = document.querySelector('.gallery-nav.next');
 
-    // Desktop: Fan Carousel
-    mm.add("(min-width: 769px)", () => {
-      const section = document.querySelector('.desktop-carousel');
-      const items = section?.querySelectorAll('.carousel-item');
-      let intervalId: any;
+    if (!items || items.length === 0) return;
 
-      if (items && items.length > 0) {
-        let currentIndex = Math.floor(items.length / 2);
+    let currentIndex = Math.floor(items.length / 2);
 
-        function updateCarousel() {
-          items.forEach((item, index) => {
-            const el = item as HTMLElement;
-            let offset = index - currentIndex;
-            const total = items.length;
-            let pos = (offset + total) % total;
-            if (pos > Math.floor(total / 2)) {
-              pos = pos - total;
-            }
-
-            const isCenter = pos === 0;
-            const isAdjacent = Math.abs(pos) === 1;
-            const isFar = Math.abs(pos) > 1;
-
-            el.style.transform = `
-              translateX(${pos * 100}%) 
-              translateY(0%)
-              translateZ(0px)
-              rotate(0deg)
-              scale(${isCenter ? 1 : isAdjacent ? 0.85 : 0.7})
-            `;
-            
-            el.style.zIndex = isCenter ? '10' : isAdjacent ? '5' : '1';
-            el.style.opacity = isCenter ? '1' : isAdjacent ? '0.7' : '0.4';
-            el.style.filter = isCenter ? 'blur(0px)' : isAdjacent ? 'blur(3px)' : 'blur(6px)';
-            el.style.visibility = Math.abs(pos) > 2 ? 'hidden' : 'visible';
-          });
+    function updateCarousel() {
+      items.forEach((item, index) => {
+        const el = item as HTMLElement;
+        let offset = index - currentIndex;
+        const total = items.length;
+        let pos = (offset + total) % total;
+        if (pos > Math.floor(total / 2)) {
+          pos = pos - total;
         }
 
-        function handleNext() {
-          currentIndex = (currentIndex + 1) % items.length;
-          updateCarousel();
-        }
+        const isCenter = pos === 0;
+        const isAdjacent = Math.abs(pos) === 1;
+        
+        let translateX = pos * 85; 
+        let rotate = pos * 8; 
+        let scale = isCenter ? 1 : isAdjacent ? 0.85 : 0.7;
 
-        updateCarousel();
-        intervalId = setInterval(handleNext, 4000);
-      }
-
-      return () => {
-        if (intervalId) clearInterval(intervalId);
-      };
-    });
-
-    // Mobile: Scroll-driven clip-path wipe animation
-    mm.add("(max-width: 768px)", () => {
-      const section = document.querySelector('#gallery');
-      const items = gsap.utils.toArray('.stacked-item');
-      const message = document.querySelector('.swipe-message');
-      
-      if (!section || items.length === 0) return;
-
-      if (message) {
-        message.textContent = "Scroll pentru a explora galeria";
-      }
-
-      const tl = gsap.timeline({
-        defaults: {
-          ease: "none",
-        },
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: `+=${window.innerHeight * items.length}`, 
-          scrub: 1, 
-          pin: true,
-          snap: {
-            snapTo: "labels",
-            duration: { min: 0.2, max: 1.5 },
-            delay: 0.15,
-            ease: "power1.inOut",
-          }
-        }
+        el.style.transform = `
+          translateX(${translateX}%) 
+          rotate(${rotate}deg)
+          scale(${scale})
+        `;
+        
+        el.style.zIndex = isCenter ? '10' : isAdjacent ? '5' : '1';
+        el.style.opacity = isCenter ? '1' : isAdjacent ? '0.7' : '0.4';
+        el.style.filter = isCenter ? 'blur(0px)' : isAdjacent ? 'blur(3px)' : 'blur(6px)';
+        el.style.visibility = Math.abs(pos) > 2 ? 'hidden' : 'visible';
       });
+    }
 
-      // Ascundem mesajul usor
-      if (message) {
-        tl.to(message, { opacity: 0, duration: 0.2 }, 0);
-      }
+    function handleNext() {
+      currentIndex = (currentIndex + 1) % items.length;
+      updateCarousel();
+    }
 
-      // Adaugam un label initial pentru prima poza
-      tl.addLabel("card0");
+    function handlePrev() {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      updateCarousel();
+    }
 
-      // Construim timeline-ul manual pentru a adauga labels la fiecare card
-      items.forEach((item, i) => {
-        if (i === 0) return; // Primul card e vizibil implicit
+    if (btnNext) btnNext.addEventListener('click', handleNext);
+    if (btnPrev) btnPrev.addEventListener('click', handlePrev);
 
-        const label = `card${i}`;
-        tl.addLabel(label)
-          .from(item, {
-            clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-            duration: 1
-          }, label)
-          .to(items[i - 1], {
-            y: window.innerHeight,
-            duration: 1
-          }, label);
-      });
-
-      return () => {
-        tl.kill();
-        ScrollTrigger.getAll().forEach(t => t.kill());
-      };
-    });
+    updateCarousel();
   }
 
   if (document.readyState === 'loading') {
