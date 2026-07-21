@@ -115,8 +115,6 @@ const images = [
       transform-origin: center center;
       background: transparent;
       border: none;
-      /* Previne scroll-ul accidental cand tragi de poze */
-      touch-action: none; 
     }
     .stacked-item img {
       width: 100%;
@@ -202,10 +200,10 @@ const images = [
       if (!section || items.length === 0) return;
 
       if (message) {
-        message.textContent = "Scroll pentru a descoperi galeria";
+        message.textContent = "Scroll pentru a explora galeria";
       }
 
-      // Initializam timeline-ul cerut, rafinat pentru o tranzitie lina
+      // Initializam timeline-ul cerut, rafinat
       const tl = gsap.timeline({
         defaults: {
           ease: "none",
@@ -213,13 +211,13 @@ const images = [
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: `+=${window.innerHeight * (items.length * 0.8)}`, 
-          scrub: 1, 
+          end: `+=${window.innerHeight * (items.length * 1.2)}`, // Mai mult spatiu de scroll pentru un efect extra-smooth
+          scrub: 1.5, // 1.5s delay pentru o alunecare super fina
           pin: true,
         }
       });
 
-      // Ascundem mesajul imediat ce incepe scroll-ul
+      // Ascundem mesajul usor
       if (message) {
         tl.to(message, { opacity: 0, duration: 0.5 }, 0);
       }
@@ -231,11 +229,9 @@ const images = [
         stagger: 2
       }, 0);
 
-      // Miscare y, scale si opacity pe toate cardurile in afara de ultimul pentru efect de adancime
+      // Miscare y (exact ce ai cerut tu)
       tl.to(".stacked-item:not(:last-child)", {
-        y: window.innerHeight * 0.5,
-        scale: 0.9,
-        opacity: 0.2,
+        y: window.innerHeight,
         duration: 1,
         stagger: 2
       }, 0);
