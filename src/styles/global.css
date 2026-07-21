@@ -1713,8 +1713,12 @@ nav.sc .nav-r {
 
 /* RESPONSIVENESS */
 @media(max-width: 900px) {
-  .gallery-section, .rezerva-section {
+  .rezerva-section {
     padding: 6rem 1.8rem;
+    height: auto;
+  }
+  .gallery-section {
+    padding: 0;
     height: auto;
   }
   .contact-section {
