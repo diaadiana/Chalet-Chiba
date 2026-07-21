@@ -134,16 +134,29 @@
   }
 
   @media (max-width: 900px) {
+    .exp-section {
+      padding: 2rem 5%;
+    }
     .exp-container {
       flex-direction: column;
-      gap: 2rem;
-      padding: 2rem 0;
+      gap: 1.5rem;
+      padding: 1rem 0;
     }
     .exp-card {
-      width: 100%;
+      width: 90%;
       max-width: 400px;
-      height: 280px;
+      height: 220px;
       margin: 0 auto;
+    }
+    .exp-card-title {
+      font-size: 1.8rem;
+    }
+    .exp-card-desc {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .flip-front, .flip-back {
+      padding: 1.2rem;
     }
   }
 </style>
@@ -154,67 +167,46 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const expSection = document.getElementById('exp');
-  const cards = gsap.utils.toArray('.exp-card');
-  
-  let mm = gsap.matchMedia();
+  function initExperiencesAnimation() {
+    const expSection = document.getElementById('exp');
+    const cards = gsap.utils.toArray('.exp-card');
+    
+    if (!expSection || cards.length === 0) return;
 
-  // Desktop (min-width: 901px): keep the original IntersectionObserver logic
-  mm.add("(min-width: 901px)", () => {
-    let flipTimer: ReturnType<typeof setTimeout> | null = null;
-    let hasFlipped = false;
-
-    function flipAll() {
-      cards.forEach((card: any) => card.classList.add('flipped'));
-      hasFlipped = true;
-    }
-
-    function resetAll() {
-      cards.forEach((card: any) => card.classList.remove('flipped'));
-      hasFlipped = false;
-      if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
-    }
-
-    const expObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (!hasFlipped) {
-            flipTimer = setTimeout(flipAll, 2500); // 2.5s delay
-          }
-        } else {
-          resetAll();
-        }
-      });
-    }, { threshold: 0.5 });
-
-    if (expSection) expObserver.observe(expSection);
-
-    return () => {
-      if (expSection) expObserver.unobserve(expSection);
-      resetAll();
-    };
-  });
-
-  // Mobile (max-width: 900px): GSAP ScrollTrigger staggered flip
-  mm.add("(max-width: 900px)", () => {
-    cards.forEach((card: any, i) => {
-      gsap.to(card.querySelector('.flip-inner'), {
-        rotateY: 180,
-        ease: "power2.out",
-        duration: 0.85,
-        scrollTrigger: {
-          trigger: card,
-          start: "top 75%", // Triggers when the card enters 75% of the viewport height
-          toggleActions: "play none none reverse" // Flips back if they scroll up
-        }
-      });
+    // Resetam posibile transformari anterioare
+    cards.forEach((card: any) => {
+      gsap.set(card.querySelector('.flip-inner'), { clearProps: "all" });
     });
 
-    return () => {
-      // Clear inline styles applied by GSAP when moving back to desktop
-      cards.forEach((card: any) => {
-        gsap.set(card.querySelector('.flip-inner'), { clearProps: "all" });
+    // Timeline universal cu pin pentru ambele ecrane (Desktop/Mobile)
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: expSection,
+        start: "top top",
+        end: `+=${window.innerHeight * 1.5}`, // lungimea de scroll pe parcursul careia se intorc cardurile
+        scrub: 1, // urmareste fin degetul/scroll-ul
+        pin: true,
+        snap: {
+          snapTo: 1 / cards.length, // Snap exact pe fiecare card (33.3%)
+          duration: { min: 0.2, max: 0.6 },
+          ease: "power1.inOut"
+        }
+      }
+    });
+
+    // Animam fiecare card sa se intoarca pe rand
+    cards.forEach((card: any) => {
+      tl.to(card.querySelector('.flip-inner'), {
+        rotateY: 180,
+        duration: 1,
+        ease: "none"
       });
-    };
-  });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initExperiencesAnimation);
+  } else {
+    initExperiencesAnimation();
+  }
 </script>
