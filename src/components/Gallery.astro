@@ -135,8 +135,9 @@ const images = [
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { Draggable } from "gsap/Draggable";
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, Draggable);
 
   function initGalleryAnimation() {
     let mm = gsap.matchMedia();
@@ -193,7 +194,7 @@ const images = [
       };
     });
 
-    // Mobile: Interactive Swipe / Drag Gallery with Scroll Pin
+    // Mobile: Interactive Swipe / Drag Gallery cu GSAP Draggable
     mm.add("(max-width: 768px)", () => {
       const wrapper = document.querySelector('.mobile-gallery');
       const section = document.querySelector('#gallery');
@@ -206,156 +207,78 @@ const images = [
         trigger: section,
         pin: true,
         start: "top top",
-        end: "+=4000", // Keep pinned securely for a long scroll distance
+        end: "+=4000", // Keep pinned securely
         invalidateOnRefresh: true,
       });
 
       const message = wrapper.querySelector('.swipe-message');
-
       let currentIndex = 0;
-      let isDragging = false;
-      let startX = 0, startY = 0;
-      let currentX = 0, currentY = 0;
-      let activeItem: any = null;
 
-      // Touch events for premium drag physics
-      wrapper.addEventListener('touchstart', (e: any) => {
-        if (currentIndex >= items.length - 1) return;
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        currentX = startX;
-        currentY = startY;
-        activeItem = items[currentIndex];
-        
-        // Opreste orice animatie in curs pentru a urmari degetul instant
-        gsap.killTweensOf(activeItem);
-      }, { passive: true });
+      // Initializam GSAP Draggable pe toate cardurile
+      let draggables = Draggable.create(items, {
+        type: "x,y",
+        edgeResistance: 0.65,
+        onDragStart: function(e) {
+          // Permitem tragerea doar pentru cardul de sus (cel curent)
+          let index = items.indexOf(this.target);
+          if (index !== currentIndex) {
+            this.endDrag(e); // Opreste tragerea daca nu e cardul vizibil
+            return;
+          }
+          gsap.killTweensOf(this.target);
+        },
+        onDrag: function() {
+          // Cardul urmareste degetul finut, cu o mica rotatie
+          gsap.set(this.target, { rotationZ: this.x * 0.05 });
+        },
+        onDragEnd: function() {
+          let index = items.indexOf(this.target);
+          if (index !== currentIndex) return;
 
-      wrapper.addEventListener('touchmove', (e: any) => {
-        if (!isDragging || !activeItem) return;
-        currentX = e.touches[0].clientX;
-        currentY = e.touches[0].clientY;
-        
-        let deltaX = currentX - startX;
-        let deltaY = currentY - startY;
-        let rot = deltaX * 0.05; // Rotatie fina in functie de tragere
+          let distance = Math.sqrt(this.x * this.x + this.y * this.y);
 
-        // Cardul urmareste degetul finut
-        gsap.set(activeItem, {
-          x: deltaX,
-          y: deltaY,
-          rotationZ: rot
-        });
-      }, { passive: true });
+          // Daca a tras suficient de tare (prag de 80px)
+          if (distance > 80) {
+            let factor = Math.max(window.innerWidth, window.innerHeight) / (distance || 1);
+            gsap.to(this.target, {
+              x: this.x * factor,
+              y: this.y * factor,
+              rotationZ: this.x * 0.1,
+              opacity: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              onComplete: () => {
+                this.target.style.display = 'none';
+              }
+            });
+            
+            currentIndex++;
 
-      wrapper.addEventListener('touchend', (e: any) => {
-        if (!isDragging || !activeItem) return;
-        isDragging = false;
-
-        let deltaX = currentX - startX;
-        let deltaY = currentY - startY;
-        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        // Daca a tras suficient de tare (prag de 80px)
-        if (distance > 80) {
-          let factor = Math.max(window.innerWidth, window.innerHeight) / (distance || 1);
-          gsap.to(activeItem, {
-            x: deltaX * factor,
-            y: deltaY * factor,
-            rotationZ: deltaX * 0.1,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power2.out",
-            onComplete: () => {
-              if (activeItem) activeItem.style.display = 'none';
+            // Daca am ajuns la ultima poza, dezactivam blocajul (Scroll Pin)
+            if (currentIndex >= items.length - 1) {
+               if (galleryPin) {
+                  galleryPin.kill(); // Elibereaza scroll-ul!
+               }
+               if (message) {
+                  gsap.to(message, { opacity: 0, duration: 0.5 });
+               }
             }
-          });
-          
-          currentIndex++;
-
-          // Daca am ajuns la ultima poza, dezactivam blocajul (Scroll Pin)
-          if (currentIndex >= items.length - 1) {
-             if (galleryPin) {
-                galleryPin.kill(); // Elibereaza scroll-ul!
-             }
-             if (message) {
-                gsap.to(message, { opacity: 0, duration: 0.5 }); // Ascunde mesajul
-             }
+          } else {
+            // Snap inapoi lin daca nu a tras suficient
+            gsap.to(this.target, {
+              x: 0,
+              y: 0,
+              rotationZ: 0,
+              duration: 0.5,
+              ease: "back.out(1.2)"
+            });
           }
-
-        } else {
-          // Snap inapoi lin daca nu a tras suficient
-          gsap.to(activeItem, {
-            x: 0,
-            y: 0,
-            rotationZ: 0,
-            duration: 0.5,
-            ease: "back.out(1.2)"
-          });
         }
-        
-        activeItem = null;
-      }, { passive: true });
-
-      // Mouse events for testing / desktop touch emulation
-      wrapper.addEventListener('mousedown', (e: any) => {
-        if (currentIndex >= items.length - 1) return;
-        isDragging = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        currentX = startX;
-        currentY = startY;
-        activeItem = items[currentIndex];
-        gsap.killTweensOf(activeItem);
-      });
-
-      wrapper.addEventListener('mousemove', (e: any) => {
-        if (!isDragging || !activeItem) return;
-        currentX = e.clientX;
-        currentY = e.clientY;
-        let deltaX = currentX - startX;
-        let deltaY = currentY - startY;
-        let rot = deltaX * 0.05;
-        gsap.set(activeItem, { x: deltaX, y: deltaY, rotationZ: rot });
-      });
-
-      wrapper.addEventListener('mouseup', (e: any) => {
-        if (!isDragging || !activeItem) return;
-        isDragging = false;
-        let deltaX = currentX - startX;
-        let deltaY = currentY - startY;
-        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        if (distance > 80) {
-          let factor = Math.max(window.innerWidth, window.innerHeight) / (distance || 1);
-          gsap.to(activeItem, {
-            x: deltaX * factor,
-            y: deltaY * factor,
-            rotationZ: deltaX * 0.1,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power2.out",
-            onComplete: () => { if (activeItem) activeItem.style.display = 'none'; }
-          });
-          currentIndex++;
-          
-          if (currentIndex >= items.length - 1) {
-             if (galleryPin) galleryPin.kill();
-             if (message) gsap.to(message, { opacity: 0, duration: 0.5 });
-          }
-        } else {
-          gsap.to(activeItem, { x: 0, y: 0, rotationZ: 0, duration: 0.5, ease: "back.out(1.2)" });
-        }
-        activeItem = null;
-      });
-      
-      wrapper.addEventListener('mouseleave', (e: any) => {
-         if (isDragging) wrapper.dispatchEvent(new Event('mouseup'));
       });
 
       return () => {
         if (galleryPin) galleryPin.kill();
+        if (draggables) draggables.forEach(d => d.kill());
       };
     });
   }
