@@ -67,7 +67,7 @@ const images = [
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
     color: #fff;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -105,6 +105,7 @@ const images = [
       height: 480px; 
     }
     .gallery-nav {
+      display: flex;
       width: 44px;
       height: 44px;
     }
@@ -123,14 +124,15 @@ const images = [
 
 <script>
   function initGalleryAnimation() {
-    const container = document.querySelector('.gallery-carousel-fan-container');
+    const container = document.querySelector('.gallery-carousel-fan-container') as HTMLElement;
     const items = container?.querySelectorAll('.carousel-item');
     const btnPrev = document.querySelector('.gallery-nav.prev');
     const btnNext = document.querySelector('.gallery-nav.next');
 
-    if (!items || items.length === 0) return;
+    if (!container || !items || items.length === 0) return;
 
     let currentIndex = Math.floor(items.length / 2);
+    let autoplayTimer: any = null;
 
     function updateCarousel() {
       items.forEach((item, index) => {
@@ -159,6 +161,7 @@ const images = [
         el.style.opacity = isCenter ? '1' : isAdjacent ? '0.7' : '0.4';
         el.style.filter = isCenter ? 'blur(0px)' : isAdjacent ? 'blur(3px)' : 'blur(6px)';
         el.style.visibility = Math.abs(pos) > 2 ? 'hidden' : 'visible';
+        el.style.cursor = isCenter ? 'default' : 'pointer';
       });
     }
 
@@ -172,10 +175,97 @@ const images = [
       updateCarousel();
     }
 
-    if (btnNext) btnNext.addEventListener('click', handleNext);
-    if (btnPrev) btnPrev.addEventListener('click', handlePrev);
+    // Click on side images to activate them
+    items.forEach((item, index) => {
+      (item as HTMLElement).addEventListener('click', (e) => {
+        if (index !== currentIndex) {
+          e.preventDefault();
+          currentIndex = index;
+          updateCarousel();
+          resetAutoplay();
+        }
+      });
+    });
+
+    // Navigation buttons (for mobile)
+    if (btnNext) {
+      btnNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleNext();
+        resetAutoplay();
+      });
+    }
+    if (btnPrev) {
+      btnPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handlePrev();
+        resetAutoplay();
+      });
+    }
+
+    // Mouse drag support for desktop
+    let startX = 0;
+    let isDragging = false;
+
+    container.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+    });
+
+    container.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const diffX = e.clientX - startX;
+      if (diffX < -40) {
+        handleNext();
+        resetAutoplay();
+      } else if (diffX > 40) {
+        handlePrev();
+        resetAutoplay();
+      }
+    });
+
+    container.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
+
+    // Touch swipe support
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diffX = endX - startX;
+      if (diffX < -40) {
+        handleNext();
+        resetAutoplay();
+      } else if (diffX > 40) {
+        handlePrev();
+        resetAutoplay();
+      }
+    }, { passive: true });
+
+    // Autoplay (derulare automata pe desktop si mobil)
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayTimer = setInterval(handleNext, 3500);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) clearInterval(autoplayTimer);
+    }
+
+    function resetAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    container.addEventListener('mouseenter', stopAutoplay);
+    container.addEventListener('mouseleave', startAutoplay);
 
     updateCarousel();
+    startAutoplay();
   }
 
   if (document.readyState === 'loading') {
