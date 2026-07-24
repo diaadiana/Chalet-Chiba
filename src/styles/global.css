@@ -635,9 +635,10 @@ nav.sc .nav-r {
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #000;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 
 @media(max-width: 900px) {
